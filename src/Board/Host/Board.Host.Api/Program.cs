@@ -64,7 +64,7 @@ builder.Services.AddControllers();
 #region Authentication & Authorization
 
 builder.Services.TryAddSingleton<IHttpContextAccessor, HttpContextAccessor>();
-
+builder.Services.AddHttpContextAccessor();
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(
     options =>
