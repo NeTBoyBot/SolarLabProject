@@ -1,4 +1,4 @@
-﻿using Board.Contracts.Advert;
+﻿//using Board.Contracts.Advert;
 using Board.Domain.Account;
 using System.Linq.Expressions;
 using System.Threading;
@@ -16,7 +16,7 @@ public interface IAccountRepository
     /// <param name="predicate"></param>
     /// <param name="cancellation"></param>
     /// <returns></returns>
-    Task<Account> FindWhere(Expression<Func<Account, bool>> predicate, CancellationToken cancellation);
+    Task<Domain.Account.Account> FindWhere(Expression<Func<Account, bool>> predicate, CancellationToken cancellation);
 
     /// <summary>
     /// Поиск пользователя по идентификатору.

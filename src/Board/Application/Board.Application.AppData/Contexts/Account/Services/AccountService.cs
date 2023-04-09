@@ -1,6 +1,7 @@
 ﻿using Board.Application.AppData.Contexts.Adverts.Repositories;
 using Board.Contracts.Account;
 using Board.Domain.Account;
+using Doska.AppServices.IRepository;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
@@ -14,6 +15,7 @@ namespace Board.Application.AppData.Contexts.Adverts.Services;
 /// <inheritdoc cref="IAccountService" />
 public class AccountService : IAccountService
 {
+    public IUserRepository _userRepository;
     private readonly IAccountRepository _accountRepository;
     private readonly IHttpContextAccessor _httpContextAccessor;
     private readonly IConfiguration _сonfiguration;
@@ -21,8 +23,10 @@ public class AccountService : IAccountService
     public AccountService(
         IAccountRepository accountRepository,
         IHttpContextAccessor httpContextAccesso,
-        IConfiguration сonfiguration)
+        IConfiguration сonfiguration,
+        IUserRepository userRepository)
     {
+        _userRepository = userRepository;
         _accountRepository = accountRepository;
         _httpContextAccessor = httpContextAccesso;
         _сonfiguration = сonfiguration;
@@ -53,7 +57,7 @@ public class AccountService : IAccountService
     /// <inheritdoc />
     public async Task<string> LoginAsync(LoginAccountDto accountDto, CancellationToken cancellation)
     {
-        var existingAccount = await _accountRepository.FindWhere(account => account.Login == accountDto.Login, cancellation);
+        var existingAccount = await _userRepository.FindWhere(account => account.Email == accountDto.Login, cancellation);
         if (existingAccount == null)
         {
             throw new Exception("Пользователь не найден!");
@@ -67,7 +71,7 @@ public class AccountService : IAccountService
         var claims = new List<Claim>
         {
             new Claim(ClaimTypes.NameIdentifier, existingAccount.Id.ToString()),
-            new Claim(ClaimTypes.Name, existingAccount.Login)
+            new Claim(ClaimTypes.Name, existingAccount.UserName)
         };
 
         var secretKey = _сonfiguration["Jwt:Key"];
@@ -100,7 +104,7 @@ public class AccountService : IAccountService
         }
 
         var id = Guid.Parse(claimId);
-        var user = await _accountRepository.FindById(id, cancellation);
+        var user = await _userRepository.FindById(id, cancellation);
 
         if (user == null) {
             throw new Exception($"Не найден пользователь с идентификатором '{id}'.");
@@ -110,7 +114,7 @@ public class AccountService : IAccountService
         var  result = new AccountDto
         {
             Id = user.Id,
-            Login = user.Login
+            Login = user.UserName
         };
 
         return result;

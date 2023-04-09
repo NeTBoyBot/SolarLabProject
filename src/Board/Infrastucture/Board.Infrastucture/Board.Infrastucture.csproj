@@ -12,6 +12,7 @@
     </ItemGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\..\Application\Board.Application.AppData\Board.Application.AppData.csproj" />
       <ProjectReference Include="..\..\Contracts\Board.Contracts\Board.Contracts.csproj" />
       <ProjectReference Include="..\..\Domain\Board.Domain\Board.Domain.csproj" />
     </ItemGroup>

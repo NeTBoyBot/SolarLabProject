@@ -19,10 +19,12 @@
     </ItemGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\..\..\..\Registrar\Registrar.csproj" />
       <ProjectReference Include="..\..\Application\Board.Application.AppData\Board.Application.AppData.csproj" />
       <ProjectReference Include="..\..\Contracts\Board.Contracts\Board.Contracts.csproj" />
       <ProjectReference Include="..\..\Infrastucture\Board.Infrastucture.DataAccess\Board.Infrastucture.DataAccess.csproj" />
       <ProjectReference Include="..\..\Infrastucture\Board.Infrastucture\Board.Infrastucture.csproj" />
+      <ProjectReference Include="..\Board.Host.DbMigrator\Board.Host.DbMigrator.csproj" />
     </ItemGroup>
 
     <ItemGroup>
