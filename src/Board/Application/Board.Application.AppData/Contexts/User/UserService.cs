@@ -105,7 +105,6 @@ namespace Doska.AppServices.Services.User
                 throw new Exception($"Не найден пользователь с идентификатором '{id}'.");
             }
 
-            //TODO
             var result = new InfoUserResponse
             {
                 Id = user.Id,
@@ -121,25 +120,25 @@ namespace Doska.AppServices.Services.User
 
         public async Task<Guid> GetCurrentUserId(CancellationToken cancellation)
         {
-            //var claim = await claimAccessor.GetClaims(cancellation);
-            //var claimId = claim.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
+            var claim = await claimAccessor.GetClaims(cancellation);
+            var claimId = claim.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
 
-            //if (string.IsNullOrWhiteSpace(claimId))
-            //{
-            //    throw new Exception("Не найдент пользователь с идентификаторром");
-            //}
+            if (string.IsNullOrWhiteSpace(claimId))
+            {
+                throw new Exception("Не найдент пользователь с идентификаторром");
+            }
 
-            //var id = Guid.Parse(claimId);
-            //var user = await _userRepository.FindById(id, cancellation);
+            var id = Guid.Parse(claimId);
+            var user = await _userRepository.FindById(id, cancellation);
 
-            //if (user == null)
-            //{
-            //    throw new Exception($"Не найдент пользователь с идентификаторром {id}");
-            //}
+            if (user == null)
+            {
+                throw new Exception($"Не найдент пользователь с идентификаторром {id}");
+            }
 
 
-            //return user.Id;
-            return Guid.Empty;
+            return user.Id;
+            //return Guid.Empty;
 
         }
 

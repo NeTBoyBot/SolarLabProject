@@ -69,6 +69,8 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(
     options =>
     {
+        
+
         var secretKey = builder.Configuration["Jwt:Key"];
 
         options.RequireHttpsMetadata = false;

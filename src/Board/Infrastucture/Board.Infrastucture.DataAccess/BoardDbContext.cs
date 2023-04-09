@@ -1,4 +1,5 @@
 ﻿using System.Reflection;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -9,7 +10,7 @@ namespace Board.Infrastucture.DataAccess;
 /// </summary>
 public class BoardDbContext : DbContext
 {
-    
+
     /// <summary>
     /// Инициализирует экземпляр <see cref="BoardDbContext"/>.
     /// </summary>
