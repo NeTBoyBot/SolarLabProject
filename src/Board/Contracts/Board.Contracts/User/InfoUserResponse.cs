@@ -37,5 +37,10 @@ namespace Board.Contracts.User
         /// Дата создания аккаунта
         /// </summary>
         public DateTime CreationTime { get; set; }
+
+        /// <summary>
+        /// Роль пользователя
+        /// </summary>
+        public IList<string> Role { get; set; }
     }
 }

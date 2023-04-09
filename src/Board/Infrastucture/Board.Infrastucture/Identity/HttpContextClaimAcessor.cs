@@ -1,4 +1,5 @@
-﻿using Doska.AppServices.Services.User;
+﻿using Board.Application.AppData.Contexts.IdentityUser;
+using Doska.AppServices.Services.User;
 using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
@@ -9,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace Doska.Infrastructure.Identity
 {
-    public class HttpContextClaimAcessor : IClaimAcessor
+    public class HttpContextClaimAcessor : IClaimAccessor
     {
         private readonly IHttpContextAccessor _contextAccessor;
 
@@ -22,5 +23,6 @@ namespace Doska.Infrastructure.Identity
         {
             return _contextAccessor.HttpContext.User.Claims;
         }
+        public string UserId => _contextAccessor.HttpContext?.User?.FindFirstValue(ClaimTypes.NameIdentifier);
     }
 }

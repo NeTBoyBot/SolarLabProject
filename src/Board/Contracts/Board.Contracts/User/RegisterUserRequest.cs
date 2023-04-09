@@ -34,5 +34,10 @@ namespace Board.Contracts.User
         /// </summary>
         public string Email { get; set; }
 
+        /// <summary>
+        /// Роль пользователя
+        /// </summary>
+        public string? Role { get; set; }
+
     }
 }

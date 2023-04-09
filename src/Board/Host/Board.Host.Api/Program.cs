@@ -1,6 +1,7 @@
 using AutoMapper;
 using Board.Application.AppData.Contexts.Adverts.Repositories;
 using Board.Application.AppData.Contexts.Adverts.Services;
+using Board.Application.AppData.Contexts.IdentityUser;
 using Board.Application.AppData.Services;
 using Board.Contracts.Interfaces;
 using Board.Host.DbMigrator;
@@ -9,10 +10,21 @@ using Board.Infrastucture.DataAccess.Contexts.Posts.Repository;
 using Board.Infrastucture.DataAccess.Interfaces;
 using Board.Infrastucture.MapProfiles;
 using Board.Infrastucture.Repository;
+using Doska.AppServices.IRepository;
 using Doska.AppServices.MapProfile;
+using Doska.AppServices.Services.Ad;
+using Doska.AppServices.Services.Categories;
+using Doska.AppServices.Services.Chat;
+using Doska.AppServices.Services.Comment;
+using Doska.AppServices.Services.FavoriteAd;
+using Doska.AppServices.Services.Message;
+using Doska.AppServices.Services.User;
+using Doska.DataAccess.Repositories;
+using Doska.Infrastructure.Identity;
 using Doska.Registrar;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -46,6 +58,8 @@ builder.Services.AddScoped<IForbiddenWordsService, ForbiddenWordsService>();
 builder.Services.AddSingleton<IMapper>(new Mapper(GetMapperConfiguration()));
 
 builder.Services.AddControllers();
+
+
 
 #region Authentication & Authorization
 
@@ -146,6 +160,7 @@ static MapperConfiguration GetMapperConfiguration()
         cfg.AddProfile<FavoriteAdMapProfile>();
         cfg.AddProfile<MessageMapProfile>();
         cfg.AddProfile<UserMapProfile>();
+       
     });
     //configuration.AssertConfigurationIsValid();
     return configuration;

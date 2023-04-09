@@ -21,6 +21,9 @@ using Doska.Infrastructure.Identity;
 using Board.Infrastucture.DataAccess.Interfaces;
 using Board.Infrastucture.DataAccess;
 using Board.Infrastucture.Repository;
+using Board.Application.AppData.Contexts.IdentityUser;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Http;
 
 namespace Doska.Registrar
 {
@@ -42,6 +45,13 @@ namespace Doska.Registrar
             //    typeof(FavoriteAdMapProfile), typeof(CommentMapProfile));
 
             // Регистрация объявления
+
+            services.AddScoped<IClaimAccessor, HttpContextClaimAcessor>();
+            services.AddTransient<IIdentityUserService, IdentityUserService>();
+           
+
+
+
             services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
             services.AddTransient<IAdService, AdService>();
             services.AddTransient<IAdRepository, AdRepository>();
@@ -64,7 +74,11 @@ namespace Doska.Registrar
             services.AddTransient<ICommentService, CommentService>();
             services.AddTransient<ICommentRepository, CommentRepository>();
 
-            services.AddScoped<IClaimAcessor, HttpContextClaimAcessor>();
+           
+
+            services.AddIdentity<Board.Domain.IdentityUser, IdentityRole>()
+    .AddEntityFrameworkStores<BoardDbContext>()
+    .AddDefaultTokenProviders();
 
             return services;
         }

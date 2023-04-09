@@ -1,4 +1,5 @@
 ﻿using System.Reflection;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 namespace Board.Infrastucture.DataAccess;
@@ -16,6 +17,9 @@ public class BoardDbContext : DbContext
         : base(options)
     {
     }
+
+    public DbSet<IdentityRole> Roles { get; set; }
+    public DbSet<IdentityUserRole<string>> UserRoles { get; set; }
 
     /// <inheritdoc />
     protected override void OnModelCreating(ModelBuilder modelBuilder)

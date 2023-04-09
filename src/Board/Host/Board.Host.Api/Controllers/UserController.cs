@@ -1,4 +1,5 @@
 ﻿
+using Board.Application.AppData.Contexts.IdentityUser;
 using Board.Contracts.User;
 using Doska.AppServices.Services.User;
 using Microsoft.AspNetCore.Authorization;
@@ -13,8 +14,10 @@ namespace Doska.API.Controllers
     public class UserController : ControllerBase
     {
         IUserService _userService;
-        public UserController(IUserService userService)
+        IIdentityUserService _identityService;
+        public UserController(IUserService userService,IIdentityUserService identityService)
         {
+            _identityService = identityService;
             _userService = userService;
         }
 
@@ -37,7 +40,7 @@ namespace Doska.API.Controllers
         [ProducesResponseType(StatusCodes.Status201Created)]
         public async Task<IActionResult> login(LoginUserRequest request, CancellationToken Canctoken)
         {
-            var token = await _userService.Login(request, Canctoken);
+            var token = await _identityService.Login(request, Canctoken);
             return Created("", token);
         }
 
@@ -81,7 +84,7 @@ namespace Doska.API.Controllers
         [ProducesResponseType(typeof(IReadOnlyCollection<InfoUserResponse>), (int)HttpStatusCode.OK)]
         public async Task<IActionResult> GetCurentUser(CancellationToken token)
         {
-            var result = await _userService.GetCurrentUser(token);
+            var result = await _identityService.GetCurrentUser(token);
 
             return Ok(result);
         }

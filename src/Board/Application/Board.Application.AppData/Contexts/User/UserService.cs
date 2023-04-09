@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Board.Application.AppData.Contexts.IdentityUser;
 using Board.Contracts.User;
 using Doska.AppServices.IRepository;
 using Microsoft.AspNetCore.Http;
@@ -20,11 +21,14 @@ namespace Doska.AppServices.Services.User
         public readonly IUserRepository _userRepository;
         public readonly IAdRepository _adRepository;
         public IConfiguration _configuration;
-        public IClaimAcessor claimAccessor;
+        public IClaimAccessor claimAccessor;
         public IHttpContextAccessor _httpContextAccessor;
         public readonly IMapper _mapper;
+        public readonly IIdentityUserService _identityService;
 
-        public UserService(IHttpContextAccessor httpContextAccessor,IUserRepository userRepository, IMapper mapper,IAdRepository adRepository,IClaimAcessor acessor,IConfiguration conf)
+        public UserService(IHttpContextAccessor httpContextAccessor,IUserRepository userRepository, IMapper mapper,
+            IAdRepository adRepository,IConfiguration conf,
+            IIdentityUserService identityService,IClaimAccessor acessor)
         {
             _httpContextAccessor = httpContextAccessor;
             _userRepository = userRepository;
@@ -32,6 +36,7 @@ namespace Doska.AppServices.Services.User
             _adRepository = adRepository;
             claimAccessor = acessor;
             _configuration = conf;
+            _identityService = identityService;
         }
 
         public async Task<Guid> CreateUserAsync(RegisterUserRequest registerUser, CancellationToken cancellation)
@@ -44,8 +49,15 @@ namespace Doska.AppServices.Services.User
 
         public async Task DeleteAsync(Guid id, CancellationToken cancellation)
         {
-            var existingUser = await _userRepository.FindById(id,cancellation);
-            await _userRepository.DeleteAsync(existingUser,cancellation);
+            //var existingUser = await _userRepository.FindById(id,cancellation);
+            //await _userRepository.DeleteAsync(existingUser,cancellation);\
+
+            var delUser = await _userRepository.FindById(id, cancellation);
+            if (delUser == null)
+                throw new Exception("Пользователь с таким идентификатором не найден");
+            await _userRepository.DeleteAsync(delUser, cancellation);
+
+            await _identityService.DeleteAsync(id.ToString(), cancellation);
         }
 
         public async Task<InfoUserResponse> EditUserAsync(Guid Id, RegisterUserRequest editUser, CancellationToken cancellation)
@@ -77,7 +89,7 @@ namespace Doska.AppServices.Services.User
 
            
 
-            var claims = _httpContextAccessor.HttpContext.User.Claims;
+            var claims = await /*_httpContextAccessor.HttpContext.User.Claims;*/ claimAccessor.GetClaims(cancellation);
             var claimId = claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
 
             if (string.IsNullOrWhiteSpace(claimId))
@@ -109,24 +121,25 @@ namespace Doska.AppServices.Services.User
 
         public async Task<Guid> GetCurrentUserId(CancellationToken cancellation)
         {
-            var claim = await claimAccessor.GetClaims(cancellation);
-            var claimId = claim.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
+            //var claim = await claimAccessor.GetClaims(cancellation);
+            //var claimId = claim.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
 
-            if (string.IsNullOrWhiteSpace(claimId))
-            {
-                throw new Exception("Не найдент пользователь с идентификаторром");
-            }
+            //if (string.IsNullOrWhiteSpace(claimId))
+            //{
+            //    throw new Exception("Не найдент пользователь с идентификаторром");
+            //}
 
-            var id = Guid.Parse(claimId);
-            var user = await _userRepository.FindById(id, cancellation);
+            //var id = Guid.Parse(claimId);
+            //var user = await _userRepository.FindById(id, cancellation);
 
-            if (user == null)
-            {
-                throw new Exception($"Не найдент пользователь с идентификаторром {id}");
-            }
+            //if (user == null)
+            //{
+            //    throw new Exception($"Не найдент пользователь с идентификаторром {id}");
+            //}
 
-            return user.Id;
 
+            //return user.Id;
+            return Guid.Empty;
 
         }
 
@@ -171,18 +184,34 @@ namespace Doska.AppServices.Services.User
 
         public async Task<Guid> Register(RegisterUserRequest RegisterUserRequest,byte[] file, CancellationToken cancellation)
         {
-            var user = _mapper.Map<Board.Domain.User>(RegisterUserRequest);
-            user.CreationTime = DateTime.Now.ToUniversalTime();
-      
-            var existinguser = await _userRepository.FindWhere(user => user.UserName == RegisterUserRequest.UserName, cancellation);
-            user.KodBase64 = Convert.ToBase64String(file);
-            if (existinguser != null)
-            {
-                throw new Exception($"Такой пользователь уже существует! ");
-            }
-            await _userRepository.AddAsync(user,cancellation);
+            //var user = _mapper.Map<Board.Domain.User>(RegisterUserRequest);
+            //user.CreationTime = DateTime.Now.ToUniversalTime();
+
+            //var existinguser = await _userRepository.FindWhere(user => user.UserName == RegisterUserRequest.UserName, cancellation);
+            //user.KodBase64 = Convert.ToBase64String(file);
+            //if (existinguser != null)
+            //{
+            //    throw new Exception($"Такой пользователь уже существует! ");
+            //}
+            //await _userRepository.AddAsync(user,cancellation);
+
+            //return user.Id;
+
+            var existingUser = _userRepository.GetAll()
+                .Where(x => x.Email == RegisterUserRequest.Email).FirstOrDefault();
+
+            if (existingUser != null)
+                throw new Exception("Пользователь с таким email уже существует");
+
+            var newidentityUserId = await _identityService.RegisterIdentityUser(RegisterUserRequest, cancellation);
+
+            var registerAcc = _mapper.Map<Board.Domain.User>(RegisterUserRequest);
+
+            registerAcc.Id = Guid.Parse(newidentityUserId);
+            await _userRepository.AddAsync(registerAcc, cancellation);
+
             
-            return user.Id;
+            return registerAcc.Id;
         }
 
 
