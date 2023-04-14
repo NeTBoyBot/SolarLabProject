@@ -21,6 +21,7 @@ using Doska.Infrastructure.Identity;
 using Board.Infrastucture.DataAccess.Interfaces;
 using Board.Infrastucture.DataAccess;
 using Board.Infrastucture.Repository;
+using Board.Application.AppData.Contexts.Mail;
 
 namespace Doska.Registrar
 {
@@ -63,6 +64,8 @@ namespace Doska.Registrar
 
             services.AddTransient<ICommentService, CommentService>();
             services.AddTransient<ICommentRepository, CommentRepository>();
+
+            services.AddTransient<IMailService, MailService>();
 
             services.AddScoped<IClaimAcessor, HttpContextClaimAcessor>();
 

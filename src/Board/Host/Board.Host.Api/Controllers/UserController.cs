@@ -1,4 +1,5 @@
 ﻿
+using Board.Application.AppData.Contexts.Mail;
 using Board.Contracts.User;
 using Doska.AppServices.Services.User;
 using Microsoft.AspNetCore.Authorization;
@@ -13,9 +14,11 @@ namespace Doska.API.Controllers
     public class UserController : ControllerBase
     {
         IUserService _userService;
-        public UserController(IUserService userService)
+        IMailService _mailService;
+        public UserController(IUserService userService, IMailService mailService)
         {
             _userService = userService;
+            _mailService = mailService;
         }
 
         [HttpPost("/Register")]
@@ -29,7 +32,9 @@ namespace Doska.API.Controllers
                 await fs.CopyToAsync(ms);
                 photo = ms.ToArray();
             }
+
             var user = await _userService.Register(request,photo, token);
+            await _mailService.SendVerificationCodeAsync(request.Email,user.VerificationCode, token);
             return Created("",user);
         }
 
@@ -91,6 +96,15 @@ namespace Doska.API.Controllers
         public async Task<IActionResult> GetCurentUserId(CancellationToken token)
         {
             var result = await _userService.GetCurrentUserId(token);
+
+            return Ok(result);
+        }
+
+        [HttpPut("/VerifyUser")]
+        public async Task<IActionResult> VerifyUser(int Code,CancellationToken cancellation)
+        {
+            var user = await _userService.GetCurrentUser(cancellation);
+            var result = await _userService.VerifyUserAsync(user.Id, Code, cancellation);
 
             return Ok(result);
         }

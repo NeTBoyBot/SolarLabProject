@@ -67,5 +67,15 @@ namespace Board.Domain
         /// Представление фотографии пользователя в виде строки
         /// </summary>
         public string KodBase64 { get; set; }
+
+        /// <summary>
+        /// Является ли аккаунт пользователя подтверждённым
+        /// </summary>
+        public bool IsVerified { get;set; }
+
+        /// <summary>
+        /// Код для подтверждения аккаунта пользователя
+        /// </summary>
+        public int VerificationCode { get; set; }
     }
 }

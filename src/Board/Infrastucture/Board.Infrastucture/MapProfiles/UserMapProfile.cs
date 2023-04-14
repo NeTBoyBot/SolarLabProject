@@ -16,6 +16,7 @@ namespace Doska.AppServices.MapProfile
             CreateMap<User, InfoUserResponse>().ReverseMap();
             CreateMap<User, LoginUserRequest>().ReverseMap();
             CreateMap<User, RegisterUserRequest>().ReverseMap();
+            CreateMap<User, RegisterUserResponse>().ReverseMap();
         }
     }
 }

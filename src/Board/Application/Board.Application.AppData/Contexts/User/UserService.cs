@@ -62,7 +62,8 @@ namespace Doska.AppServices.Services.User
                 .Select(a => new InfoUserResponse
                 {
                     Id = a.Id,
-                    UserName = a.UserName
+                    UserName = a.UserName,
+                    IsVerified = a.IsVerified
                 }).OrderBy(a => a.Id).Skip(skip).Take(take).ToListAsync();
         }
 
@@ -101,7 +102,8 @@ namespace Doska.AppServices.Services.User
                 CreationTime = user.CreationTime,
                 Email = user.Email,
                 Phone = user.Phone,
-                Region = user.Region
+                Region = user.Region,
+                IsVerified = user.IsVerified
             };
 
             return result;
@@ -144,6 +146,7 @@ namespace Doska.AppServices.Services.User
                 throw new Exception($"Указан неверный логин или пароль");
             }
 
+
             var claims = new List<Claim>
             {
                 new Claim(ClaimTypes.NameIdentifier, existingUser.Id.ToString()),
@@ -169,9 +172,11 @@ namespace Doska.AppServices.Services.User
             return result;
         }
 
-        public async Task<Guid> Register(RegisterUserRequest RegisterUserRequest,byte[] file, CancellationToken cancellation)
+        public async Task<RegisterUserResponse> Register(RegisterUserRequest RegisterUserRequest,byte[] file, CancellationToken cancellation)
         {
             var user = _mapper.Map<Board.Domain.User>(RegisterUserRequest);
+            user.IsVerified = false;
+            user.VerificationCode = new Random().Next(1, 10000);
             user.CreationTime = DateTime.Now.ToUniversalTime();
       
             var existinguser = await _userRepository.FindWhere(user => user.UserName == RegisterUserRequest.UserName, cancellation);
@@ -182,9 +187,24 @@ namespace Doska.AppServices.Services.User
             }
             await _userRepository.AddAsync(user,cancellation);
             
-            return user.Id;
+            return new RegisterUserResponse { Id = user.Id, VerificationCode = user.VerificationCode};
         }
 
+        public async Task<InfoUserResponse> VerifyUserAsync(Guid id, int VerificationCode, CancellationToken cancellationToken)
+        {
+            var user = await _userRepository.FindById(id,cancellationToken);
 
+            if (user.VerificationCode.Equals(VerificationCode))
+            {
+                user.IsVerified = true;
+                await _userRepository.EditUserAsync(user,cancellationToken);
+            }
+
+            return new InfoUserResponse
+            {
+                Id = user.Id,
+                IsVerified = user.IsVerified
+            };
+        }
     }
 }
