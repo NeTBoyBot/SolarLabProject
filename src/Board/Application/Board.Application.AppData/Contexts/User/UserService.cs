@@ -63,7 +63,11 @@ namespace Doska.AppServices.Services.User
                 {
                     Id = a.Id,
                     UserName = a.UserName,
-                    IsVerified = a.IsVerified
+                    IsVerified = a.IsVerified,
+                    CreationTime = a.CreationTime,
+                    Email = a.Email,
+                    Phone = a.Phone,
+                    Region = a.Region
                 }).OrderBy(a => a.Id).Skip(skip).Take(take).ToListAsync();
         }
 
@@ -183,7 +187,7 @@ namespace Doska.AppServices.Services.User
             user.KodBase64 = Convert.ToBase64String(file);
             if (existinguser != null)
             {
-                throw new Exception($"Такой пользователь уже существует! ");
+                throw new Exception($"Такой пользователь уже существует!");
             }
             await _userRepository.AddAsync(user,cancellation);
             
@@ -194,17 +198,16 @@ namespace Doska.AppServices.Services.User
         {
             var user = await _userRepository.FindById(id,cancellationToken);
 
+            if (user.IsVerified)
+                throw new Exception("Аккаунт пользователя уже подтверждён");
+
             if (user.VerificationCode.Equals(VerificationCode))
             {
                 user.IsVerified = true;
                 await _userRepository.EditUserAsync(user,cancellationToken);
             }
 
-            return new InfoUserResponse
-            {
-                Id = user.Id,
-                IsVerified = user.IsVerified
-            };
+            return _mapper.Map<InfoUserResponse>(user);
         }
     }
 }
