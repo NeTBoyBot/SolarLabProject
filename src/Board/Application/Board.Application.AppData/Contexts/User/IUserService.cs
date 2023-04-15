@@ -30,7 +30,7 @@ namespace Doska.AppServices.Services.User
         /// <returns></returns>
         Task<InfoUserResponse> GetCurrentUser(CancellationToken cancellationToken);
 
-        Task<InfoUserResponse> VerifyUserAsync(Guid id,int VerificationCode,CancellationToken cancellationToken);
+        Task<string> VerifyUserAsync(Guid id,int VerificationCode,CancellationToken cancellationToken);
 
         Task<Guid> GetCurrentUserId(CancellationToken cancellationToken);
 
