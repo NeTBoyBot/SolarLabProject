@@ -9,7 +9,14 @@ using MailKit.Net.Smtp;
 using System.Text;
 using System.Threading.Tasks;
 using Doska.AppServices.Services.User;
+<<<<<<< Updated upstream
 using Board.Application.AppData.Contexts.User;
+=======
+using Doska.AppServices.IRepository;
+using Microsoft.Extensions.Configuration;
+using Microsoft.AspNetCore.Identity;
+using System.Web;
+>>>>>>> Stashed changes
 
 namespace Board.Application.AppData.Contexts.Mail
 {
@@ -17,24 +24,27 @@ namespace Board.Application.AppData.Contexts.Mail
     {
         public IUserService _userService;
         public IUserRepository _userRepository;
+        public IConfiguration _configuration;
 
-        public MailService(IUserService userService,IUserRepository userRepository)
         {
             _userService = userService;
             _userRepository = userRepository;
+            _configuration = configuration;
         }
 
-        public async Task<InfoMailResponse> SendVerificationCodeAsync(string email,int Code,CancellationToken cancellation)
+        public async Task<InfoMailResponse> SendVerificationCodeAsync(Guid userId,string email,int Code,CancellationToken cancellation)
         {
             //var currentUser = await _userRepository.FindById((await _userService.GetCurrentUser(cancellation)).Id,cancellation);
             var subject = "Verification mail";
-            var message = $"Your verification code is {Code}";
+            //var message = $"Your verification code is {Code}";
+
+            var message = $"Подтвердите регистрацию, перейдя по ссылке: <a href='https://localhost:5001/VerifyUser?userId={userId}'>link</a>";
             try
             {
                 
                 using var emailMessage = new MimeMessage();
 
-                emailMessage.From.Add(new MailboxAddress("SolarVerification", "s.verify@mail.ru"));
+                emailMessage.From.Add(new MailboxAddress("SolarVerification", _configuration["Mail:Address"]));
                 emailMessage.To.Add(new MailboxAddress("", email));
                 emailMessage.Subject = subject;
                 emailMessage.Body = new TextPart(MimeKit.Text.TextFormat.Html)
@@ -45,7 +55,7 @@ namespace Board.Application.AppData.Contexts.Mail
                 using (var client = new SmtpClient())
                 {
                     await client.ConnectAsync("smtp.mail.ru", 587, false);
-                    await client.AuthenticateAsync("s.verify@mail.ru", "trGcvFJLfm55MZ320nmE");
+                    await client.AuthenticateAsync(_configuration["Mail:Address"], _configuration["Mail:Pass"]);
                     await client.SendAsync(emailMessage);
 
                     await client.DisconnectAsync(true);

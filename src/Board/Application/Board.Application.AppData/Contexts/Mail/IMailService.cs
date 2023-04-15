@@ -10,7 +10,7 @@ namespace Board.Application.AppData.Contexts.Mail
     public interface IMailService
     {
 
-        public Task<InfoMailResponse> SendVerificationCodeAsync(string email,int Code,CancellationToken cancellation);
+        public Task<InfoMailResponse> SendVerificationCodeAsync(Guid userId,string email,int Code,CancellationToken cancellation);
 
     }
 }

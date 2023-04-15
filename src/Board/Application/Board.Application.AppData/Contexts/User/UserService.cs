@@ -195,18 +195,17 @@ namespace Doska.AppServices.Services.User
             return new RegisterUserResponse { Id = user.Id, VerificationCode = user.VerificationCode};
         }
 
-        public async Task<InfoUserResponse> VerifyUserAsync(Guid id, int VerificationCode, CancellationToken cancellationToken)
+        public async Task<InfoUserResponse> VerifyUserAsync(Guid id, CancellationToken cancellationToken)
         {
             var user = await _userRepository.FindById(id,cancellationToken);
 
             if (user.IsVerified)
                 throw new Exception("Аккаунт пользователя уже подтверждён");
 
-            if (user.VerificationCode.Equals(VerificationCode))
-            {
+           
                 user.IsVerified = true;
                 await _userRepository.EditUserAsync(user,cancellationToken);
-            }
+            
 
             return _mapper.Map<InfoUserResponse>(user);
         }
