@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
+using Board.Application.AppData.Contexts.Categories;
 using Board.Contracts.Category;
 using Board.Domain;
-using Doska.AppServices.IRepository;
 using Doska.AppServices.Services.Categories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.VisualBasic;
@@ -62,9 +62,9 @@ namespace Doska.AppServices.Services.Ad
                     Name = a.Name,
                     SubCategories = a.SubCategories.Select(s => new InfoCategoryResponse
                     {
-                        Id = s.Id,
-                        Name = s.Name
-                    }).ToList()
+                       Id= s.Id,
+                       Name = s.Name
+                    }).ToArray()
                 }).OrderBy(a => a.Id).Skip(skip).Take(take).ToListAsync();
         }
 

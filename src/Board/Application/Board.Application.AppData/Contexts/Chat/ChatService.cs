@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
+using Board.Application.AppData.Contexts.Chat;
 using Board.Contracts.Chat;
 using Board.Contracts.Message;
-using Doska.AppServices.IRepository;
 using Doska.AppServices.Services.User;
 using Microsoft.EntityFrameworkCore;
 using System;

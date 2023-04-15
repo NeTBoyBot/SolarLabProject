@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
+using Board.Application.AppData.Contexts.Message;
 using Board.Contracts.Message;
-using Doska.AppServices.IRepository;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;

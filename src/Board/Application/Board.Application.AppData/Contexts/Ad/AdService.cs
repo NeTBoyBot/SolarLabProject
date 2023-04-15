@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
+using Board.Application.AppData.Contexts.Ad;
 using Board.Contracts.Ad;
-using Doska.AppServices.IRepository;
 using Doska.AppServices.Services.User;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.VisualBasic;

@@ -1,11 +1,11 @@
-﻿using Doska.AppServices.IRepository;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Board.Domain;
 using Board.Infrastucture.Repository;
+using Board.Application.AppData.Contexts.Message;
 
 namespace Doska.DataAccess.Repositories
 {

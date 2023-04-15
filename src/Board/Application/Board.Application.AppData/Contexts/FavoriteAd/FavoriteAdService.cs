@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
+using Board.Application.AppData.Contexts.FavoriteAd;
 using Board.Contracts.FavoriteAd;
-using Doska.AppServices.IRepository;
 using Doska.AppServices.Services.User;
 using Microsoft.EntityFrameworkCore;
 using System;

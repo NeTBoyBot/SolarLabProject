@@ -8,7 +8,6 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using AutoMapper;
 using Doska.AppServices.MapProfile;
-using Doska.AppServices.IRepository;
 using Doska.AppServices.Services.Ad;
 using Doska.DataAccess.Repositories;
 using Doska.AppServices.Services.Categories;
@@ -22,6 +21,13 @@ using Board.Infrastucture.DataAccess.Interfaces;
 using Board.Infrastucture.DataAccess;
 using Board.Infrastucture.Repository;
 using Board.Application.AppData.Contexts.Mail;
+using Board.Application.AppData.Contexts.Ad;
+using Board.Application.AppData.Contexts.Categories;
+using Board.Application.AppData.Contexts.Chat;
+using Board.Application.AppData.Contexts.Comment;
+using Board.Application.AppData.Contexts.FavoriteAd;
+using Board.Application.AppData.Contexts.Message;
+using Board.Application.AppData.Contexts.User;
 
 namespace Doska.Registrar
 {

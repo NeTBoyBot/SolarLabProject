@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Board.Application.AppData.Contexts.Categories;
 using Board.Domain;
 using Board.Infrastucture.Repository;
-using Doska.AppServices.IRepository;
 
 namespace Doska.DataAccess.Repositories
 {

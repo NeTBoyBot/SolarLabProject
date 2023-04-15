@@ -1,7 +1,7 @@
 ﻿using Board.Application.AppData.Contexts.Adverts.Repositories;
+using Board.Application.AppData.Contexts.User;
 using Board.Contracts.Account;
 using Board.Domain.Account;
-using Doska.AppServices.IRepository;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
