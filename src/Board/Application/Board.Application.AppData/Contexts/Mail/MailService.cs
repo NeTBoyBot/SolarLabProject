@@ -24,11 +24,12 @@ namespace Board.Application.AppData.Contexts.Mail
             _userRepository = userRepository;
         }
 
-        public async Task<InfoMailResponse> SendVerificationCodeAsync(string email,int Code,CancellationToken cancellation)
+        public async Task<InfoMailResponse> SendVerificationCodeAsync(Guid userId,string email,int Code,CancellationToken cancellation)
         {
             //var currentUser = await _userRepository.FindById((await _userService.GetCurrentUser(cancellation)).Id,cancellation);
             var subject = "Verification mail";
-            var message = $"Your verification code is {Code}";
+            var url = $"https://localhost:5001/VerifyUser?userId={userId}&Code={Code}";
+            var message = $"Подтвердите регистрацию, перейдя по ссылке: <a href='{url}'>link</a>";
             try
             {
                 

@@ -34,7 +34,7 @@ namespace Doska.API.Controllers
             }
 
             var user = await _userService.Register(request,photo, token);
-            await _mailService.SendVerificationCodeAsync(request.Email,user.VerificationCode, token);
+            await _mailService.SendVerificationCodeAsync(user.Id,request.Email,user.VerificationCode, token);
             return Created("",user);
         }
 
@@ -100,11 +100,11 @@ namespace Doska.API.Controllers
             return Ok(result);
         }
 
-        [HttpPut("/VerifyUser")]
-        public async Task<IActionResult> VerifyUser(int Code,CancellationToken cancellation)
+        [HttpGet("/VerifyUser")]
+        public async Task<IActionResult> VerifyUser(Guid userId,int Code,CancellationToken cancellation)
         {
             var user = await _userService.GetCurrentUser(cancellation);
-            var result = await _userService.VerifyUserAsync(user.Id, Code, cancellation);
+            var result = await _userService.VerifyUserAsync(userId, Code, cancellation);
 
             return Ok(result);
         }
