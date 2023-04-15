@@ -26,6 +26,7 @@ namespace Board.Application.AppData.Contexts.Mail
         public IUserRepository _userRepository;
         public IConfiguration _configuration;
 
+        public MailService(IUserService userService,IUserRepository userRepository, IConfiguration configuration)
         {
             _userService = userService;
             _userRepository = userRepository;
