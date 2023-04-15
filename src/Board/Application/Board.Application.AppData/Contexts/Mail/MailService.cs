@@ -10,6 +10,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Doska.AppServices.Services.User;
 using Doska.AppServices.IRepository;
+using Microsoft.Extensions.Configuration;
 
 namespace Board.Application.AppData.Contexts.Mail
 {
@@ -17,11 +18,13 @@ namespace Board.Application.AppData.Contexts.Mail
     {
         public IUserService _userService;
         public IUserRepository _userRepository;
+        public IConfiguration _configuration;
 
-        public MailService(IUserService userService,IUserRepository userRepository)
+        public MailService(IUserService userService,IUserRepository userRepository,IConfiguration configuration)
         {
             _userService = userService;
             _userRepository = userRepository;
+            _configuration = configuration;
         }
 
         public async Task<InfoMailResponse> SendVerificationCodeAsync(Guid userId,string email,int Code,CancellationToken cancellation)
@@ -35,7 +38,7 @@ namespace Board.Application.AppData.Contexts.Mail
                 
                 using var emailMessage = new MimeMessage();
 
-                emailMessage.From.Add(new MailboxAddress("SolarVerification", "s.verify@mail.ru"));
+                emailMessage.From.Add(new MailboxAddress("Solar", _configuration["Mail:Address"]));
                 emailMessage.To.Add(new MailboxAddress("", email));
                 emailMessage.Subject = subject;
                 emailMessage.Body = new TextPart(MimeKit.Text.TextFormat.Html)
@@ -46,14 +49,14 @@ namespace Board.Application.AppData.Contexts.Mail
                 using (var client = new SmtpClient())
                 {
                     await client.ConnectAsync("smtp.mail.ru", 587, false);
-                    await client.AuthenticateAsync("s.verify@mail.ru", "trGcvFJLfm55MZ320nmE");
+                    await client.AuthenticateAsync(_configuration["Mail:Address"], _configuration["Mail:Pass"]);
                     await client.SendAsync(emailMessage);
 
                     await client.DisconnectAsync(true);
                 }
                 return new InfoMailResponse
                 {
-                    SenderMail = "s.verify@mail.ru",
+                    SenderMail = _configuration["Mail:Address"],
                     RecieverMail = email,
                     Subject = "",
                     Data = subject,
@@ -65,7 +68,7 @@ namespace Board.Application.AppData.Contexts.Mail
             {
                 return new InfoMailResponse
                 {
-                    SenderMail = "s.verify@mail.ru",
+                    SenderMail = _configuration["Mail:Address"],
                     RecieverMail = email,
                     Subject = subject,
                     Data = message,
