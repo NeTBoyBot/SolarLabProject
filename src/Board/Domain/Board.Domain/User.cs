@@ -49,9 +49,14 @@ namespace Board.Domain
         public ICollection<Ad> Ads { get; set; }
 
         /// <summary>
-        /// Чаты пользователя
+        /// Отправленные сообщения
         /// </summary>
-        public ICollection<Chat> Chats { get; set; }
+        public ICollection<Message> SendedMessages { get; set; }
+
+        /// <summary>
+        /// Полученные сообщения
+        /// </summary>
+        public ICollection<Message> RecievedMessages { get; set; }
 
         /// <summary>
         /// Избранные объявления пользователя

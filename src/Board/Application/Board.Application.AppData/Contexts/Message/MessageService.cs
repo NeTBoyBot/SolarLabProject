@@ -41,14 +41,13 @@ namespace Doska.AppServices.Services.Message
                 .Select(a => new InfoMessageResponse
                 {
                     Id = a.Id,
-                    ChatId = a.ChatId,
                     Containment = a.Containment
                 }).OrderBy(a => a.Id).Skip(skip).Take(take).ToListAsync();
         }
 
         public async Task<IReadOnlyCollection<string>> GetAllInChat(Guid ChatId, CancellationToken cancellation)
         {
-            return await _messageRepository.GetAll().Where(m => m.ChatId == ChatId)
+            return await _messageRepository.GetAll()
                 .Select(a=>a.Containment).OrderBy(a => a).ToListAsync();
         }
 

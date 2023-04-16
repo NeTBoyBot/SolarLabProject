@@ -43,14 +43,6 @@ namespace Board.Domain
         /// </summary>
         public DateTime SendDate { get; set; }
 
-        /// <summary>
-        /// ID Чата в который было отправлено сообщение 
-        /// </summary>
-        public Guid ChatId { get; set; }
 
-        /// <summary>
-        /// Чат в который было отправлено сообщение
-        /// </summary>
-        public Chat Chat { get; set; }
     }
 }

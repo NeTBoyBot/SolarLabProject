@@ -1,5 +1,4 @@
-﻿using Board.Contracts.Chat;
-using Board.Contracts.User;
+﻿using Board.Contracts.User;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -35,14 +34,6 @@ namespace Board.Contracts.Message
         /// </summary>
         public DateTime SendDate { get; set; }
 
-        /// <summary>
-        /// ID Чата в который было отправлено сообщение 
-        /// </summary>
-        public Guid ChatId { get; set; }
 
-        /// <summary>
-        /// Чат в который было отправлено сообщение
-        /// </summary>
-        public InfoChatResponse Chat { get; set; }
     }
 }

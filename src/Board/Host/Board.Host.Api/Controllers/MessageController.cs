@@ -1,5 +1,6 @@
 ﻿using Board.Contracts.Message;
 using Doska.AppServices.Services.Message;
+using Doska.AppServices.Services.User;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
 
@@ -9,9 +10,11 @@ namespace Doska.API.Controllers
     public class MessageController : ControllerBase
     {
         IMessageService _messageService;
-        public MessageController(IMessageService adService)
+        IUserService _userService;
+        public MessageController(IMessageService adService,IUserService userService)
         {
             _messageService = adService;
+            _userService = userService;
         }
         [HttpGet("/allMessages")]
         [ProducesResponseType(typeof(IReadOnlyCollection<InfoMessageResponse>), (int)HttpStatusCode.OK)]
@@ -26,7 +29,10 @@ namespace Doska.API.Controllers
         [ProducesResponseType(typeof(IReadOnlyCollection<InfoMessageResponse>), (int)HttpStatusCode.Created)]
         public async Task<IActionResult> CreateMessage(CreateMessageRequest request, CancellationToken cancellation)
         {
+            request.SenderId = await _userService.GetCurrentUserId(cancellation);
+
             var result = await _messageService.CreateMessageAsync(request,cancellation);
+            
 
             return Created("", result);
         }

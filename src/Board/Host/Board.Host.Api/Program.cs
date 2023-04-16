@@ -141,7 +141,6 @@ static MapperConfiguration GetMapperConfiguration()
         cfg.AddProfile<AdvertProfile>();
         cfg.AddProfile<AdMapProfile>();
         cfg.AddProfile<CategoryMapProfile>();
-        cfg.AddProfile<ChatMapProfile>();
         cfg.AddProfile<CommentMapProfile>();
         cfg.AddProfile<FavoriteAdMapProfile>();
         cfg.AddProfile<MessageMapProfile>();
