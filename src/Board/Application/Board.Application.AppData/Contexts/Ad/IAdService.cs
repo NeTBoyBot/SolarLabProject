@@ -11,7 +11,7 @@ namespace Doska.AppServices.Services.Ad
     {
         Task<InfoAdResponse> GetByIdAsync(Guid id, CancellationToken token);
 
-        Task<Guid> CreateAdAsync(CreateAdRequest createAd, CancellationToken token);
+        Task<Guid> CreateAdAsync(Guid ownerId,CreateAdRequest createAd, CancellationToken token);
 
         Task<IReadOnlyCollection<InfoAdResponse>> GetAll(int take, int skip);
 

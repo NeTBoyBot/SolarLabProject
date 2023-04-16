@@ -21,9 +21,10 @@ namespace Doska.AppServices.Services.Message
             _mapper = mapper;
         }
 
-        public async Task<Guid> CreateMessageAsync(CreateMessageRequest createMessage, CancellationToken cancellation)
+        public async Task<Guid> CreateMessageAsync(Guid senderId,CreateMessageRequest createMessage, CancellationToken cancellation)
         {
             var newMessage = _mapper.Map<Board.Domain.Message>(createMessage);
+            newMessage.SenderId = senderId;
             await _messageRepository.AddAsync(newMessage,cancellation);
 
             return newMessage.Id;

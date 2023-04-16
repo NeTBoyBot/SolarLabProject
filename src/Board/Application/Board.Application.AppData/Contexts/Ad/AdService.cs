@@ -25,10 +25,11 @@ namespace Doska.AppServices.Services.Ad
             _userService = userService;
         }
 
-        public async Task<Guid> CreateAdAsync(CreateAdRequest createAd, CancellationToken cancellation)
+        public async Task<Guid> CreateAdAsync(Guid ownerId,CreateAdRequest createAd, CancellationToken cancellation)
         {
             var newAd = _mapper.Map<Board.Domain.Ad>(createAd);
             newAd.CreationDate = DateTime.UtcNow;
+            newAd.OwnerId = ownerId;
             await _adRepository.AddAsync(newAd,cancellation);
 
             return newAd.Id;

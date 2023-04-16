@@ -29,11 +29,10 @@ namespace Doska.API.Controllers
         [ProducesResponseType(typeof(IReadOnlyCollection<InfoMessageResponse>), (int)HttpStatusCode.Created)]
         public async Task<IActionResult> CreateMessage(CreateMessageRequest request, CancellationToken cancellation)
         {
-            request.SenderId = await _userService.GetCurrentUserId(cancellation);
+            var SenderId = await _userService.GetCurrentUserId(cancellation);
 
-            var result = await _messageService.CreateMessageAsync(request,cancellation);
+            var result = await _messageService.CreateMessageAsync(SenderId,request,cancellation);
             
-
             return Created("", result);
         }
 

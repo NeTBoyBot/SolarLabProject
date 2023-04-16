@@ -10,12 +10,6 @@ namespace Board.Contracts.Message
     {
 
         /// <summary>
-        /// ID Отправителя
-        /// </summary>
-        public Guid SenderId { get; set; }
-
-
-        /// <summary>
         /// ID Получателя
         /// </summary>
         public Guid RecieverId { get; set; }

@@ -9,10 +9,6 @@ namespace Board.Contracts.Ad
 {
     public class CreateAdRequest
     {
-        /// <summary>
-        /// ID Создателя объявления
-        /// </summary>
-        public Guid OwnerId { get; set; }
 
         /// <summary>
         /// Имя объявления

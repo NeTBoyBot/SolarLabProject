@@ -209,5 +209,26 @@ namespace Doska.AppServices.Services.User
 
             return "Аккаунт был успешно подтверждён";
         }
+
+        public async Task<bool> IsUserVerified(CancellationToken cancellation)
+        {
+            var claim = await claimAccessor.GetClaims(cancellation);
+            var claimId = claim.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
+
+            if (string.IsNullOrWhiteSpace(claimId))
+            {
+                throw new Exception("Не найдент пользователь с идентификаторром");
+            }
+
+            var id = Guid.Parse(claimId);
+            var user = await _userRepository.FindById(id, cancellation);
+
+            if (user == null)
+            {
+                throw new Exception($"Не найдент пользователь с идентификаторром {id}");
+            }
+
+            return user.IsVerified;
+        }
     }
 }

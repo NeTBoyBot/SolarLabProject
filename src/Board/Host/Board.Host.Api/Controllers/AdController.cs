@@ -12,10 +12,12 @@ namespace Doska.API.Controllers
     [ApiController]
     public class AdController : ControllerBase
     {
-        IAdService _adService;
-        public AdController(IAdService adService)
+        public IAdService _adService;
+        public IUserService _userService;
+        public AdController(IAdService adService,IUserService userService)
         {
             _adService = adService;
+            _userService = userService;
         }
         [HttpGet("/all")]
         [ProducesResponseType(typeof(IReadOnlyCollection<InfoAdResponse>), (int)HttpStatusCode.OK)]
@@ -39,7 +41,12 @@ namespace Doska.API.Controllers
         [ProducesResponseType(typeof(IReadOnlyCollection<InfoAdResponse>), (int)HttpStatusCode.Created)]
         public async Task<IActionResult> CreateAd(CreateAdRequest request,CancellationToken cancellation)
         {
-            var result = await _adService.CreateAdAsync(request,cancellation);
+            if (!await _userService.IsUserVerified(cancellation))
+                throw new Exception("Аккаунт пользователя не подтверждён!");
+
+            var userId = await _userService.GetCurrentUserId(cancellation);
+
+            var result = await _adService.CreateAdAsync(userId,request,cancellation);
 
             return Created("",result);
         }

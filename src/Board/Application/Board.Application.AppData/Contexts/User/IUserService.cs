@@ -44,5 +44,7 @@ namespace Doska.AppServices.Services.User
 
         Task<InfoUserResponse> EditUserAsync(Guid Id, RegisterUserRequest editAd, CancellationToken cancellation);
 
+        Task<bool> IsUserVerified(CancellationToken cancellation);
+
     }
 }
