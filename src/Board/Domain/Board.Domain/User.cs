@@ -66,7 +66,13 @@ namespace Board.Domain
         /// <summary>
         /// Отзывы оставленные пользователю
         /// </summary>
-        public ICollection<Comment> Comments { get; set; }
+        public ICollection<Comment> SendedComments { get; set; }
+
+
+        /// <summary>
+        /// Отзывы оставленные пользователю
+        /// </summary>
+        public ICollection<Comment> RecievedComments { get; set; }
 
         /// <summary>
         /// Представление фотографии пользователя в виде строки
