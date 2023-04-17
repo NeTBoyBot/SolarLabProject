@@ -32,7 +32,7 @@ namespace Board.Application.AppData.Contexts.Mail
             //var currentUser = await _userRepository.FindById((await _userService.GetCurrentUser(cancellation)).Id,cancellation);
             var subject = "Verification mail";
             var url = $"https://localhost:5001/VerifyUser?userId={userId}&Code={Code}";
-            var message = $"Подтвердите регистрацию, перейдя по ссылке: <a href='{url}'>link</a>";
+            var message = $"Your verification link is: <a href='{url}'>link</a>";
             try
             {
                 
