@@ -1,8 +1,10 @@
 ﻿using AutoMapper;
 using Board.Contracts.Ad;
+using Board.Domain;
 using Doska.AppServices.IRepository;
 using Doska.AppServices.Services.User;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using Microsoft.VisualBasic;
 using System;
 using System.Collections.Generic;
@@ -17,16 +19,20 @@ namespace Doska.AppServices.Services.Ad
         public readonly IAdRepository _adRepository;
         public readonly IMapper _mapper;
         public readonly IUserService _userService;
+        public readonly ILogger<Board.Domain.Ad> _logger;
 
-        public AdService(IAdRepository adRepository,IMapper mapper, IUserService userService)
+        public AdService(IAdRepository adRepository,IMapper mapper, IUserService userService,ILogger<Board.Domain.Ad> logger)
         {
             _adRepository = adRepository;
             _mapper = mapper;
             _userService = userService;
+            _logger = logger;
         }
 
         public async Task<Guid> CreateAdAsync(Guid ownerId,CreateAdRequest createAd, CancellationToken cancellation)
         {
+            _logger.LogInformation($"Создание объявления");
+
             var newAd = _mapper.Map<Board.Domain.Ad>(createAd);
             newAd.CreationDate = DateTime.UtcNow;
             newAd.OwnerId = ownerId;
@@ -37,19 +43,26 @@ namespace Doska.AppServices.Services.Ad
 
         public async Task DeleteAsync(Guid id, CancellationToken cancellation)
         {
+            _logger.LogInformation($"Удаление объявления под Id: {id}");
+
             var existingad = await _adRepository.FindById(id,cancellation);
             await _adRepository.DeleteAsync(existingad,cancellation);
         }
 
         public async Task<InfoAdResponse> EditAdAsync(Guid Id,CreateAdRequest editAd, CancellationToken cancellation)
         {
+            _logger.LogInformation($"Изменение объявления под Id: {Id}");
+
             var existingAd = await _adRepository.FindById(Id,cancellation);
+
             await _adRepository.EditAdAsync(_mapper.Map(editAd,existingAd),cancellation);
 
             return _mapper.Map<InfoAdResponse>(editAd);
         }
         public async Task<IReadOnlyCollection<InfoAdResponse>> GetAdFiltered(string? name, Guid? subcategoryId)
         {
+            _logger.LogInformation("Получение объявлений по фильтру");
+
             var query = _adRepository.GetAll();
 
             if (!string.IsNullOrEmpty(name))
@@ -70,6 +83,8 @@ namespace Doska.AppServices.Services.Ad
 
         public async Task<IReadOnlyCollection<InfoAdResponse>> GetAll(int take, int skip)
         {
+            _logger.LogInformation("Получение всех объявлений");
+
             return await _adRepository.GetAll()
                 .Select(a => new InfoAdResponse
                 {
@@ -83,13 +98,20 @@ namespace Doska.AppServices.Services.Ad
 
         public async Task<InfoAdResponse> GetByIdAsync(Guid id, CancellationToken cancellation)
         {
+            _logger.LogInformation($"Получение объявления под Id: {id}");
+
             var existingad = await _adRepository.FindById(id,cancellation);
             return _mapper.Map<InfoAdResponse>(existingad);
         }
 
         public async Task<IReadOnlyCollection<InfoAdResponse>> GetAllUserAds(int take, int skip,CancellationToken token)
         {
+            
+
             var userId = await _userService.GetCurrentUserId(token);
+
+            _logger.LogInformation($"Получение всех объявлений пользователя под Id: {userId}");
+
             return await _adRepository.GetAll().Where(a => a.Owner.Id == userId)
                 .Select(s=>new InfoAdResponse
             {

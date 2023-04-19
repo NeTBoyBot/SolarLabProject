@@ -15,6 +15,7 @@ namespace Doska.AppServices.MapProfile
         {
             CreateMap<Ad, InfoAdResponse>().ReverseMap();
             CreateMap<Ad, CreateAdRequest>().ReverseMap();
+            CreateMap<InfoAdResponse, CreateAdRequest>().ReverseMap();
         }
     }
 }

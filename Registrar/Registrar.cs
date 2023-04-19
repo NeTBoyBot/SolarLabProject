@@ -21,6 +21,8 @@ using Board.Infrastucture.DataAccess.Interfaces;
 using Board.Infrastucture.DataAccess;
 using Board.Infrastucture.Repository;
 using Board.Application.AppData.Contexts.Mail;
+using Microsoft.Extensions.Logging;
+using Microsoft.IdentityModel.Abstractions;
 
 namespace Doska.Registrar
 {
@@ -42,6 +44,9 @@ namespace Doska.Registrar
             //    typeof(FavoriteAdMapProfile), typeof(CommentMapProfile));
 
             // Регистрация объявления
+
+            services.AddLogging();
+
             services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
             services.AddTransient<IAdService, AdService>();
             services.AddTransient<IAdRepository, AdRepository>();
@@ -54,8 +59,6 @@ namespace Doska.Registrar
 
             services.AddTransient<IFavoriteAdService, FavoriteAdService>();
             services.AddTransient<IFavoriteAdRepository, FavoriteAdRepository>();
-
-            
 
             services.AddTransient<IMessageService, MessageService>();
             services.AddTransient<IMessageRepository, MessageRepository>();
