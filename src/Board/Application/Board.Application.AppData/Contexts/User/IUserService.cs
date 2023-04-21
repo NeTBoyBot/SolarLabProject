@@ -30,20 +30,68 @@ namespace Doska.AppServices.Services.User
         /// <returns></returns>
         Task<InfoUserResponse> GetCurrentUser(CancellationToken cancellationToken);
 
+        /// <summary>
+        /// Подтверждение аккаунта пользователя
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="VerificationCode"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
         Task<string> VerifyUserAsync(Guid id,int VerificationCode,CancellationToken cancellationToken);
 
+        /// <summary>
+        /// Получить id авторизованного пользователя
+        /// </summary>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
         Task<Guid> GetCurrentUserId(CancellationToken cancellationToken);
 
+        /// <summary>
+        /// Получить пользователя по id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="cancellation"></param>
+        /// <returns></returns>
         Task<InfoUserResponse> GetByIdAsync(Guid id, CancellationToken cancellation);
 
+        /// <summary>
+        /// Создание пользователя
+        /// </summary>
+        /// <param name="registerUser"></param>
+        /// <param name="cancellation"></param>
+        /// <returns></returns>
         Task<Guid> CreateUserAsync(RegisterUserRequest registerUser, CancellationToken cancellation);
 
+        /// <summary>
+        /// Получение всех пользователей
+        /// </summary>
+        /// <param name="take"></param>
+        /// <param name="skip"></param>
+        /// <returns></returns>
         Task<IReadOnlyCollection<InfoUserResponse>> GetAll(int take, int skip);
 
+        /// <summary>
+        /// Удаление пользователя по id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="cancellation"></param>
+        /// <returns></returns>
         Task DeleteAsync(Guid id, CancellationToken cancellation);
 
+        /// <summary>
+        /// Обновление информации о пользователе
+        /// </summary>
+        /// <param name="Id"></param>
+        /// <param name="editAd"></param>
+        /// <param name="cancellation"></param>
+        /// <returns></returns>
         Task<InfoUserResponse> EditUserAsync(Guid Id, RegisterUserRequest editAd, CancellationToken cancellation);
 
+        /// <summary>
+        /// Проверка является ли аккаунт авторизованного пользователя верифицированным
+        /// </summary>
+        /// <param name="cancellation"></param>
+        /// <returns></returns>
         Task<bool> IsUserVerified(CancellationToken cancellation);
 
     }
