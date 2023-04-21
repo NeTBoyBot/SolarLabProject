@@ -1,11 +1,8 @@
 using AutoMapper;
-using Board.Application.AppData.Contexts.Adverts.Repositories;
-using Board.Application.AppData.Contexts.Adverts.Services;
 using Board.Application.AppData.Services;
 using Board.Contracts.Interfaces;
 using Board.Host.DbMigrator;
 using Board.Infrastucture.DataAccess;
-using Board.Infrastucture.DataAccess.Contexts.Posts.Repository;
 using Board.Infrastucture.DataAccess.Interfaces;
 using Board.Infrastucture.MapProfiles;
 using Board.Infrastucture.Repository;
@@ -37,10 +34,8 @@ builder.Services.AddServices();
 
 // Add repositories to the container.
 builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
-builder.Services.AddScoped<IAccountRepository, AccountRepository>();
 
 // Add services to the container.
-builder.Services.AddScoped<IAccountService, AccountService>();
 builder.Services.AddScoped<IForbiddenWordsService, ForbiddenWordsService>();
 
 builder.Services.AddSingleton<IMapper>(new Mapper(GetMapperConfiguration()));
@@ -145,6 +140,7 @@ static MapperConfiguration GetMapperConfiguration()
         cfg.AddProfile<FavoriteAdMapProfile>();
         cfg.AddProfile<MessageMapProfile>();
         cfg.AddProfile<UserMapProfile>();
+        cfg.AddProfile<FileMapProfile>();
     });
     //configuration.AssertConfigurationIsValid();
     return configuration;

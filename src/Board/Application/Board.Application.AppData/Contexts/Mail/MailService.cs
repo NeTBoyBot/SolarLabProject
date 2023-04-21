@@ -9,8 +9,8 @@ using MailKit.Net.Smtp;
 using System.Text;
 using System.Threading.Tasks;
 using Doska.AppServices.Services.User;
-using Doska.AppServices.IRepository;
 using Microsoft.Extensions.Configuration;
+using Board.Application.AppData.Contexts.User;
 
 namespace Board.Application.AppData.Contexts.Mail
 {

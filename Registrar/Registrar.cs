@@ -23,6 +23,13 @@ using Board.Infrastucture.Repository;
 using Board.Application.AppData.Contexts.Mail;
 using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Abstractions;
+using Board.Application.AppData.Contexts.Categories;
+using Board.Application.AppData.Contexts.Comment;
+using Board.Application.AppData.Contexts.FavoriteAd;
+using Board.Application.AppData.Contexts.Message;
+using Board.Application.AppData.Contexts.User;
+using Board.Application.AppData.Contexts.File;
+using Board.Infrastucture.DataAccess.Contexts.File;
 
 namespace Doska.Registrar
 {
@@ -65,6 +72,9 @@ namespace Doska.Registrar
 
             services.AddTransient<ICommentService, CommentService>();
             services.AddTransient<ICommentRepository, CommentRepository>();
+
+            services.AddTransient<IFileService, FileService>();
+            services.AddTransient<IFileRepository, FileRepository>();
 
             services.AddTransient<IMailService, MailService>();
 

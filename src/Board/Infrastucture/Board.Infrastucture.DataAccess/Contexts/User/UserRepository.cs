@@ -1,6 +1,6 @@
-﻿using Board.Domain;
+﻿using Board.Application.AppData.Contexts.User;
+using Board.Domain;
 using Board.Infrastucture.Repository;
-using Doska.AppServices.IRepository;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;

@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Doska.AppServices.IRepository
+namespace Board.Application.AppData.Contexts.Categories
 {
     public interface ICategoryRepository
     {

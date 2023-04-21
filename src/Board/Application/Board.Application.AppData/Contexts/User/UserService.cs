@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Board.Application.AppData.Contexts.User;
 using Board.Contracts.User;
 using Doska.AppServices.IRepository;
 using Microsoft.AspNetCore.Http;

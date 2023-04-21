@@ -4,5 +4,15 @@
         <name>Board.Host.Api</name>
     </assembly>
     <members>
+        <member name="M:Board.Host.Api.Controllers.FileController.Download(System.Guid,System.Threading.CancellationToken)">
+            <summary>
+            Скачивание файла по идентификатору.
+            </summary>
+            <param name="id">Идентификатор файла.</param>
+            <param name="cancellationToken">Токен отмены.</param>
+            <response code="200">Запрос выполнен успешно.</response>
+            <response code="404">Файл с указанным идентификатором не найден.</response>
+            <returns>Файл в виде потока.</returns>
+        </member>
     </members>
 </doc>

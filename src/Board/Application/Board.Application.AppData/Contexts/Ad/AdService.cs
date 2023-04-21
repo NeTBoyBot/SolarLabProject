@@ -19,9 +19,9 @@ namespace Doska.AppServices.Services.Ad
         public readonly IAdRepository _adRepository;
         public readonly IMapper _mapper;
         public readonly IUserService _userService;
-        public readonly ILogger<Board.Domain.Ad> _logger;
+        public readonly ILogger<AdService> _logger;
 
-        public AdService(IAdRepository adRepository,IMapper mapper, IUserService userService,ILogger<Board.Domain.Ad> logger)
+        public AdService(IAdRepository adRepository,IMapper mapper, IUserService userService,ILogger<AdService> logger)
         {
             _adRepository = adRepository;
             _mapper = mapper;
