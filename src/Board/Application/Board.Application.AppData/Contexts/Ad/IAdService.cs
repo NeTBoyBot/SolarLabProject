@@ -24,7 +24,7 @@ namespace Doska.AppServices.Services.Ad
         /// <param name="createAd"></param>
         /// <param name="token"></param>
         /// <returns></returns>
-        Task<Guid> CreateAdAsync(Guid ownerId,CreateAdRequest createAd, CancellationToken token);
+        Task<Guid> CreateAdAsync(Guid ownerId,string lang,CreateAdRequest createAd, CancellationToken token);
 
         /// <summary>
         /// Получение всех объявлений
@@ -32,7 +32,7 @@ namespace Doska.AppServices.Services.Ad
         /// <param name="take"></param>
         /// <param name="skip"></param>
         /// <returns></returns>
-        Task<IReadOnlyCollection<InfoAdResponse>> GetAll(int take, int skip);
+        Task<IReadOnlyCollection<InfoAdResponse>> GetAll(int take, int skip,string lang);
 
         /// <summary>
         /// Удаление объявления

@@ -30,6 +30,7 @@ using Board.Application.AppData.Contexts.Message;
 using Board.Application.AppData.Contexts.User;
 using Board.Application.AppData.Contexts.File;
 using Board.Infrastucture.DataAccess.Contexts.File;
+using Board.Application.AppData.Contexts.Translator;
 
 namespace Doska.Registrar
 {
@@ -77,6 +78,8 @@ namespace Doska.Registrar
             services.AddTransient<IFileRepository, FileRepository>();
 
             services.AddTransient<IMailService, MailService>();
+
+            services.AddTransient<ITranslatorService, TranslatorService>();
 
             services.AddScoped<IClaimAcessor, HttpContextClaimAcessor>();
 

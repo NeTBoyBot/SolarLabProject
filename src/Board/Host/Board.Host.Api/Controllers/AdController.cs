@@ -21,9 +21,11 @@ namespace Doska.API.Controllers
         }
         [HttpGet("/all")]
         [ProducesResponseType(typeof(IReadOnlyCollection<InfoAdResponse>), (int)HttpStatusCode.OK)]
-        public async Task<IActionResult> GetAll(int take, int skip)
+        public async Task<IActionResult> GetAll(int take, int skip,CancellationToken cancellation)
         {
-            var result = await _adService.GetAll(take, skip);
+            var user = await _userService.GetCurrentUser(cancellation);
+
+            var result = await _adService.GetAll(take, skip,user.Language);
 
             return Ok(result);
         }
@@ -44,9 +46,11 @@ namespace Doska.API.Controllers
             if (!await _userService.IsUserVerified(cancellation))
                 throw new Exception("Аккаунт пользователя не подтверждён!");
 
-            var userId = await _userService.GetCurrentUserId(cancellation);
+            var user = await _userService.GetCurrentUser(cancellation);
 
-            var result = await _adService.CreateAdAsync(userId,request,cancellation);
+            
+
+            var result = await _adService.CreateAdAsync(user.Id,user.Language,request,cancellation);
 
             return Created("",result);
         }

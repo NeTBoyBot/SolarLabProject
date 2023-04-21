@@ -52,5 +52,10 @@ namespace Board.Domain
         /// ID Категории
         /// </summary>
         public Guid CategoryId { get; set; }
+
+        /// <summary>
+        /// Язык объявления
+        /// </summary>
+        public string Language { get; set; }
     }
 }

@@ -68,7 +68,8 @@ namespace Doska.AppServices.Services.User
                     CreationTime = a.CreationTime,
                     Email = a.Email,
                     Phone = a.Phone,
-                    Region = a.Region
+                    Region = a.Region,
+                    Language = a.Language
                 }).OrderBy(a => a.Id).Skip(skip).Take(take).ToListAsync();
         }
 
@@ -108,7 +109,8 @@ namespace Doska.AppServices.Services.User
                 Email = user.Email,
                 Phone = user.Phone,
                 Region = user.Region,
-                IsVerified = user.IsVerified
+                IsVerified = user.IsVerified,
+                Language = user.Language
             };
 
             return result;

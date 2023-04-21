@@ -29,6 +29,11 @@ namespace Board.Domain
         public string Region { get; set; }
 
         /// <summary>
+        /// Язык пользователя
+        /// </summary>
+        public string Language { get; set; }
+
+        /// <summary>
         /// Номер телефона
         /// </summary>
         public string Phone { get; set; }

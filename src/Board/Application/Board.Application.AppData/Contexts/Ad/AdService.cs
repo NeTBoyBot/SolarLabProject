@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Board.Application.AppData.Contexts.Translator;
 using Board.Contracts.Ad;
 using Board.Domain;
 using Doska.AppServices.IRepository;
@@ -20,22 +21,25 @@ namespace Doska.AppServices.Services.Ad
         public readonly IMapper _mapper;
         public readonly IUserService _userService;
         public readonly ILogger<AdService> _logger;
+        public readonly ITranslatorService _translatorService;
 
-        public AdService(IAdRepository adRepository,IMapper mapper, IUserService userService,ILogger<AdService> logger)
+        public AdService(IAdRepository adRepository,IMapper mapper, IUserService userService,ILogger<AdService> logger,ITranslatorService translatorService)
         {
             _adRepository = adRepository;
             _mapper = mapper;
             _userService = userService;
             _logger = logger;
+            _translatorService = translatorService;
         }
 
-        public async Task<Guid> CreateAdAsync(Guid ownerId,CreateAdRequest createAd, CancellationToken cancellation)
+        public async Task<Guid> CreateAdAsync(Guid ownerId,string lang,CreateAdRequest createAd, CancellationToken cancellation)
         {
             _logger.LogInformation($"Создание объявления");
 
             var newAd = _mapper.Map<Board.Domain.Ad>(createAd);
             newAd.CreationDate = DateTime.UtcNow;
             newAd.OwnerId = ownerId;
+            newAd.Language = lang;
             await _adRepository.AddAsync(newAd,cancellation);
 
             return newAd.Id;
@@ -81,7 +85,7 @@ namespace Doska.AppServices.Services.Ad
             }).OrderBy(a => a.CreationDate).ToListAsync();
         }
 
-        public async Task<IReadOnlyCollection<InfoAdResponse>> GetAll(int take, int skip)
+        public async Task<IReadOnlyCollection<InfoAdResponse>> GetAll(int take, int skip,string lang)
         {
             _logger.LogInformation("Получение всех объявлений");
 
@@ -89,8 +93,8 @@ namespace Doska.AppServices.Services.Ad
                 .Select(a => new InfoAdResponse
                 {
                     Id = a.Id,
-                    Name = a.Name,
-                    Desc = a.Desc,
+                    Name = _translatorService.Translate(a.Language,lang, a.Name),
+                    Desc = _translatorService.Translate(a.Language, lang, a.Desc),
                     CreationDate = a.CreationDate,
                     Price = a.Price
                 }).OrderBy(a => a.CreationDate).Skip(skip).Take(take).ToListAsync();

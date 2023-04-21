@@ -34,5 +34,10 @@ namespace Board.Contracts.User
         /// </summary>
         public string Email { get; set; }
 
+        /// <summary>
+        /// Язык пользователя
+        /// </summary>
+        public string Language { get; set; }
+
     }
 }

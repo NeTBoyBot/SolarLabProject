@@ -42,5 +42,10 @@ namespace Board.Contracts.User
         /// Является ли аккаунт пользователя подтверждённым
         /// </summary>
         public bool IsVerified { get; set; }
+
+        /// <summary>
+        /// Язык пользователя
+        /// </summary>
+        public string Language { get; set; }
     }
 }
