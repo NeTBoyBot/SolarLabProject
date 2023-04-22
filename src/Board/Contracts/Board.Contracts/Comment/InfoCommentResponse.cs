@@ -1,6 +1,7 @@
 ﻿using Board.Contracts.User;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -23,6 +24,7 @@ namespace Board.Contracts.Comment
         /// Пользователь оставивший отзыв
         /// </summary>
         public InfoUserResponse Sender { get; set; }
+
 
         /// <summary>
         /// ID Пользователя которому оставили отзыв
