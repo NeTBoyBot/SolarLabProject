@@ -14,6 +14,13 @@ namespace Doska.API.Controllers
         {
             _categoryService = categoryService;
         }
+
+        /// <summary>
+        /// Получение всех категорий
+        /// </summary>
+        /// <param name="take"></param>
+        /// <param name="skip"></param>
+        /// <returns></returns>
         [HttpGet("/allCategories")]
         [ProducesResponseType(typeof(IReadOnlyCollection<InfoCategoryResponse>), (int)HttpStatusCode.OK)]
         public async Task<IActionResult> GetAll(int take, int skip)
@@ -23,37 +30,62 @@ namespace Doska.API.Controllers
             return Ok(result);
         }
 
-        //[HttpGet("/CategorieById")]
-        //[ProducesResponseType(typeof(IReadOnlyCollection<InfoCategoryResponse>), (int)HttpStatusCode.OK)]
-        //public async Task<IActionResult> GetCategoryById(Guid id)
-        //{
-        //    var result = await _categoryService.GetByIdAsync(id);
+        /// <summary>
+        /// Получение категории по Id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="cancellation"></param>
+        /// <returns></returns>
+        [HttpGet("/CategoryById")]
+        [ProducesResponseType(typeof(IReadOnlyCollection<InfoCategoryResponse>), (int)HttpStatusCode.OK)]
+        public async Task<IActionResult> GetCategoryById(Guid id,CancellationToken cancellation)
+        {
+            var result = await _categoryService.GetByIdAsync(id,cancellation);
 
-        //    return Ok(result);
-        //}
+            return Ok(result);
+        }
 
+        /// <summary>
+        /// Создание категории
+        /// </summary>
+        /// <param name="categoryname"></param>
+        /// <param name="cancellation"></param>
+        /// <returns></returns>
         [HttpPost("/createCategory")]
         [ProducesResponseType(typeof(IReadOnlyCollection<InfoCategoryResponse>), (int)HttpStatusCode.OK)]
-        public async Task<IActionResult> CreateAd(string categoryname, CancellationToken cancellation)
+        public async Task<IActionResult> CreateCategory(string categoryname, CancellationToken cancellation)
         {
             var result = await _categoryService.CreateCategoryAsync(categoryname,cancellation);
 
             return Created("", result);
         }
 
+        /// <summary>
+        /// Обновление категории
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="categoryname"></param>
+        /// <param name="cancellation"></param>
+        /// <returns></returns>
         [HttpPut("/updateCategory/{id}")]
         [ProducesResponseType(typeof(IReadOnlyCollection<InfoCategoryResponse>), (int)HttpStatusCode.OK)]
-        public async Task<IActionResult> UpdateAd(Guid id, string categoryname, CancellationToken cancellation)
+        public async Task<IActionResult> UpdateCategory(Guid id, string categoryname, CancellationToken cancellation)
         {
             var result = await _categoryService.EditCategoryAsync(id, categoryname,cancellation);
 
             return Ok(result);
         }
 
+        /// <summary>
+        /// Удаление категории
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="cancellation"></param>
+        /// <returns></returns>
         [HttpDelete("/deleteCategory/{id}")]
         [ProducesResponseType((int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
-        public async Task<IActionResult> DeleteAd(Guid id, string categoryname, CancellationToken cancellation)
+        public async Task<IActionResult> DeleteAd(Guid id, CancellationToken cancellation)
         {
             await _categoryService.DeleteAsync(id,cancellation);
             return Ok();

@@ -63,6 +63,7 @@ namespace Doska.AppServices.Services.Ad
 
             return _mapper.Map<InfoAdResponse>(editAd);
         }
+
         public async Task<IReadOnlyCollection<InfoAdResponse>> GetAdFiltered(string? name, Guid? subcategoryId)
         {
             _logger.LogInformation("Получение объявлений по фильтру");
@@ -85,7 +86,22 @@ namespace Doska.AppServices.Services.Ad
             }).OrderBy(a => a.CreationDate).ToListAsync();
         }
 
-        public async Task<IReadOnlyCollection<InfoAdResponse>> GetAll(int take, int skip,string lang)
+        public async Task<IReadOnlyCollection<InfoAdResponse>> GetAll(int take, int skip)
+        {
+            _logger.LogInformation("Получение всех объявлений");
+
+            return await _adRepository.GetAll()
+                .Select(a => new InfoAdResponse
+                {
+                    Id = a.Id,
+                    Name = a.Name,
+                    Desc = a.Desc,
+                    CreationDate = a.CreationDate,
+                    Price = a.Price
+                }).OrderBy(a => a.CreationDate).Skip(skip).Take(take).ToListAsync();
+        }
+
+        public async Task<IReadOnlyCollection<InfoAdResponse>> GetAllTranslated(int take, int skip,string lang)
         {
             _logger.LogInformation("Получение всех объявлений");
 

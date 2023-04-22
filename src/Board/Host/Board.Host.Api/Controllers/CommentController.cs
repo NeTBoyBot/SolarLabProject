@@ -13,6 +13,13 @@ namespace Doska.API.Controllers
         {
             _commentService = commentService;
         }
+
+        /// <summary>
+        /// Получение всеъ комментариев
+        /// </summary>
+        /// <param name="take"></param>
+        /// <param name="skip"></param>
+        /// <returns></returns>
         [HttpGet("/allComments")]
         [ProducesResponseType(typeof(IReadOnlyCollection<InfoCommentResponse>), (int)HttpStatusCode.OK)]
         public async Task<IActionResult> GetAll(int take, int skip)
@@ -22,6 +29,12 @@ namespace Doska.API.Controllers
             return Ok(result);
         }
 
+        /// <summary>
+        /// Получение всех комментариев авторизованного пользователя
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <param name="cancellation"></param>
+        /// <returns></returns>
         [HttpGet("/CommentsForUser")]
         [ProducesResponseType(typeof(IReadOnlyCollection<InfoCommentResponse>), (int)HttpStatusCode.OK)]
         public async Task<IActionResult> GetCommentsForUser(Guid userId, CancellationToken cancellation)
@@ -31,6 +44,12 @@ namespace Doska.API.Controllers
             return Ok(result);
         }
 
+        /// <summary>
+        /// Создание комментария
+        /// </summary>
+        /// <param name="request"></param>
+        /// <param name="cancellation"></param>
+        /// <returns></returns>
         [HttpPost("/createComment")]
         [ProducesResponseType(typeof(IReadOnlyCollection<InfoCommentResponse>), (int)HttpStatusCode.Created)]
         public async Task<IActionResult> CreateComment(CreateCommentRequest request, CancellationToken cancellation)
@@ -40,6 +59,12 @@ namespace Doska.API.Controllers
             return Created("", result);
         }
 
+        /// <summary>
+        /// Удаление комментария
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="cancellation"></param>
+        /// <returns></returns>
         [HttpDelete("/deleteComment/{id}")]
         [ProducesResponseType((int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.NotFound)]

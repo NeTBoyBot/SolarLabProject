@@ -16,6 +16,13 @@ namespace Doska.API.Controllers
             _messageService = adService;
             _userService = userService;
         }
+
+        /// <summary>
+        /// Получение всех сообщений
+        /// </summary>
+        /// <param name="take"></param>
+        /// <param name="skip"></param>
+        /// <returns></returns>
         [HttpGet("/allMessages")]
         [ProducesResponseType(typeof(IReadOnlyCollection<InfoMessageResponse>), (int)HttpStatusCode.OK)]
         public async Task<IActionResult> GetAll(int take, int skip)
@@ -25,6 +32,12 @@ namespace Doska.API.Controllers
             return Ok(result);
         }
 
+        /// <summary>
+        /// Отправка сообщения
+        /// </summary>
+        /// <param name="request"></param>
+        /// <param name="cancellation"></param>
+        /// <returns></returns>
         [HttpPost("/createMessage")]
         [ProducesResponseType(typeof(IReadOnlyCollection<InfoMessageResponse>), (int)HttpStatusCode.Created)]
         public async Task<IActionResult> CreateMessage(CreateMessageRequest request, CancellationToken cancellation)
@@ -36,7 +49,12 @@ namespace Doska.API.Controllers
             return Created("", result);
         }
 
-
+        /// <summary>
+        /// Удаление сообщения
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="cancellation"></param>
+        /// <returns></returns>
         [HttpDelete("/deleteMessage/{id}")]
         [ProducesResponseType((int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
@@ -46,6 +64,12 @@ namespace Doska.API.Controllers
             return Ok();
         }
 
+        /// <summary>
+        /// Получение всех сообщений в чате
+        /// </summary>
+        /// <param name="ChatId"></param>
+        /// <param name="cancellation"></param>
+        /// <returns></returns>
         [HttpGet("/getAllMessagesInChat")]
         [ProducesResponseType((int)HttpStatusCode.OK)]
         public async Task<IActionResult> GetAllInChat(Guid ChatId, CancellationToken cancellation)

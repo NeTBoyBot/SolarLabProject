@@ -4,6 +4,69 @@
         <name>Board.Host.Api</name>
     </assembly>
     <members>
+        <member name="M:Doska.API.Controllers.AdController.GetAll(System.Int32,System.Int32,System.Threading.CancellationToken)">
+            <summary>
+            Получение списка всех объявлений
+            </summary>
+            <param name="take"></param>
+            <param name="skip"></param>
+            <param name="cancellation"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Doska.API.Controllers.AdController.GetAllTranslated(System.Int32,System.Int32,System.Threading.CancellationToken)">
+            <summary>
+            Получение списка всех объявлений переведенных на язык пользователя
+            </summary>
+            <param name="take"></param>
+            <param name="skip"></param>
+            <param name="cancellation"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Doska.API.Controllers.AdController.GetAdFiltered(System.String,System.Nullable{System.Guid})">
+            <summary>
+            Получение объявления по фильтру
+            </summary>
+            <param name="name"></param>
+            <param name="categoryId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Doska.API.Controllers.AdController.CreateAd(Board.Contracts.Ad.CreateAdRequest,System.Threading.CancellationToken)">
+            <summary>
+            Создание объявления
+            </summary>
+            <param name="request"></param>
+            <param name="cancellation"></param>
+            <returns></returns>
+            <exception cref="T:System.Exception"></exception>
+        </member>
+        <member name="M:Doska.API.Controllers.AdController.UpdateAd(System.Guid,Board.Contracts.Ad.CreateAdRequest,System.Threading.CancellationToken)">
+            <summary>
+            Обновление объявления
+            </summary>
+            <param name="id"></param>
+            <param name="request"></param>
+            <param name="cancellation"></param>
+            <returns></returns>
+            <exception cref="T:System.Exception"></exception>
+        </member>
+        <member name="M:Doska.API.Controllers.AdController.DeleteAd(System.Guid,System.Threading.CancellationToken)">
+            <summary>
+            Удаление объявления
+            </summary>
+            <param name="id"></param>
+            <param name="cancellation"></param>
+            <returns></returns>
+            <exception cref="T:System.Exception"></exception>
+        </member>
+        <member name="M:Doska.API.Controllers.AdController.GetAllUserAds(System.Int32,System.Int32,System.Threading.CancellationToken)">
+            <summary>
+            Получение всех объявлений авторизованного пользователя
+            </summary>
+            <param name="take"></param>
+            <param name="skip"></param>
+            <param name="token"></param>
+            <returns></returns>
+        </member>
         <member name="M:Board.Host.Api.Controllers.FileController.Download(System.Guid,System.Threading.CancellationToken)">
             <summary>
             Скачивание файла по идентификатору.

@@ -32,7 +32,16 @@ namespace Doska.AppServices.Services.Ad
         /// <param name="take"></param>
         /// <param name="skip"></param>
         /// <returns></returns>
-        Task<IReadOnlyCollection<InfoAdResponse>> GetAll(int take, int skip,string lang);
+        Task<IReadOnlyCollection<InfoAdResponse>> GetAll(int take, int skip);
+
+        /// <summary>
+        /// Получение всех объявлений с переводом
+        /// </summary>
+        /// <param name="take"></param>
+        /// <param name="skip"></param>
+        /// <param name="lang"></param>
+        /// <returns></returns>
+        Task<IReadOnlyCollection<InfoAdResponse>> GetAllTranslated(int take, int skip, string lang);
 
         /// <summary>
         /// Удаление объявления

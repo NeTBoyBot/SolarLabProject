@@ -14,6 +14,13 @@ namespace Doska.API.Controllers
         {
             _favoriteadService = adService;
         }
+
+        /// <summary>
+        /// Получение всех избранных объявлений
+        /// </summary>
+        /// <param name="take"></param>
+        /// <param name="skip"></param>
+        /// <returns></returns>
         [HttpGet("/allFavoriteAds")]
         [ProducesResponseType(typeof(IReadOnlyCollection<InfoFavoriteAdResponse>), (int)HttpStatusCode.OK)]
         public async Task<IActionResult> GetAll(int take, int skip)
@@ -23,6 +30,12 @@ namespace Doska.API.Controllers
             return Ok(result);
         }
 
+        /// <summary>
+        /// Добавить объявление в избранное
+        /// </summary>
+        /// <param name="request"></param>
+        /// <param name="cancellation"></param>
+        /// <returns></returns>
         [HttpPost("/createFavoriteAd")]
         [ProducesResponseType(typeof(IReadOnlyCollection<InfoFavoriteAdResponse>), (int)HttpStatusCode.Created)]
         public async Task<IActionResult> CreateAd(CreateFavoriteAdRequest request, CancellationToken cancellation)
@@ -32,6 +45,13 @@ namespace Doska.API.Controllers
             return Created("", result);
         }
 
+        /// <summary>
+        /// Удалить объявление из избранных
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="request"></param>
+        /// <param name="cancellation"></param>
+        /// <returns></returns>
         [HttpDelete("/deleteFavoriteAd/{id}")]
         [ProducesResponseType((int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
@@ -41,6 +61,13 @@ namespace Doska.API.Controllers
             return Ok();
         }
 
+        /// <summary>
+        /// Получить все избранные объявления авторизованного пользователя
+        /// </summary>
+        /// <param name="take"></param>
+        /// <param name="skip"></param>
+        /// <param name="token"></param>
+        /// <returns></returns>
         [HttpGet("/allUserFavorites")]
         [ProducesResponseType(typeof(IReadOnlyCollection<InfoFavoriteAdResponse>), (int)HttpStatusCode.OK)]
         public async Task<IActionResult> GetAllUserFavorites(int take, int skip, CancellationToken token)

@@ -18,7 +18,13 @@ namespace Board.Host.Api.Controllers
         }
 
 
-
+        /// <summary>
+        /// Получение всех файлов
+        /// </summary>
+        /// <param name="take"></param>
+        /// <param name="skip"></param>
+        /// <param name="cancellation"></param>
+        /// <returns></returns>
         [HttpGet("GetAllFiles")]
         public async Task<IActionResult> GetAll(int take,int skip,CancellationToken cancellation)
         {
@@ -27,6 +33,12 @@ namespace Board.Host.Api.Controllers
             return Ok(result);
         }
 
+        /// <summary>
+        /// Загрузка файла
+        /// </summary>
+        /// <param name="file"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
         [RequestFormLimits(ValueLengthLimit = int.MaxValue, MultipartBodyLengthLimit = long.MaxValue)]
         [DisableRequestSizeLimit]
         [HttpPost("Upload")]
@@ -67,6 +79,12 @@ namespace Board.Host.Api.Controllers
             return File(result.Data, result.ContentType, result.Name, true);
         }
 
+        /// <summary>
+        /// Получить массив байтов из файла
+        /// </summary>
+        /// <param name="file"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
         private static async Task<byte[]> GetBytesAsync(IFormFile file, CancellationToken cancellationToken)
         {
             using var ms = new MemoryStream();
