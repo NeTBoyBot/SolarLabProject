@@ -1,9 +1,12 @@
 ﻿using AutoMapper;
+using Board.Application.AppData.Contexts.Categories;
 using Board.Application.AppData.Contexts.User;
+using Board.Contracts.Category;
 using Board.Contracts.User;
 using Doska.AppServices.IRepository;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
@@ -27,11 +30,15 @@ namespace Doska.AppServices.Services.User
         public IHttpContextAccessor _httpContextAccessor;
         public readonly IMapper _mapper;
         public readonly ILogger<UserService> _logger;
+        public readonly IMemoryCache _cache;
+
+        private const string UserCachingKey = "User";
+        private const string UserIdCachingKey = "UserId";
 
         public UserService(IHttpContextAccessor httpContextAccessor,IUserRepository userRepository,
             IMapper mapper,IAdRepository adRepository,
             IClaimAcessor acessor,IConfiguration conf,
-            ILogger<UserService> logger)
+            ILogger<UserService> logger,IMemoryCache cache)
         {
             _httpContextAccessor = httpContextAccessor;
             _userRepository = userRepository;
@@ -40,6 +47,7 @@ namespace Doska.AppServices.Services.User
             claimAccessor = acessor;
             _configuration = conf;
             _logger = logger;
+            _cache = cache;
         }
 
         public async Task<Guid> CreateUserAsync(RegisterUserRequest registerUser, CancellationToken cancellation)
@@ -136,23 +144,39 @@ namespace Doska.AppServices.Services.User
         {
             _logger.LogInformation($"Получение id авторизованного пользователя");
 
-            var claim = await claimAccessor.GetClaims(cancellation);
-            var claimId = claim.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
-
-            if (string.IsNullOrWhiteSpace(claimId))
+            if (_cache.TryGetValue(UserIdCachingKey, out Guid result))
             {
-                throw new Exception("Не найдент пользователь с идентификаторром");
+                _logger.LogInformation("Данные получены из кеша");
+                return result;
+            }
+            else
+            {
+                var claim = await claimAccessor.GetClaims(cancellation);
+                var claimId = claim.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
+
+                if (string.IsNullOrWhiteSpace(claimId))
+                {
+                    throw new Exception("Не найдент пользователь с идентификаторром");
+                }
+
+                var id = Guid.Parse(claimId);
+                var user = await _userRepository.FindById(id, cancellation);
+
+                if (user == null)
+                {
+                    throw new Exception($"Не найдент пользователь с идентификаторром {id}");
+                }
+
+                _cache.Set(UserIdCachingKey,
+                   user.Id,
+                   new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromMinutes(5)));
+
+                return user.Id;
+
+               
             }
 
-            var id = Guid.Parse(claimId);
-            var user = await _userRepository.FindById(id, cancellation);
-
-            if (user == null)
-            {
-                throw new Exception($"Не найдент пользователь с идентификаторром {id}");
-            }
-
-            return user.Id;
+            
 
 
         }
