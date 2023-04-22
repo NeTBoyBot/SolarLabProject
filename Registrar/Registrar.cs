@@ -55,6 +55,8 @@ namespace Doska.Registrar
 
             services.AddLogging();
 
+            services.AddMemoryCache();
+
             services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
             services.AddTransient<IAdService, AdService>();
             services.AddTransient<IAdRepository, AdRepository>();

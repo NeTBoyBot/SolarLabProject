@@ -4,6 +4,7 @@ using Board.Contracts.Category;
 using Board.Domain;
 using Doska.AppServices.Services.Categories;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Logging;
 using Microsoft.VisualBasic;
 using System;
@@ -20,12 +21,17 @@ namespace Doska.AppServices.Services.Ad
         public readonly ICategoryRepository _categoryRepository;
         public readonly IMapper _mapper;
         public readonly ILogger<CategoryService> _logger;
+        public readonly IMemoryCache _cache;
 
-        public CategoryService(ICategoryRepository categoryRepository, IMapper mapper, ILogger<CategoryService> logger)
+        private const string CategoriesCachingKey = "Categories";
+
+        public CategoryService(ICategoryRepository categoryRepository, IMapper mapper, ILogger<CategoryService> logger,
+            IMemoryCache cache)
         {
             _categoryRepository = categoryRepository;
             _mapper = mapper;
             _logger = logger;
+            _cache = cache;
         }
 
         public async Task<Guid> CreateCategoryAsync(string categoryname, CancellationToken cancellation)
@@ -67,6 +73,23 @@ namespace Doska.AppServices.Services.Ad
         public async Task<IReadOnlyCollection<InfoCategoryResponse>> GetAll(int take, int skip)
         {
             _logger.LogInformation($"Получение всех категорий");
+
+            if (_cache.TryGetValue(CategoriesCachingKey, out IReadOnlyCollection<InfoCategoryResponse> result))
+            {
+                _logger.LogInformation("Данные получены из кеша");
+                return result;
+            }
+            else
+            {
+                _cache.Set(CategoriesCachingKey,
+                    await _categoryRepository.GetAll()
+                .Select(a => new InfoCategoryResponse
+                {
+                    Id = a.Id,
+                    Name = a.Name
+                }).OrderBy(a => a.Id).Skip(skip).Take(take).ToListAsync(),
+                    new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromMinutes(5)));
+            }
 
             return await _categoryRepository.GetAll()
                 .Select(a => new InfoCategoryResponse

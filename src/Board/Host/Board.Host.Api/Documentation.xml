@@ -67,6 +67,235 @@
             <param name="token"></param>
             <returns></returns>
         </member>
+        <member name="M:Doska.API.Controllers.CategoryController.GetAll(System.Int32,System.Int32)">
+            <summary>
+            Получение всех категорий
+            </summary>
+            <param name="take"></param>
+            <param name="skip"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Doska.API.Controllers.CategoryController.GetCategoryById(System.Guid,System.Threading.CancellationToken)">
+            <summary>
+            Получение категории по Id
+            </summary>
+            <param name="id"></param>
+            <param name="cancellation"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Doska.API.Controllers.CategoryController.CreateCategory(System.String,System.Threading.CancellationToken)">
+            <summary>
+            Создание категории
+            </summary>
+            <param name="categoryname"></param>
+            <param name="cancellation"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Doska.API.Controllers.CategoryController.UpdateCategory(System.Guid,System.String,System.Threading.CancellationToken)">
+            <summary>
+            Обновление категории
+            </summary>
+            <param name="id"></param>
+            <param name="categoryname"></param>
+            <param name="cancellation"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Doska.API.Controllers.CategoryController.DeleteAd(System.Guid,System.Threading.CancellationToken)">
+            <summary>
+            Удаление категории
+            </summary>
+            <param name="id"></param>
+            <param name="cancellation"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Doska.API.Controllers.CommentController.GetAll(System.Int32,System.Int32)">
+            <summary>
+            Получение всеъ комментариев
+            </summary>
+            <param name="take"></param>
+            <param name="skip"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Doska.API.Controllers.CommentController.GetCommentsForUser(System.Guid,System.Threading.CancellationToken)">
+            <summary>
+            Получение всех комментариев авторизованного пользователя
+            </summary>
+            <param name="userId"></param>
+            <param name="cancellation"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Doska.API.Controllers.CommentController.CreateComment(Board.Contracts.Comment.CreateCommentRequest,System.Threading.CancellationToken)">
+            <summary>
+            Создание комментария
+            </summary>
+            <param name="request"></param>
+            <param name="cancellation"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Doska.API.Controllers.CommentController.DeleteComment(System.Guid,System.Threading.CancellationToken)">
+            <summary>
+            Удаление комментария
+            </summary>
+            <param name="id"></param>
+            <param name="cancellation"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Doska.API.Controllers.FavoriteAdController.GetAll(System.Int32,System.Int32)">
+            <summary>
+            Получение всех избранных объявлений
+            </summary>
+            <param name="take"></param>
+            <param name="skip"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Doska.API.Controllers.FavoriteAdController.CreateAd(Board.Contracts.FavoriteAd.CreateFavoriteAdRequest,System.Threading.CancellationToken)">
+            <summary>
+            Добавить объявление в избранное
+            </summary>
+            <param name="request"></param>
+            <param name="cancellation"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Doska.API.Controllers.FavoriteAdController.DeleteAd(System.Guid,Board.Contracts.FavoriteAd.InfoFavoriteAdResponse,System.Threading.CancellationToken)">
+            <summary>
+            Удалить объявление из избранных
+            </summary>
+            <param name="id"></param>
+            <param name="request"></param>
+            <param name="cancellation"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Doska.API.Controllers.FavoriteAdController.GetAllUserFavorites(System.Int32,System.Int32,System.Threading.CancellationToken)">
+            <summary>
+            Получить все избранные объявления авторизованного пользователя
+            </summary>
+            <param name="take"></param>
+            <param name="skip"></param>
+            <param name="token"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Doska.API.Controllers.MessageController.GetAll(System.Int32,System.Int32)">
+            <summary>
+            Получение всех сообщений
+            </summary>
+            <param name="take"></param>
+            <param name="skip"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Doska.API.Controllers.MessageController.CreateMessage(Board.Contracts.Message.CreateMessageRequest,System.Threading.CancellationToken)">
+            <summary>
+            Отправка сообщения
+            </summary>
+            <param name="request"></param>
+            <param name="cancellation"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Doska.API.Controllers.MessageController.DeleteAd(System.Guid,System.Threading.CancellationToken)">
+            <summary>
+            Удаление сообщения
+            </summary>
+            <param name="id"></param>
+            <param name="cancellation"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Doska.API.Controllers.MessageController.GetAllInChat(System.Guid,System.Threading.CancellationToken)">
+            <summary>
+            Получение всех сообщений в чате
+            </summary>
+            <param name="ChatId"></param>
+            <param name="cancellation"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Doska.API.Controllers.UserController.Register(Board.Contracts.User.RegisterUserRequest,Microsoft.AspNetCore.Http.IFormFile,System.Threading.CancellationToken)">
+            <summary>
+            Регистрация пользователя
+            </summary>
+            <param name="request"></param>
+            <param name="file"></param>
+            <param name="token"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Doska.API.Controllers.UserController.login(Board.Contracts.User.LoginUserRequest,System.Threading.CancellationToken)">
+            <summary>
+            Логин пользователя
+            </summary>
+            <param name="request"></param>
+            <param name="Canctoken"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Doska.API.Controllers.UserController.GetAll(System.Int32,System.Int32)">
+            <summary>
+            Получение всех пользователей
+            </summary>
+            <param name="take"></param>
+            <param name="skip"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Doska.API.Controllers.UserController.CreateUser(Board.Contracts.User.RegisterUserRequest,System.Threading.CancellationToken)">
+            <summary>
+            Создание пользователя
+            </summary>
+            <param name="request"></param>
+            <param name="cancellation"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Doska.API.Controllers.UserController.UpdateUser(System.Guid,Board.Contracts.User.RegisterUserRequest,System.Threading.CancellationToken)">
+            <summary>
+            Обновление ифнормации о пользователе
+            </summary>
+            <param name="id"></param>
+            <param name="request"></param>
+            <param name="cancellation"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Doska.API.Controllers.UserController.DeleteUser(System.Guid,System.Threading.CancellationToken)">
+            <summary>
+            Удаление пользователя
+            </summary>
+            <param name="id"></param>
+            <param name="cancellation"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Doska.API.Controllers.UserController.GetCurentUser(System.Threading.CancellationToken)">
+            <summary>
+            Получение авторизованного пользователя
+            </summary>
+            <param name="token"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Doska.API.Controllers.UserController.GetCurentUserId(System.Threading.CancellationToken)">
+            <summary>
+            Получение id авторизованного пользователя
+            </summary>
+            <param name="token"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Doska.API.Controllers.UserController.VerifyUser(System.Guid,System.Int32,System.Threading.CancellationToken)">
+            <summary>
+            Подтверждение аккаунта пользователя
+            </summary>
+            <param name="userId"></param>
+            <param name="Code"></param>
+            <param name="cancellation"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Board.Host.Api.Controllers.FileController.GetAll(System.Int32,System.Int32,System.Threading.CancellationToken)">
+            <summary>
+            Получение всех файлов
+            </summary>
+            <param name="take"></param>
+            <param name="skip"></param>
+            <param name="cancellation"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Board.Host.Api.Controllers.FileController.Upload(Microsoft.AspNetCore.Http.IFormFile,System.Threading.CancellationToken)">
+            <summary>
+            Загрузка файла
+            </summary>
+            <param name="file"></param>
+            <param name="cancellationToken"></param>
+            <returns></returns>
+        </member>
         <member name="M:Board.Host.Api.Controllers.FileController.Download(System.Guid,System.Threading.CancellationToken)">
             <summary>
             Скачивание файла по идентификатору.
@@ -76,6 +305,14 @@
             <response code="200">Запрос выполнен успешно.</response>
             <response code="404">Файл с указанным идентификатором не найден.</response>
             <returns>Файл в виде потока.</returns>
+        </member>
+        <member name="M:Board.Host.Api.Controllers.FileController.GetBytesAsync(Microsoft.AspNetCore.Http.IFormFile,System.Threading.CancellationToken)">
+            <summary>
+            Получить массив байтов из файла
+            </summary>
+            <param name="file"></param>
+            <param name="cancellationToken"></param>
+            <returns></returns>
         </member>
     </members>
 </doc>
