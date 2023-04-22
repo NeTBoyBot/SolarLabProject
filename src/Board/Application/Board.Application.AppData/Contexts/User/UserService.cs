@@ -5,7 +5,9 @@ using Doska.AppServices.IRepository;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
+using Org.BouncyCastle.Bcpg;
 using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
@@ -24,8 +26,12 @@ namespace Doska.AppServices.Services.User
         public IClaimAcessor claimAccessor;
         public IHttpContextAccessor _httpContextAccessor;
         public readonly IMapper _mapper;
+        public readonly ILogger<UserService> _logger;
 
-        public UserService(IHttpContextAccessor httpContextAccessor,IUserRepository userRepository, IMapper mapper,IAdRepository adRepository,IClaimAcessor acessor,IConfiguration conf)
+        public UserService(IHttpContextAccessor httpContextAccessor,IUserRepository userRepository,
+            IMapper mapper,IAdRepository adRepository,
+            IClaimAcessor acessor,IConfiguration conf,
+            ILogger<UserService> logger)
         {
             _httpContextAccessor = httpContextAccessor;
             _userRepository = userRepository;
@@ -33,10 +39,13 @@ namespace Doska.AppServices.Services.User
             _adRepository = adRepository;
             claimAccessor = acessor;
             _configuration = conf;
+            _logger = logger;
         }
 
         public async Task<Guid> CreateUserAsync(RegisterUserRequest registerUser, CancellationToken cancellation)
         {
+            _logger.LogInformation($"Создание пользователя");
+
             var newUser = _mapper.Map<Board.Domain.User>(registerUser);
             await _userRepository.AddAsync(newUser,cancellation);
 
@@ -45,12 +54,16 @@ namespace Doska.AppServices.Services.User
 
         public async Task DeleteAsync(Guid id, CancellationToken cancellation)
         {
+            _logger.LogInformation($"Удаление пользователя под id {id}");
+
             var existingUser = await _userRepository.FindById(id,cancellation);
             await _userRepository.DeleteAsync(existingUser,cancellation);
         }
 
         public async Task<InfoUserResponse> EditUserAsync(Guid Id, RegisterUserRequest editUser, CancellationToken cancellation)
         {
+            _logger.LogInformation($"Изменение пользователя под id {Id}");
+
             var existingUser = await _userRepository.FindById(Id,cancellation);
             await _userRepository.EditUserAsync(_mapper.Map(editUser, existingUser),cancellation);
 
@@ -59,6 +72,8 @@ namespace Doska.AppServices.Services.User
 
         public async Task<IReadOnlyCollection<InfoUserResponse>> GetAll(int take, int skip)
         {
+            _logger.LogInformation($"Получение всех пользователей");
+
             return await _userRepository.GetAll()
                 .Select(a => new InfoUserResponse
                 {
@@ -75,14 +90,15 @@ namespace Doska.AppServices.Services.User
 
         public async Task<InfoUserResponse> GetByIdAsync(Guid id, CancellationToken cancellation)
         {
+            _logger.LogInformation($"Получение пользователя под id {id}");
+
             var existingUser = await _userRepository.FindById(id,cancellation);
             return _mapper.Map<InfoUserResponse>(existingUser);
         }
 
         public async Task<InfoUserResponse> GetCurrentUser(CancellationToken cancellation)
         {
-
-           
+            _logger.LogInformation($"Получение авторизованного пользователя");
 
             var claims = _httpContextAccessor.HttpContext.User.Claims;
             var claimId = claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
@@ -118,6 +134,8 @@ namespace Doska.AppServices.Services.User
 
         public async Task<Guid> GetCurrentUserId(CancellationToken cancellation)
         {
+            _logger.LogInformation($"Получение id авторизованного пользователя");
+
             var claim = await claimAccessor.GetClaims(cancellation);
             var claimId = claim.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
 
@@ -141,6 +159,8 @@ namespace Doska.AppServices.Services.User
 
         public async Task<string> Login(LoginUserRequest LoginUserRequest, CancellationToken cancellationToken)
         {
+            _logger.LogInformation($"Авторизация пользователя");
+
             var existingUser = await _userRepository.FindWhere(user => user.Email == LoginUserRequest.Email,cancellationToken); 
 
             if (existingUser == null)
@@ -181,6 +201,8 @@ namespace Doska.AppServices.Services.User
 
         public async Task<RegisterUserResponse> Register(RegisterUserRequest RegisterUserRequest,byte[] file, CancellationToken cancellation)
         {
+            _logger.LogInformation($"Регистрация пользователя");
+
             var user = _mapper.Map<Board.Domain.User>(RegisterUserRequest);
             user.IsVerified = false;
             user.VerificationCode = new Random().Next(1, 10000);
@@ -199,6 +221,8 @@ namespace Doska.AppServices.Services.User
 
         public async Task<string> VerifyUserAsync(Guid id, int VerificationCode, CancellationToken cancellationToken)
         {
+            _logger.LogInformation($"Подтверждение аккаунта под id {id}");
+
             var user = await _userRepository.FindById(id,cancellationToken);
 
             if (user.IsVerified)
@@ -215,6 +239,7 @@ namespace Doska.AppServices.Services.User
 
         public async Task<bool> IsUserVerified(CancellationToken cancellation)
         {
+
             var claim = await claimAccessor.GetClaims(cancellation);
             var claimId = claim.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
 
@@ -225,6 +250,8 @@ namespace Doska.AppServices.Services.User
 
             var id = Guid.Parse(claimId);
             var user = await _userRepository.FindById(id, cancellation);
+
+            _logger.LogInformation($"Проверка верификации аккаунта под id{id}");
 
             if (user == null)
             {
