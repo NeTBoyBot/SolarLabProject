@@ -92,7 +92,12 @@ namespace Doska.AppServices.Services.User
                     Email = a.Email,
                     Phone = a.Phone,
                     Region = a.Region,
-                    Language = a.Language
+                    Language = a.Language,
+                    Photos = a.Photos.Select(p=>new Board.Contracts.Photo.AdPhoto.InfoUserPhotoResponse
+                    {
+                        Id=p.Id,
+                        UserId=p.UserId
+                    }).ToList()
                 }).OrderBy(a => a.Id).Skip(skip).Take(take).ToListAsync();
         }
 
@@ -223,7 +228,7 @@ namespace Doska.AppServices.Services.User
             return result;
         }
 
-        public async Task<RegisterUserResponse> Register(RegisterUserRequest RegisterUserRequest,byte[] file, CancellationToken cancellation)
+        public async Task<RegisterUserResponse> Register(RegisterUserRequest RegisterUserRequest, CancellationToken cancellation)
         {
             _logger.LogInformation($"Регистрация пользователя");
 
@@ -233,7 +238,7 @@ namespace Doska.AppServices.Services.User
             user.CreationTime = DateTime.Now.ToUniversalTime();
       
             var existinguser = await _userRepository.FindWhere(user => user.UserName == RegisterUserRequest.UserName, cancellation);
-            user.KodBase64 = Convert.ToBase64String(file);
+            //user.KodBase64 = Convert.ToBase64String(file);
             if (existinguser != null)
             {
                 throw new Exception($"Такой пользователь уже существует!");

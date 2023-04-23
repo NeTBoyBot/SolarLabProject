@@ -206,7 +206,7 @@
             <param name="cancellation"></param>
             <returns></returns>
         </member>
-        <member name="M:Doska.API.Controllers.UserController.Register(Board.Contracts.User.RegisterUserRequest,Microsoft.AspNetCore.Http.IFormFile,System.Threading.CancellationToken)">
+        <member name="M:Doska.API.Controllers.UserController.Register(Board.Contracts.User.RegisterUserRequest,System.Threading.CancellationToken)">
             <summary>
             Регистрация пользователя
             </summary>

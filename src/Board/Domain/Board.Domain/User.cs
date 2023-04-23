@@ -3,11 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Board.Domain.Photos;
 
 namespace Board.Domain
 {
     public class User
     {
+        #region userdata
         /// <summary>
         /// ID Пользователя
         /// </summary>
@@ -47,7 +49,9 @@ namespace Board.Domain
         /// Дата создания аккаунта
         /// </summary>
         public DateTime CreationTime { get; set; }
+        #endregion
 
+        #region collections
         /// <summary>
         /// Объявления принадлежащие пользователю
         /// </summary>
@@ -80,10 +84,12 @@ namespace Board.Domain
         public ICollection<Comment> RecievedComments { get; set; }
 
         /// <summary>
-        /// Представление фотографии пользователя в виде строки
+        /// Фотографии пользователя
         /// </summary>
-        public string KodBase64 { get; set; }
+        public ICollection<UserPhoto> Photos { get; set; }
+        #endregion
 
+        #region verification
         /// <summary>
         /// Является ли аккаунт пользователя подтверждённым
         /// </summary>
@@ -93,5 +99,6 @@ namespace Board.Domain
         /// Код для подтверждения аккаунта пользователя
         /// </summary>
         public int VerificationCode { get; set; }
+        #endregion
     }
 }

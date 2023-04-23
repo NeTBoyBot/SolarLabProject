@@ -3,6 +3,7 @@ using System;
 using Board.Host.DbMigrator;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Board.Host.DbMigrator.Migrations
 {
     [DbContext(typeof(MigrationDbContext))]
-    partial class MigrationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230423051316_addphotos")]
+    partial class addphotos
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -183,13 +186,13 @@ namespace Board.Host.DbMigrator.Migrations
                     b.ToTable("Message");
                 });
 
-            modelBuilder.Entity("Board.Domain.Photos.AdPhoto", b =>
+            modelBuilder.Entity("Board.Domain.Photo", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
-                    b.Property<Guid>("AdId")
+                    b.Property<Guid?>("AdId")
                         .HasColumnType("uuid");
 
                     b.Property<string>("Base64")
@@ -199,26 +202,7 @@ namespace Board.Host.DbMigrator.Migrations
 
                     b.HasIndex("AdId");
 
-                    b.ToTable("AdPhoto");
-                });
-
-            modelBuilder.Entity("Board.Domain.Photos.UserPhoto", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
-
-                    b.Property<string>("Base64")
-                        .HasColumnType("text");
-
-                    b.Property<Guid>("UserId")
-                        .HasColumnType("uuid");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("UserPhoto");
+                    b.ToTable("Photo");
                 });
 
             modelBuilder.Entity("Board.Domain.User", b =>
@@ -247,6 +231,9 @@ namespace Board.Host.DbMigrator.Migrations
                     b.Property<string>("Phone")
                         .HasColumnType("text");
 
+                    b.Property<Guid?>("PhotoId")
+                        .HasColumnType("uuid");
+
                     b.Property<string>("Region")
                         .HasColumnType("text");
 
@@ -259,6 +246,8 @@ namespace Board.Host.DbMigrator.Migrations
                         .HasColumnType("integer");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("PhotoId");
 
                     b.ToTable("User");
                 });
@@ -348,26 +337,20 @@ namespace Board.Host.DbMigrator.Migrations
                     b.Navigation("Sender");
                 });
 
-            modelBuilder.Entity("Board.Domain.Photos.AdPhoto", b =>
+            modelBuilder.Entity("Board.Domain.Photo", b =>
                 {
-                    b.HasOne("Board.Domain.Ad", "Ad")
+                    b.HasOne("Board.Domain.Ad", null)
                         .WithMany("Photos")
-                        .HasForeignKey("AdId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Ad");
+                        .HasForeignKey("AdId");
                 });
 
-            modelBuilder.Entity("Board.Domain.Photos.UserPhoto", b =>
+            modelBuilder.Entity("Board.Domain.User", b =>
                 {
-                    b.HasOne("Board.Domain.User", "User")
-                        .WithMany("Photos")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.HasOne("Board.Domain.Photo", "Photo")
+                        .WithMany()
+                        .HasForeignKey("PhotoId");
 
-                    b.Navigation("User");
+                    b.Navigation("Photo");
                 });
 
             modelBuilder.Entity("Board.Domain.Ad", b =>
@@ -380,8 +363,6 @@ namespace Board.Host.DbMigrator.Migrations
                     b.Navigation("Ads");
 
                     b.Navigation("FavoriteAds");
-
-                    b.Navigation("Photos");
 
                     b.Navigation("RecievedComments");
 

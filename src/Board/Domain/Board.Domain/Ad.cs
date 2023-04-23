@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Board.Domain.Photos;
 
 namespace Board.Domain
 {
@@ -57,5 +58,10 @@ namespace Board.Domain
         /// Язык объявления
         /// </summary>
         public string Language { get; set; }
+
+        /// <summary>
+        /// Фотографии объявления
+        /// </summary>
+        public ICollection<AdPhoto> Photos { get; set; }
     }
 }

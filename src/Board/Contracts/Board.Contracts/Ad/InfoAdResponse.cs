@@ -1,4 +1,5 @@
 ﻿using Board.Contracts.Category;
+using Board.Contracts.Photo.AdPhoto;
 using Board.Contracts.User;
 using System;
 using System.Collections.Generic;
@@ -45,6 +46,9 @@ namespace Board.Contracts.Ad
         /// </summary>
         public InfoCategoryResponse Category { get; set; }
 
-
+        /// <summary>
+        /// Фотографии объявления
+        /// </summary>
+        public ICollection<InfoAdPhotoResponse> Photos { get; set; }
     }
 }

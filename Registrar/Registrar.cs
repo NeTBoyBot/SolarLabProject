@@ -31,6 +31,11 @@ using Board.Application.AppData.Contexts.User;
 using Board.Application.AppData.Contexts.File;
 using Board.Infrastucture.DataAccess.Contexts.File;
 using Board.Application.AppData.Contexts.Translator;
+using Board.Application.AppData.Contexts.Photo.AdPhoto;
+using Board.Infrastucture.DataAccess.Contexts.Photo.AdPhoto;
+using Board.Infrastucture.DataAccess.Contexts.Photo.UserPhoto;
+using Board.Application.AppData.Contexts.Photo.UserPhoto;
+using Board.Application.AppData.Contexts.Photo;
 
 namespace Doska.Registrar
 {
@@ -78,6 +83,11 @@ namespace Doska.Registrar
 
             services.AddTransient<IFileService, FileService>();
             services.AddTransient<IFileRepository, FileRepository>();
+
+            services.AddTransient<IAdPhotoRepository, AdPhotoRepository>();
+            services.AddTransient<IUserPhotoRepository, UserPhotoRepository>();
+
+            services.AddTransient<IPhotoService, PhotoService>();
 
             services.AddTransient<IMailService, MailService>();
 

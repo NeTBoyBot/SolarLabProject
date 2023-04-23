@@ -5,6 +5,7 @@ using Board.Host.DbMigrator;
 using Board.Infrastucture.DataAccess;
 using Board.Infrastucture.DataAccess.Interfaces;
 using Board.Infrastucture.MapProfiles;
+using Board.Infrastucture.MapProfiles.Photos;
 using Board.Infrastucture.Repository;
 using Doska.AppServices.MapProfile;
 using Doska.Registrar;
@@ -141,6 +142,8 @@ static MapperConfiguration GetMapperConfiguration()
         cfg.AddProfile<MessageMapProfile>();
         cfg.AddProfile<UserMapProfile>();
         cfg.AddProfile<FileMapProfile>();
+        cfg.AddProfile<UserPhotoProfile>();
+        cfg.AddProfile<AdPhotoProfile>();
     });
     //configuration.AssertConfigurationIsValid();
     return configuration;

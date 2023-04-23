@@ -99,7 +99,12 @@ namespace Doska.AppServices.Services.Ad
                     Name = a.Name,
                     Desc = a.Desc,
                     CreationDate = a.CreationDate,
-                    Price = a.Price
+                    Price = a.Price,
+                    Photos = a.Photos.Select(p=>new Board.Contracts.Photo.AdPhoto.InfoAdPhotoResponse
+                    {
+                        AdId = p.AdId,
+                        Id = p.Id,
+                    }).ToList()
                 }).OrderBy(a => a.CreationDate).Skip(skip).Take(take).ToListAsync();
         }
 

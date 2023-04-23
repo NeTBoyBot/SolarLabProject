@@ -15,7 +15,7 @@ namespace Doska.AppServices.Services.User
         /// </summary>
         /// <param name="RegisterUserRequest"> Дто с логином, паролем, почтой и регионом</param>
         /// <returns></returns>
-        public Task<RegisterUserResponse> Register(RegisterUserRequest RegisterUserRequest, byte[] file,CancellationToken cancellationToken);
+        public Task<RegisterUserResponse> Register(RegisterUserRequest RegisterUserRequest,CancellationToken cancellationToken);
 
         /// <summary>
         /// Логин пользователя

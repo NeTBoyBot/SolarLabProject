@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Board.Contracts.Photo.AdPhoto;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -47,5 +48,10 @@ namespace Board.Contracts.User
         /// Язык пользователя
         /// </summary>
         public string Language { get; set; }
+
+        /// <summary>
+        /// Фотографии пользователя
+        /// </summary>
+        public ICollection<InfoUserPhotoResponse> Photos { get; set; }
     }
 }

@@ -30,18 +30,12 @@ namespace Doska.API.Controllers
         /// <returns></returns>
         [HttpPost("/Register")]
         [ProducesResponseType(StatusCodes.Status201Created)]
-        public async Task<IActionResult> Register(RegisterUserRequest request,IFormFile file, CancellationToken token)
+        public async Task<IActionResult> Register(RegisterUserRequest request, CancellationToken token)
         {
-            byte[] photo;
-            await using (var ms = new MemoryStream())
-            await using (var fs = file.OpenReadStream())
-            {
-                await fs.CopyToAsync(ms);
-                photo = ms.ToArray();
-            }
+            var user = await _userService.Register(request, token);
 
-            var user = await _userService.Register(request,photo, token);
             await _mailService.SendVerificationCodeAsync(user.Id,request.Email,user.VerificationCode, token);
+
             return Created("",user);
         }
 
