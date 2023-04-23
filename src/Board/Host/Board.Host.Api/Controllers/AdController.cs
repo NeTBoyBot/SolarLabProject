@@ -1,4 +1,5 @@
-﻿using Board.Contracts.Ad;
+﻿using Board.Application.AppData.Contexts.Photo;
+using Board.Contracts.Ad;
 using Doska.AppServices.Services.Ad;
 using Doska.AppServices.Services.User;
 using Microsoft.AspNetCore.Authorization;
@@ -9,15 +10,17 @@ using System.Security.Cryptography.X509Certificates;
 namespace Doska.API.Controllers
 {
     //TODO Test Authorize Attribute
-    [ApiController]
+    //[ApiController]
     public class AdController : ControllerBase
     {
-        public IAdService _adService;
-        public IUserService _userService;
-        public AdController(IAdService adService,IUserService userService)
+        public readonly IAdService _adService;
+        public readonly IUserService _userService;
+        public readonly IPhotoService _photoService;
+        public AdController(IAdService adService,IUserService userService, IPhotoService photoService)
         {
             _adService = adService;
             _userService = userService;
+            _photoService = photoService;
         }
         /// <summary>
         /// Получение списка всех объявлений
@@ -78,16 +81,27 @@ namespace Doska.API.Controllers
         /// <exception cref="Exception"></exception>
         [HttpPost("/createAd")]
         [ProducesResponseType(typeof(IReadOnlyCollection<InfoAdResponse>), (int)HttpStatusCode.Created)]
-        public async Task<IActionResult> CreateAd(CreateAdRequest request,CancellationToken cancellation)
+        public async Task<IActionResult> CreateAd(CreateAdRequest request, List<IFormFile> Photos ,CancellationToken cancellation)
         {
             if (!await _userService.IsUserVerified(cancellation))
                 throw new Exception("Аккаунт пользователя не подтверждён!");
 
             var user = await _userService.GetCurrentUser(cancellation);
 
-            
-
             var result = await _adService.CreateAdAsync(user.Id,user.Language,request,cancellation);
+
+            foreach(var file in Photos)
+            {
+                byte[] photo;
+                await using (var ms = new MemoryStream())
+                await using (var fs = file.OpenReadStream())
+                {
+                    await fs.CopyToAsync(ms);
+                    photo = ms.ToArray();
+                }
+
+                await _photoService.CreateAdPhotoAsync(result,photo,cancellation);
+            }
 
             return Created("",result);
         }

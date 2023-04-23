@@ -1,5 +1,6 @@
 ﻿
 using Board.Application.AppData.Contexts.Mail;
+using Board.Application.AppData.Contexts.Photo;
 using Board.Contracts.User;
 using Doska.AppServices.Services.User;
 using Microsoft.AspNetCore.Authorization;
@@ -13,12 +14,15 @@ namespace Doska.API.Controllers
     //[ApiController]
     public class UserController : ControllerBase
     {
-        IUserService _userService;
-        IMailService _mailService;
-        public UserController(IUserService userService, IMailService mailService)
+        public readonly IUserService _userService;
+        public readonly IMailService _mailService;
+        public readonly IPhotoService _photoService;
+
+        public UserController(IUserService userService, IMailService mailService,IPhotoService photoService)
         {
             _userService = userService;
             _mailService = mailService;
+            _photoService = photoService;
         }
 
         /// <summary>
@@ -30,11 +34,21 @@ namespace Doska.API.Controllers
         /// <returns></returns>
         [HttpPost("/Register")]
         [ProducesResponseType(StatusCodes.Status201Created)]
-        public async Task<IActionResult> Register(RegisterUserRequest request, CancellationToken token)
+        public async Task<IActionResult> Register(RegisterUserRequest request,IFormFile file, CancellationToken token)
         {
             var user = await _userService.Register(request, token);
 
-            await _mailService.SendVerificationCodeAsync(user.Id,request.Email,user.VerificationCode, token);
+            byte[] photo;
+            await using (var ms = new MemoryStream())
+            await using (var fs = file.OpenReadStream())
+            {
+                await fs.CopyToAsync(ms);
+                photo = ms.ToArray();
+            }
+
+            await _mailService.SendVerificationCodeAsync(user.Id, request.Email, user.VerificationCode, token);
+
+            await _photoService.CreateUserPhotoAsync(user.Id, photo, token);
 
             return Created("",user);
         }

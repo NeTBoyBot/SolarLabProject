@@ -1,4 +1,5 @@
 ﻿using Board.Contracts.User;
+using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -33,5 +34,8 @@ namespace Board.Contracts.Ad
         /// </summary>
         [Required]
         public Guid CategoryId { get; set; }
+
+        
+       
     }
 }

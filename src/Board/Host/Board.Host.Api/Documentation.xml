@@ -30,7 +30,7 @@
             <param name="categoryId"></param>
             <returns></returns>
         </member>
-        <member name="M:Doska.API.Controllers.AdController.CreateAd(Board.Contracts.Ad.CreateAdRequest,System.Threading.CancellationToken)">
+        <member name="M:Doska.API.Controllers.AdController.CreateAd(Board.Contracts.Ad.CreateAdRequest,System.Collections.Generic.List{Microsoft.AspNetCore.Http.IFormFile},System.Threading.CancellationToken)">
             <summary>
             Создание объявления
             </summary>
@@ -206,7 +206,7 @@
             <param name="cancellation"></param>
             <returns></returns>
         </member>
-        <member name="M:Doska.API.Controllers.UserController.Register(Board.Contracts.User.RegisterUserRequest,System.Threading.CancellationToken)">
+        <member name="M:Doska.API.Controllers.UserController.Register(Board.Contracts.User.RegisterUserRequest,Microsoft.AspNetCore.Http.IFormFile,System.Threading.CancellationToken)">
             <summary>
             Регистрация пользователя
             </summary>
@@ -312,6 +312,74 @@
             </summary>
             <param name="file"></param>
             <param name="cancellationToken"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Board.Host.Api.Controllers.PhotoController.GetAllUserPhotos(System.Int32,System.Int32,System.Threading.CancellationToken)">
+            <summary>
+            Получение всех фото пользователей
+            </summary>
+            <param name="take"></param>
+            <param name="skip"></param>
+            <param name="cancellation"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Board.Host.Api.Controllers.PhotoController.GetAllAdPhotos(System.Int32,System.Int32,System.Threading.CancellationToken)">
+            <summary>
+            Получение всех фото объявлений
+            </summary>
+            <param name="take"></param>
+            <param name="skip"></param>
+            <param name="cancellation"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Board.Host.Api.Controllers.PhotoController.UploadUserPhoto(System.Guid,Microsoft.AspNetCore.Http.IFormFile,System.Threading.CancellationToken)">
+            <summary>
+            Загрузка фото пользователя
+            </summary>
+            <param name="UserId"></param>
+            <param name="file"></param>
+            <param name="cancellation"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Board.Host.Api.Controllers.PhotoController.UploadAdPhoto(System.Guid,Microsoft.AspNetCore.Http.IFormFile,System.Threading.CancellationToken)">
+            <summary>
+            Загрузка фото объявления
+            </summary>
+            <param name="AdId"></param>
+            <param name="file"></param>
+            <param name="cancellation"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Board.Host.Api.Controllers.PhotoController.DeleteAdPhoto(System.Guid,System.Threading.CancellationToken)">
+            <summary>
+            Удаление фото объявления
+            </summary>
+            <param name="Id"></param>
+            <param name="cancellation"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Board.Host.Api.Controllers.PhotoController.DeleteUserPhoto(System.Guid,System.Threading.CancellationToken)">
+            <summary>
+            Удаление фото пользователя
+            </summary>
+            <param name="Id"></param>
+            <param name="cancellation"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Board.Host.Api.Controllers.PhotoController.GetUserPhotoById(System.Guid,System.Threading.CancellationToken)">
+            <summary>
+            Получение фото пользователя по Id
+            </summary>
+            <param name="Id"></param>
+            <param name="cancellation"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Board.Host.Api.Controllers.PhotoController.GetAdPhotoById(System.Guid,System.Threading.CancellationToken)">
+            <summary>
+            Получение фото объявления по Id
+            </summary>
+            <param name="Id"></param>
+            <param name="cancellation"></param>
             <returns></returns>
         </member>
     </members>
