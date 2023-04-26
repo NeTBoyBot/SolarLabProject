@@ -9,7 +9,6 @@ namespace Board.Application.AppData.Contexts.Translator
 {
     public class TranslatorService : ITranslatorService
     {
-
         public string Translate(string from, string to, string message)
         {
             var translator = new GTranslatorAPIClient();

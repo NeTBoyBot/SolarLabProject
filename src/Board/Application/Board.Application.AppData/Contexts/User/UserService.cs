@@ -177,13 +177,7 @@ namespace Doska.AppServices.Services.User
                    new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromMinutes(5)));
 
                 return user.Id;
-
-               
             }
-
-            
-
-
         }
 
         public async Task<string> Login(LoginUserRequest LoginUserRequest, CancellationToken cancellationToken)
@@ -201,7 +195,6 @@ namespace Doska.AppServices.Services.User
             {
                 throw new Exception($"Указан неверный логин или пароль");
             }
-
 
             var claims = new List<Claim>
             {
@@ -268,7 +261,6 @@ namespace Doska.AppServices.Services.User
 
         public async Task<bool> IsUserVerified(CancellationToken cancellation)
         {
-
             var claim = await claimAccessor.GetClaims(cancellation);
             var claimId = claim.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
 

@@ -20,7 +20,6 @@ namespace Board.Application.AppData.Contexts.File
         {
             _fileRepository = fileRepository;
             _mapper = mapper;
-            
         }
 
         public async Task<Guid> CreateFileAsync(CreateFileRequest createAd, CancellationToken cancellation)
@@ -48,8 +47,6 @@ namespace Board.Application.AppData.Contexts.File
                     Name = a.Name
                 }).OrderBy(a => a.Id).Skip(skip).Take(take).ToListAsync();
         }
-
-     
 
         public async Task<InfoFileResponse> GetByIdAsync(Guid id, CancellationToken cancellation)
         {

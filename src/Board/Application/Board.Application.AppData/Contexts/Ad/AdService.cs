@@ -100,10 +100,26 @@ namespace Doska.AppServices.Services.Ad
                     Desc = a.Desc,
                     CreationDate = a.CreationDate,
                     Price = a.Price,
-                    Photos = a.Photos.Select(p=>new Board.Contracts.Photo.AdPhoto.InfoAdPhotoResponse
+                    Category = new Board.Contracts.Category.InfoCategoryResponse
+                    {
+                        Id = a.Category.Id,
+                        Name = a.Category.Name
+                    },
+                    Owner = new Board.Contracts.User.InfoUserResponse
+                    {
+                        UserName = a.Owner.UserName,
+                        Id = a.Owner.Id,
+                        CreationTime = a.Owner.CreationTime,
+                        Email = a.Owner.Email,
+                        IsVerified = a.Owner.IsVerified,
+                        Language = a.Owner.Language,
+                        Phone = a.Owner.Phone,
+                        Region = a.Owner.Region
+                    },
+                    Photos = a.Photos.Select(p => new Board.Contracts.Photo.AdPhoto.InfoAdPhotoResponse
                     {
                         AdId = p.AdId,
-                        Id = p.Id,
+                        Id = p.Id
                     }).ToList()
                 }).OrderBy(a => a.CreationDate).Skip(skip).Take(take).ToListAsync();
         }
@@ -119,7 +135,28 @@ namespace Doska.AppServices.Services.Ad
                     Name = _translatorService.Translate(a.Language,lang, a.Name),
                     Desc = _translatorService.Translate(a.Language, lang, a.Desc),
                     CreationDate = a.CreationDate,
-                    Price = a.Price
+                    Price = a.Price,
+                    Category = new Board.Contracts.Category.InfoCategoryResponse
+                    {
+                        Id = a.Category.Id,
+                        Name = a.Category.Name
+                    },
+                    Owner = new Board.Contracts.User.InfoUserResponse
+                    {
+                        UserName = a.Owner.UserName,
+                        Id = a.Owner.Id,
+                        CreationTime = a.Owner.CreationTime,
+                        Email = a.Owner.Email,
+                        IsVerified = a.Owner.IsVerified,
+                        Language = a.Owner.Language,
+                        Phone = a.Owner.Phone,
+                        Region = a.Owner.Region
+                    },
+                    Photos = a.Photos.Select(p => new Board.Contracts.Photo.AdPhoto.InfoAdPhotoResponse
+                    {
+                        AdId = p.AdId,
+                        Id = p.Id,
+                    }).ToList()
                 }).OrderBy(a => a.CreationDate).Skip(skip).Take(take).ToListAsync();
         }
 

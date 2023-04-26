@@ -35,7 +35,6 @@ namespace Doska.AppServices.Services.Message
             var existingMessage = await _messageRepository.FindById(id,cancellation);
             await _messageRepository.DeleteAsync(existingMessage,cancellation);
         }
-
         public async Task<IReadOnlyCollection<InfoMessageResponse>> GetAll(int take, int skip)
         {
             return await _messageRepository.GetAll()
@@ -53,7 +52,6 @@ namespace Doska.AppServices.Services.Message
                         UserName = a.Reciever.UserName,
                         Id = a.Reciever.Id
                     }
-
                 }).OrderBy(a => a.Id).Skip(skip).Take(take).ToListAsync();
         }
 

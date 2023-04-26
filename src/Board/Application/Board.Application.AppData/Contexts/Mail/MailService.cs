@@ -35,7 +35,6 @@ namespace Board.Application.AppData.Contexts.Mail
             var message = $"Your verification link is: <a href='{url}'>link</a>";
             try
             {
-                
                 using var emailMessage = new MimeMessage();
 
                 emailMessage.From.Add(new MailboxAddress("Solar", _configuration["Mail:Address"]));
@@ -61,7 +60,6 @@ namespace Board.Application.AppData.Contexts.Mail
                     Subject = "",
                     Data = subject,
                     IsSuccesfullySended = true
-
                 };
             }
             catch
