@@ -1,73 +1,28 @@
 ﻿@page
-
-<script>
-    function continueToChat()
-    {
-        $('#spn-username').text($('#username').val());
-        $('#entrance').hide();
-        $('#chat').show();
-    }
-
-</script>
-
-
-<div class="from-group">
-    &nbsp;
+<div class="container">
+    <div class="row p-1">
+        <div class="col-1">User</div>
+        <div class="col-5"><input type="text" id="userInput" /></div>
+    </div>
+    <div class="row p-1">
+        <div class="col-1">Message</div>
+        <div class="col-5"><input type="text" class="w-100" id="messageInput" /></div>
+    </div> 
+    <div class="row p-1">
+        <div class="col-6 text-end">
+            <input type="button" id="sendButton" value="Send Message" />
+        </div>
+    </div>
+    <div class="row p-1">
+        <div class="col-6">
+            <hr />
+        </div>
+    </div>
+    <div class="row p-1">
+        <div class="col-6">
+            <ul id="messagesList"></ul>
+        </div>
+    </div>
 </div>
-
-<div id="entrance">
-    <label for="username">Введите имя пользователя:</label>
-    <input type="text" id="username"/>
-    <button onclick="continueToChat()">Продолжить</button>
-</div>
-
-<div id="chat" style="display: none">
-    <h3 id="spn-username"></h3>
-    <form id="frm-send-message" action="#">
-        <label for="message">Текст сообщения:</label>
-        <input type="text" id="message"/>
-        <input type="submit" id="send" value="Отправить" class="send"/>
-    </form>
-    <div class="clear"></div>
-    <ul id="messages"></ul>
-</div>
-
-<script src="~/lib/signalr/signalr.min.js"></script>
-
-<script>
-
-    const connection = new signalR.HubConnectionBuilder().withUrl("/Chat").build();
-
-    connection.start().catch(err => connection.error(err.toString()));
-
-    connection.on('Send', (username, message) =>{
-        appendLine(username, message);
-    });
-
-    document.getElementById('frm-send-message').addEventListener('submit',event => {
-        let message = $('#message').val();
-        let username = $('#username').val();
-
-        $('#message').val('');
-
-        connection.invoke('Send',username,message);
-        event.preventDefault();
-    });
-
-
-    function appendLine(username,message, color){
-
-        let nameElement =document.createElement('strong');
-        nameElement.innerText = `${username}:`;
-        
-        let msgElement = document.createElement('em');
-        nameElement.innerText = `${message}:`;
-
-        let li = document.createElement('li');
-        li.appendChild(nameElement);
-        li.appendChild(msgElement);
-
-        $('#message').append(li);
-    }
-
-</script>
+<script src="~/lib/signalr/signalr.js"></script>
+<script src="~/js/chat.js"></script>
