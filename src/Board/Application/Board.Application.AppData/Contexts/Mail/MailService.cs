@@ -27,6 +27,53 @@ namespace Board.Application.AppData.Contexts.Mail
             _configuration = configuration;
         }
 
+        public async Task<InfoMailResponse> SendChangePasswordLinkAsync(Guid userId, string newpass,string email, CancellationToken cancellation)
+        {
+            var subject = "Change password mail";
+            var url = $"https://localhost:5001/updatePassword?id={userId}&newpass={newpass}";
+            var message = $"Your change passowrd link is: <a href='{url}'>link</a>";
+            try
+            {
+                using var emailMessage = new MimeMessage();
+
+                emailMessage.From.Add(new MailboxAddress("Solar", _configuration["Mail:Address"]));
+                emailMessage.To.Add(new MailboxAddress("", email));
+                emailMessage.Subject = subject;
+                emailMessage.Body = new TextPart(MimeKit.Text.TextFormat.Html)
+                {
+                    Text = message
+                };
+
+                using (var client = new SmtpClient())
+                {
+                    await client.ConnectAsync("smtp.mail.ru", 587, false);
+                    await client.AuthenticateAsync(_configuration["Mail:Address"], _configuration["Mail:Pass"]);
+                    await client.SendAsync(emailMessage);
+
+                    await client.DisconnectAsync(true);
+                }
+                return new InfoMailResponse
+                {
+                    SenderMail = _configuration["Mail:Address"],
+                    RecieverMail = email,
+                    Subject = "",
+                    Data = subject,
+                    IsSuccesfullySended = true
+                };
+            }
+            catch
+            {
+                return new InfoMailResponse
+                {
+                    SenderMail = _configuration["Mail:Address"],
+                    RecieverMail = email,
+                    Subject = subject,
+                    Data = message,
+                    IsSuccesfullySended = false
+                };
+            }
+        }
+
         public async Task<InfoMailResponse> SendVerificationCodeAsync(Guid userId,string email,int Code,CancellationToken cancellation)
         {
             //var currentUser = await _userRepository.FindById((await _userService.GetCurrentUser(cancellation)).Id,cancellation);
@@ -74,5 +121,7 @@ namespace Board.Application.AppData.Contexts.Mail
                 };
             }
         }
+
+
     }
 }

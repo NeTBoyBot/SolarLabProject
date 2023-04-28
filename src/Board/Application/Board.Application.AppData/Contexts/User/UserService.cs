@@ -68,6 +68,16 @@ namespace Doska.AppServices.Services.User
             await _userRepository.DeleteAsync(existingUser,cancellation);
         }
 
+        public async Task<InfoUserResponse> ChangeUserPassword(Guid Id,string newpass,CancellationToken cancellation)
+        {
+            var existingUser = await _userRepository.FindById(Id, cancellation);
+           
+            existingUser.Password = newpass;
+            await _userRepository.EditUserAsync(_mapper.Map<Board.Domain.User>(existingUser), cancellation);
+
+            return _mapper.Map<InfoUserResponse>(existingUser);
+        }
+
         public async Task<InfoUserResponse> EditUserAsync(Guid Id, RegisterUserRequest editUser, CancellationToken cancellation)
         {
             _logger.LogInformation($"Изменение пользователя под id {Id}");
@@ -280,6 +290,13 @@ namespace Doska.AppServices.Services.User
             }
 
             return user.IsVerified;
+        }
+
+        public async Task<bool> ComparePasswords(string pass,CancellationToken cancellation)
+        {
+            var currentuser = await _userRepository.FindById(await GetCurrentUserId(cancellation), cancellation);
+
+            return currentuser.Password.Equals(pass);
         }
     }
 }

@@ -94,5 +94,22 @@ namespace Doska.AppServices.Services.User
         /// <returns></returns>
         Task<bool> IsUserVerified(CancellationToken cancellation);
 
+        /// <summary>
+        /// Смена пароля пользователя
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="oldpass"></param>
+        /// <param name="newpass"></param>
+        /// <param name="cancellation"></param>
+        /// <returns></returns>
+        public Task<InfoUserResponse> ChangeUserPassword(Guid id, string newpass, CancellationToken cancellation);
+
+        /// <summary>
+        /// Сравнение переданного пароля с паролем авторизованного пользователя
+        /// </summary>
+        /// <param name="pass"></param>
+        /// <param name="cancellation"></param>
+        /// <returns></returns>
+        public Task<bool> ComparePasswords(string pass, CancellationToken cancellation);
     }
 }

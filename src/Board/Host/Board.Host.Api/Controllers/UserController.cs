@@ -6,6 +6,7 @@ using Doska.AppServices.Services.User;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Data.OleDb;
 using System.Net;
 
 namespace Doska.API.Controllers
@@ -109,6 +110,33 @@ namespace Doska.API.Controllers
         public async Task<IActionResult> UpdateUser(Guid id, RegisterUserRequest request, CancellationToken cancellation)
         {
             var result = await _userService.EditUserAsync(id, request,cancellation);
+
+            return Ok(result);
+        }
+
+
+        [HttpGet("/sendUpdatePasswordMessage")]
+        [ProducesResponseType(typeof(IReadOnlyCollection<InfoUserResponse>), (int)HttpStatusCode.OK)]
+        public async Task<IActionResult> SendUpdatePasswordMessage(string oldpass,string newpass, CancellationToken cancellation)
+        {
+            var user = await _userService.GetCurrentUser(cancellation);
+
+            if (!await _userService.ComparePasswords(oldpass, cancellation))
+                return NotFound();
+
+            //var result = await _userService.ChangeUserPassword(user.Id, oldpass,newpass, cancellation);
+
+            await _mailService.SendChangePasswordLinkAsync(user.Id, newpass, user.Email, cancellation);
+
+            return Ok("Сообщение с дальнейшими инструкциями было отправлено на вашу почту");
+        }
+
+        [HttpGet("/updatePassword")]
+        [ProducesResponseType(typeof(IReadOnlyCollection<InfoUserResponse>), (int)HttpStatusCode.OK)]
+        public async Task<IActionResult> UpdatePassword(Guid id,string newpass, CancellationToken cancellation)
+        {
+
+            var result = await _userService.ChangeUserPassword(id, newpass, cancellation);
 
             return Ok(result);
         }
