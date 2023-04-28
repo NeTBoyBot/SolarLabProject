@@ -149,7 +149,12 @@ namespace Doska.AppServices.Services.User
                 Phone = user.Phone,
                 Region = user.Region,
                 IsVerified = user.IsVerified,
-                Language = user.Language
+                Language = user.Language,
+                Photos = user.Photos.Select(i=>new Board.Contracts.Photo.AdPhoto.InfoUserPhotoResponse
+                {
+                    Id=i.Id,
+                    UserId = i.UserId
+                }).ToList()
             };
 
             return result;
