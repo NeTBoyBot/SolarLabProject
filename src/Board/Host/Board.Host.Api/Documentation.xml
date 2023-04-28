@@ -239,12 +239,30 @@
             <param name="cancellation">Токен отмены</param>
             <returns></returns>
         </member>
-        <member name="M:Doska.API.Controllers.UserController.UpdateUser(System.Guid,Board.Contracts.User.RegisterUserRequest,System.Threading.CancellationToken)">
+        <member name="M:Doska.API.Controllers.UserController.UpdateUser(System.Guid,Board.Contracts.User.EditUserRequest,System.Threading.CancellationToken)">
             <summary>
             Обновление ифнормации о пользователе
             </summary>
             <param name="id">Id пользователя</param>
             <param name="request">Новые данные</param>
+            <param name="cancellation">Токен отмены</param>
+            <returns></returns>
+        </member>
+        <member name="M:Doska.API.Controllers.UserController.SendUpdatePasswordMessage(System.String,System.String,System.Threading.CancellationToken)">
+            <summary>
+            Отправка ссылки для изменения пароля текущего пользователя
+            </summary>
+            <param name="oldpass">Старый пароль</param>
+            <param name="newpass">Новый пароль</param>
+            <param name="cancellation">Токен отмены</param>
+            <returns></returns>
+        </member>
+        <member name="M:Doska.API.Controllers.UserController.UpdatePassword(System.Guid,System.String,System.Threading.CancellationToken)">
+            <summary>
+            Обновление пароля пользователя
+            </summary>
+            <param name="id">Id пользователя</param>
+            <param name="newpass">Новый пароль</param>
             <param name="cancellation">Токен отмены</param>
             <returns></returns>
         </member>

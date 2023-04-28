@@ -78,14 +78,14 @@ namespace Doska.AppServices.Services.User
             return _mapper.Map<InfoUserResponse>(existingUser);
         }
 
-        public async Task<InfoUserResponse> EditUserAsync(Guid Id, RegisterUserRequest editUser, CancellationToken cancellation)
+        public async Task<InfoUserResponse> EditUserAsync(Guid Id, EditUserRequest editUser, CancellationToken cancellation)
         {
             _logger.LogInformation($"Изменение пользователя под id {Id}");
 
             var existingUser = await _userRepository.FindById(Id,cancellation);
             await _userRepository.EditUserAsync(_mapper.Map(editUser, existingUser),cancellation);
 
-            return _mapper.Map<InfoUserResponse>(editUser);
+            return _mapper.Map<InfoUserResponse>(existingUser);
         }
 
         public async Task<IReadOnlyCollection<InfoUserResponse>> GetAll(int take, int skip)

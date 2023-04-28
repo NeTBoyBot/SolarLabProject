@@ -85,7 +85,7 @@ namespace Doska.AppServices.Services.User
         /// <param name="editAd"></param>
         /// <param name="cancellation"></param>
         /// <returns></returns>
-        Task<InfoUserResponse> EditUserAsync(Guid Id, RegisterUserRequest editAd, CancellationToken cancellation);
+        Task<InfoUserResponse> EditUserAsync(Guid Id, EditUserRequest editAd, CancellationToken cancellation);
 
         /// <summary>
         /// Проверка является ли аккаунт авторизованного пользователя верифицированным

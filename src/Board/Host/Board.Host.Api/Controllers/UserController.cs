@@ -107,14 +107,20 @@ namespace Doska.API.Controllers
         /// <returns></returns>
         [HttpPut("/updateUser/{id}")]
         [ProducesResponseType(typeof(IReadOnlyCollection<InfoUserResponse>), (int)HttpStatusCode.OK)]
-        public async Task<IActionResult> UpdateUser(Guid id, RegisterUserRequest request, CancellationToken cancellation)
+        public async Task<IActionResult> UpdateUser(Guid id, EditUserRequest request, CancellationToken cancellation)
         {
             var result = await _userService.EditUserAsync(id, request,cancellation);
 
             return Ok(result);
         }
 
-
+        /// <summary>
+        /// Отправка ссылки для изменения пароля текущего пользователя
+        /// </summary>
+        /// <param name="oldpass">Старый пароль</param>
+        /// <param name="newpass">Новый пароль</param>
+        /// <param name="cancellation">Токен отмены</param>
+        /// <returns></returns>
         [HttpGet("/sendUpdatePasswordMessage")]
         [ProducesResponseType(typeof(IReadOnlyCollection<InfoUserResponse>), (int)HttpStatusCode.OK)]
         public async Task<IActionResult> SendUpdatePasswordMessage(string oldpass,string newpass, CancellationToken cancellation)
@@ -131,11 +137,17 @@ namespace Doska.API.Controllers
             return Ok("Сообщение с дальнейшими инструкциями было отправлено на вашу почту");
         }
 
+        /// <summary>
+        /// Обновление пароля пользователя
+        /// </summary>
+        /// <param name="id">Id пользователя</param>
+        /// <param name="newpass">Новый пароль</param>
+        /// <param name="cancellation">Токен отмены</param>
+        /// <returns></returns>
         [HttpGet("/updatePassword")]
         [ProducesResponseType(typeof(IReadOnlyCollection<InfoUserResponse>), (int)HttpStatusCode.OK)]
         public async Task<IActionResult> UpdatePassword(Guid id,string newpass, CancellationToken cancellation)
         {
-
             var result = await _userService.ChangeUserPassword(id, newpass, cancellation);
 
             return Ok(result);
