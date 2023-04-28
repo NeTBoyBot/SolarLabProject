@@ -85,8 +85,8 @@ namespace Doska.API.Controllers
         /// <summary>
         /// Создание пользователя
         /// </summary>
-        /// <param name="request"></param>
-        /// <param name="cancellation"></param>
+        /// <param name="request">Данные для регистрации</param>
+        /// <param name="cancellation">Токен отмены</param>
         /// <returns></returns>
         [HttpPost("/createUser")]
         [ProducesResponseType(typeof(IReadOnlyCollection<InfoUserResponse>), (int)HttpStatusCode.Created)]
@@ -100,9 +100,9 @@ namespace Doska.API.Controllers
         /// <summary>
         /// Обновление ифнормации о пользователе
         /// </summary>
-        /// <param name="id"></param>
-        /// <param name="request"></param>
-        /// <param name="cancellation"></param>
+        /// <param name="id">Id пользователя</param>
+        /// <param name="request">Новые данные</param>
+        /// <param name="cancellation">Токен отмены</param>
         /// <returns></returns>
         [HttpPut("/updateUser/{id}")]
         [ProducesResponseType(typeof(IReadOnlyCollection<InfoUserResponse>), (int)HttpStatusCode.OK)]
@@ -116,8 +116,8 @@ namespace Doska.API.Controllers
         /// <summary>
         /// Удаление пользователя
         /// </summary>
-        /// <param name="id"></param>
-        /// <param name="cancellation"></param>
+        /// <param name="id">ID пользователя</param>
+        /// <param name="cancellation">Токен отмены</param>
         /// <returns></returns>
         [HttpDelete("/deleteUser/{id}")]
         [ProducesResponseType((int)HttpStatusCode.OK)]
@@ -131,8 +131,8 @@ namespace Doska.API.Controllers
         /// <summary>
         /// Получение авторизованного пользователя
         /// </summary>
-        /// <param name="token"></param>
-        /// <returns></returns>
+        /// <param name="token">Токен отмены</param>
+        /// <returns>Информация об авторизованном пользователе</returns>
         [HttpGet("/CurrentUser")]
         [ProducesResponseType(typeof(IReadOnlyCollection<InfoUserResponse>), (int)HttpStatusCode.OK)]
         public async Task<IActionResult> GetCurentUser(CancellationToken token)
@@ -145,8 +145,8 @@ namespace Doska.API.Controllers
         /// <summary>
         /// Получение id авторизованного пользователя
         /// </summary>
-        /// <param name="token"></param>
-        /// <returns></returns>
+        /// <param name="token">Токен отмены</param>
+        /// <returns>ID авторизованного пользователя</returns>
         [HttpGet("/CurrentUserId")]
         [ProducesResponseType(typeof(Guid), (int)HttpStatusCode.OK)]
         public async Task<IActionResult> GetCurentUserId(CancellationToken token)
@@ -159,10 +159,10 @@ namespace Doska.API.Controllers
         /// <summary>
         /// Подтверждение аккаунта пользователя
         /// </summary>
-        /// <param name="userId"></param>
-        /// <param name="Code"></param>
-        /// <param name="cancellation"></param>
-        /// <returns></returns>
+        /// <param name="userId">ID пользователя для подтверждения</param>
+        /// <param name="Code">Код для подтверждения</param>
+        /// <param name="cancellation">Токен отмены</param>
+        /// <returns>Информация о том подтвержден ли аккаунт</returns>
         [HttpGet("/VerifyUser")]
         public async Task<IActionResult> VerifyUser(Guid userId,int Code,CancellationToken cancellation)
         {

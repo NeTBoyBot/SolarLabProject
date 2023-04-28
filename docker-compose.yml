@@ -10,7 +10,7 @@ services:
     ports:
       - 5000:80
     environment:
-      - ConnectionStrings__PostgresBoardDb=Server=postgres;Database=Board;Username=postgres;Password=password;Port=5432
+      - ConnectionStrings__PostgresBoardDb=Server=postgres;Database=Board;Username=postgres;Password=admin;Port=5432
     networks:
       - solarlab-academy-network
     depends_on:
@@ -22,7 +22,7 @@ services:
       context: .
       dockerfile: src/Board/Host/Board.Host.DbMigrator/Dockerfile
     environment:
-      - ConnectionStrings__PostgresBoardDb=Server=postgres;Database=Board;Username=postgres;Password=password;Port=5432
+      - ConnectionStrings__PostgresBoardDb=Server=postgres;Database=Board;Username=postgres;Password=admin;Port=5432
     networks:
       - solarlab-academy-network
     depends_on:
@@ -33,7 +33,7 @@ services:
     environment:
       POSTGRES_DB: "Board"
       POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: password
+      POSTGRES_PASSWORD: admin
     volumes:
       - pg-data:/var/lib/postgresql/data
     ports:

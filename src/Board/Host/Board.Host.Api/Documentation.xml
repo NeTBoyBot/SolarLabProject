@@ -235,49 +235,49 @@
             <summary>
             Создание пользователя
             </summary>
-            <param name="request"></param>
-            <param name="cancellation"></param>
+            <param name="request">Данные для регистрации</param>
+            <param name="cancellation">Токен отмены</param>
             <returns></returns>
         </member>
         <member name="M:Doska.API.Controllers.UserController.UpdateUser(System.Guid,Board.Contracts.User.RegisterUserRequest,System.Threading.CancellationToken)">
             <summary>
             Обновление ифнормации о пользователе
             </summary>
-            <param name="id"></param>
-            <param name="request"></param>
-            <param name="cancellation"></param>
+            <param name="id">Id пользователя</param>
+            <param name="request">Новые данные</param>
+            <param name="cancellation">Токен отмены</param>
             <returns></returns>
         </member>
         <member name="M:Doska.API.Controllers.UserController.DeleteUser(System.Guid,System.Threading.CancellationToken)">
             <summary>
             Удаление пользователя
             </summary>
-            <param name="id"></param>
-            <param name="cancellation"></param>
+            <param name="id">ID пользователя</param>
+            <param name="cancellation">Токен отмены</param>
             <returns></returns>
         </member>
         <member name="M:Doska.API.Controllers.UserController.GetCurentUser(System.Threading.CancellationToken)">
             <summary>
             Получение авторизованного пользователя
             </summary>
-            <param name="token"></param>
-            <returns></returns>
+            <param name="token">Токен отмены</param>
+            <returns>Информация об авторизованном пользователе</returns>
         </member>
         <member name="M:Doska.API.Controllers.UserController.GetCurentUserId(System.Threading.CancellationToken)">
             <summary>
             Получение id авторизованного пользователя
             </summary>
-            <param name="token"></param>
-            <returns></returns>
+            <param name="token">Токен отмены</param>
+            <returns>ID авторизованного пользователя</returns>
         </member>
         <member name="M:Doska.API.Controllers.UserController.VerifyUser(System.Guid,System.Int32,System.Threading.CancellationToken)">
             <summary>
             Подтверждение аккаунта пользователя
             </summary>
-            <param name="userId"></param>
-            <param name="Code"></param>
-            <param name="cancellation"></param>
-            <returns></returns>
+            <param name="userId">ID пользователя для подтверждения</param>
+            <param name="Code">Код для подтверждения</param>
+            <param name="cancellation">Токен отмены</param>
+            <returns>Информация о том подтвержден ли аккаунт</returns>
         </member>
         <member name="M:Board.Host.Api.Controllers.FileController.GetAll(System.Int32,System.Int32,System.Threading.CancellationToken)">
             <summary>
