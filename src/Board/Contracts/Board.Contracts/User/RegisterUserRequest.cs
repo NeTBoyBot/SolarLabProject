@@ -13,24 +13,28 @@ namespace Board.Contracts.User
         /// <summary>
         /// Имя пользователя
         /// </summary>
+        [MinLength(3)]
         [Required]
         public string UserName { get; set; }
 
         /// <summary>
         /// Пароль пользователя
         /// </summary>
+        [MinLength(8)]
         [Required]
         public string Password { get; set; }
 
         /// <summary>
         /// Регион регистрации
         /// </summary>
+        [MinLength(2)]
         [Required]
         public string Region { get; set; }
 
         /// <summary>
         /// Номер телефона
         /// </summary>
+        [MinLength(7)]
         [Required]
         [Phone]
         public string Phone { get; set; }
@@ -38,6 +42,7 @@ namespace Board.Contracts.User
         /// <summary>
         /// Адрес электронной почты
         /// </summary>
+        [MinLength(3)]
         [Required]
         [EmailAddress]
         public string Email { get; set; }

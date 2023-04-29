@@ -20,6 +20,7 @@ namespace Board.Contracts.Message
         /// <summary>
         /// Содержимое сообщения
         /// </summary>
+        [MinLength(1)]
         [Required]
         public string Containment { get; set; }
 

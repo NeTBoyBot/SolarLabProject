@@ -24,6 +24,7 @@ namespace Board.Contracts.Comment
         /// <summary>
         /// Содержимое отзыва
         /// </summary>
+        [MinLength(1)]
         [Required]
         public string Text { get; set; }
     }

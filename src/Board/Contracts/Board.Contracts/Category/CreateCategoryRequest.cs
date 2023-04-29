@@ -9,10 +9,11 @@ namespace Board.Contracts.Category
 {
     public class CreateCategoryRequest
     {
-        [Required]
         /// <summary>
         /// Имя категории
         /// </summary>
+        [Required]
+        [MinLength(3)]
         public string Name { get; set; }
 
         /// <summary>

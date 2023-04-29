@@ -15,11 +15,13 @@ namespace Board.Contracts.Ad
         /// Имя объявления
         /// </summary>
         [Required]
+        [MinLength(5)]
         public string Name { get; set; }
 
         /// <summary>
         /// Описание объявления
         /// </summary>
+        [MinLength(10)]
         [Required]
         public string Desc { get; set; }
 
