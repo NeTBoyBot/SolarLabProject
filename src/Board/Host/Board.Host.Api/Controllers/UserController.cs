@@ -40,11 +40,17 @@ namespace Doska.API.Controllers
             var user = await _userService.Register(request, token);
 
             byte[] photo;
-            await using (var ms = new MemoryStream())
-            await using (var fs = file.OpenReadStream())
+            
+            if (file==null || file.Length == 0)
+                photo = new byte[0];
+            else
             {
-                await fs.CopyToAsync(ms);
-                photo = ms.ToArray();
+                await using (var ms = new MemoryStream())
+                await using (var fs = file.OpenReadStream())
+                {
+                    await fs.CopyToAsync(ms);
+                    photo = ms.ToArray();
+                }
             }
 
             await _mailService.SendVerificationCodeAsync(user.Id, request.Email, user.VerificationCode, token);
@@ -62,7 +68,7 @@ namespace Doska.API.Controllers
         /// <returns></returns>
         [HttpPost("/Login")]
         [ProducesResponseType(StatusCodes.Status201Created)]
-        public async Task<IActionResult> login(LoginUserRequest request, CancellationToken Canctoken)
+        public async Task<IActionResult> Login(LoginUserRequest request, CancellationToken Canctoken)
         {
             var token = await _userService.Login(request, Canctoken);
             return Created("", token);

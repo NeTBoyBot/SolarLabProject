@@ -215,7 +215,7 @@
             <param name="token"></param>
             <returns></returns>
         </member>
-        <member name="M:Doska.API.Controllers.UserController.login(Board.Contracts.User.LoginUserRequest,System.Threading.CancellationToken)">
+        <member name="M:Doska.API.Controllers.UserController.Login(Board.Contracts.User.LoginUserRequest,System.Threading.CancellationToken)">
             <summary>
             Логин пользователя
             </summary>
