@@ -49,6 +49,16 @@ namespace Board.Domain
         /// Дата создания аккаунта
         /// </summary>
         public DateTime CreationTime { get; set; }
+
+        /// <summary>
+        /// ID Роли пользователя
+        /// </summary>
+        public Guid RoleId { get; set; }
+
+        /// <summary>
+        /// Роль пользователя
+        /// </summary>
+        public Role Role { get; set; }
         #endregion
 
         #region collections

@@ -144,6 +144,7 @@ static MapperConfiguration GetMapperConfiguration()
         cfg.AddProfile<FileMapProfile>();
         cfg.AddProfile<UserPhotoProfile>();
         cfg.AddProfile<AdPhotoProfile>();
+        cfg.AddProfile<RoleMapProfile>();
     });
     //configuration.AssertConfigurationIsValid();
     return configuration;

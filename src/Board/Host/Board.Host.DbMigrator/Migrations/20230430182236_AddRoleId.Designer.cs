@@ -3,6 +3,7 @@ using System;
 using Board.Host.DbMigrator;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Board.Host.DbMigrator.Migrations
 {
     [DbContext(typeof(MigrationDbContext))]
-    partial class MigrationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230430182236_AddRoleId")]
+    partial class AddRoleId
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -223,7 +226,7 @@ namespace Board.Host.DbMigrator.Migrations
 
             modelBuilder.Entity("Board.Domain.Role", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<Guid>("RoleId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
@@ -232,7 +235,7 @@ namespace Board.Host.DbMigrator.Migrations
                         .HasMaxLength(30)
                         .HasColumnType("character varying(30)");
 
-                    b.HasKey("Id");
+                    b.HasKey("RoleId");
 
                     b.ToTable("Role");
                 });
@@ -266,7 +269,7 @@ namespace Board.Host.DbMigrator.Migrations
                     b.Property<string>("Region")
                         .HasColumnType("text");
 
-                    b.Property<Guid>("RoleId")
+                    b.Property<Guid?>("RoleId")
                         .HasColumnType("uuid");
 
                     b.Property<string>("UserName")
@@ -394,10 +397,8 @@ namespace Board.Host.DbMigrator.Migrations
             modelBuilder.Entity("Board.Domain.User", b =>
                 {
                     b.HasOne("Board.Domain.Role", "Role")
-                        .WithMany()
-                        .HasForeignKey("RoleId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .WithMany("Users")
+                        .HasForeignKey("RoleId");
 
                     b.Navigation("Role");
                 });
@@ -405,6 +406,11 @@ namespace Board.Host.DbMigrator.Migrations
             modelBuilder.Entity("Board.Domain.Ad", b =>
                 {
                     b.Navigation("Photos");
+                });
+
+            modelBuilder.Entity("Board.Domain.Role", b =>
+                {
+                    b.Navigation("Users");
                 });
 
             modelBuilder.Entity("Board.Domain.User", b =>

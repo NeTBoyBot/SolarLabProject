@@ -49,7 +49,7 @@ namespace Doska.DataAccess.Repositories
 
         public IQueryable<User> GetAll()
         {
-            return _baseRepository.GetAll();
+            return _baseRepository.GetAll().Include(i=>i.Role);
         }
     }
 }

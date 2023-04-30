@@ -1,4 +1,5 @@
 ﻿using Board.Contracts.Photo.AdPhoto;
+using Board.Contracts.Role;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -53,5 +54,10 @@ namespace Board.Contracts.User
         /// Фотографии пользователя
         /// </summary>
         public ICollection<InfoUserPhotoResponse> Photos { get; set; }
+
+        /// <summary>
+        /// Роль пользователя
+        /// </summary>
+        public InfoRoleResponse Role { get; set; }
     }
 }

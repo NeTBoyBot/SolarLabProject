@@ -53,5 +53,10 @@ namespace Board.Contracts.User
         [Required]
         public string Language { get; set; }
 
+        /// <summary>
+        /// ID Роли
+        /// </summary>
+        public Guid? RoleId { get; set; }
+
     }
 }

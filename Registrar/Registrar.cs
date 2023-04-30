@@ -36,6 +36,8 @@ using Board.Infrastucture.DataAccess.Contexts.Photo.AdPhoto;
 using Board.Infrastucture.DataAccess.Contexts.Photo.UserPhoto;
 using Board.Application.AppData.Contexts.Photo.UserPhoto;
 using Board.Application.AppData.Contexts.Photo;
+using Board.Application.AppData.Contexts.Role;
+using Board.Infrastucture.DataAccess.Contexts.Role;
 
 namespace Doska.Registrar
 {
@@ -86,6 +88,9 @@ namespace Doska.Registrar
 
             services.AddTransient<IAdPhotoRepository, AdPhotoRepository>();
             services.AddTransient<IUserPhotoRepository, UserPhotoRepository>();
+
+            services.AddTransient<IRoleRepository, RoleRepository>();
+            services.AddTransient<IRoleService, RoleService>();
 
             services.AddTransient<IPhotoService, PhotoService>();
 

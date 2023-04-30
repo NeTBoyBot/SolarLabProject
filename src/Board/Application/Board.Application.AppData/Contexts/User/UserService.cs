@@ -1,7 +1,9 @@
 ﻿using AutoMapper;
 using Board.Application.AppData.Contexts.Categories;
+using Board.Application.AppData.Contexts.Role;
 using Board.Application.AppData.Contexts.User;
 using Board.Contracts.Category;
+using Board.Contracts.Role;
 using Board.Contracts.User;
 using Doska.AppServices.IRepository;
 using Microsoft.AspNetCore.Http;
@@ -23,14 +25,15 @@ namespace Doska.AppServices.Services.User
 {
     public class UserService : IUserService
     {
-        public readonly IUserRepository _userRepository;
-        public readonly IAdRepository _adRepository;
-        public IConfiguration _configuration;
-        public IClaimAcessor claimAccessor;
-        public IHttpContextAccessor _httpContextAccessor;
-        public readonly IMapper _mapper;
-        public readonly ILogger<UserService> _logger;
-        public readonly IMemoryCache _cache;
+        private readonly IUserRepository _userRepository;
+        private readonly IAdRepository _adRepository;
+        private IConfiguration _configuration;
+        private IClaimAcessor claimAccessor;
+        private IHttpContextAccessor _httpContextAccessor;
+        private readonly IMapper _mapper;
+        private readonly ILogger<UserService> _logger;
+        private readonly IMemoryCache _cache;
+        private readonly IRoleRepository _roleRepository;
 
         private const string UserCachingKey = "User";
         private const string UserIdCachingKey = "UserId";
@@ -38,7 +41,8 @@ namespace Doska.AppServices.Services.User
         public UserService(IHttpContextAccessor httpContextAccessor,IUserRepository userRepository,
             IMapper mapper,IAdRepository adRepository,
             IClaimAcessor acessor,IConfiguration conf,
-            ILogger<UserService> logger,IMemoryCache cache)
+            ILogger<UserService> logger,IMemoryCache cache,
+            IRoleRepository roleRepository)
         {
             _httpContextAccessor = httpContextAccessor;
             _userRepository = userRepository;
@@ -48,6 +52,7 @@ namespace Doska.AppServices.Services.User
             _configuration = conf;
             _logger = logger;
             _cache = cache;
+            _roleRepository = roleRepository;
         }
 
         public async Task<Guid> CreateUserAsync(RegisterUserRequest registerUser, CancellationToken cancellation)
@@ -90,9 +95,9 @@ namespace Doska.AppServices.Services.User
 
         public async Task<IReadOnlyCollection<InfoUserResponse>> GetAll(int take, int skip)
         {
-            _logger.LogInformation($"Получение всех пользователей");
+            
 
-            return await _userRepository.GetAll()
+            var result = await _userRepository.GetAll()
                 .Select(a => new InfoUserResponse
                 {
                     Id = a.Id,
@@ -103,12 +108,21 @@ namespace Doska.AppServices.Services.User
                     Phone = a.Phone,
                     Region = a.Region,
                     Language = a.Language,
-                    Photos = a.Photos.Select(p=>new Board.Contracts.Photo.AdPhoto.InfoUserPhotoResponse
+                    Role = new InfoRoleResponse
                     {
-                        Id=p.Id,
-                        UserId=p.UserId
+                        RoleId = a.Role.Id,
+                        RoleName = a.Role.RoleName
+                    },
+                    Photos = a.Photos.Select(p => new Board.Contracts.Photo.AdPhoto.InfoUserPhotoResponse
+                    {
+                        Id = p.Id,
+                        UserId = p.UserId
                     }).ToList()
                 }).OrderBy(a => a.Id).Skip(skip).Take(take).ToListAsync();
+
+            _logger.LogInformation($"Получение всех пользователей");
+
+            return result;
         }
 
         public async Task<InfoUserResponse> GetByIdAsync(Guid id, CancellationToken cancellation)
@@ -244,6 +258,11 @@ namespace Doska.AppServices.Services.User
             user.IsVerified = false;
             user.VerificationCode = new Random().Next(1, 10000);
             user.CreationTime = DateTime.Now.ToUniversalTime();
+
+            if (RegisterUserRequest.RoleId.ToString().IsNullOrEmpty())
+                user.Role = await _roleRepository.GetAll().Where(r => r.RoleName == "User").FirstOrDefaultAsync();
+            else
+                user.Role = await _roleRepository.FindById((Guid)RegisterUserRequest.RoleId, cancellation);
       
             var existinguser = await _userRepository.FindWhere(user => user.UserName == RegisterUserRequest.UserName, cancellation);
             //user.KodBase64 = Convert.ToBase64String(file);
