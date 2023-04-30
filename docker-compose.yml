@@ -40,6 +40,16 @@ services:
       - "5432:5432"
     networks:
       - solarlab-academy-network
+
+  adminer:
+    container_name: adminer
+    image: adminer
+    restart: always
+    ports:
+       - 8080:8080
+    depends_on:
+      - "postgres"
+
   
 volumes:
   pg-data:

@@ -90,6 +90,19 @@ namespace Doska.API.Controllers
         }
 
         /// <summary>
+        /// Получение всех пользователей
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet("/getById")]
+        [ProducesResponseType(typeof(IReadOnlyCollection<InfoUserResponse>), (int)HttpStatusCode.OK)]
+        public async Task<IActionResult> GetById(Guid id,CancellationToken cancellation)
+        {
+            var result = await _userService.GetByIdAsync(id,cancellation);
+
+            return Ok(result);
+        }
+
+        /// <summary>
         /// Создание пользователя
         /// </summary>
         /// <param name="request">Данные для регистрации</param>

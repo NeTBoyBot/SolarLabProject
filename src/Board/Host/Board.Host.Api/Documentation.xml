@@ -231,6 +231,12 @@
             <param name="skip"></param>
             <returns></returns>
         </member>
+        <member name="M:Doska.API.Controllers.UserController.GetById(System.Guid,System.Threading.CancellationToken)">
+            <summary>
+            Получение всех пользователей
+            </summary>
+            <returns></returns>
+        </member>
         <member name="M:Doska.API.Controllers.UserController.CreateUser(Board.Contracts.User.RegisterUserRequest,System.Threading.CancellationToken)">
             <summary>
             Создание пользователя
