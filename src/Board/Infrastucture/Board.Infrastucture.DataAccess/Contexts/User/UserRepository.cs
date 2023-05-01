@@ -37,7 +37,7 @@ namespace Doska.DataAccess.Repositories
 
         public async Task<User> FindById(Guid id, CancellationToken cancellation)
         {
-            return await _baseRepository.GetAll().Where(i => i.Id == id).Include(i => i.Photos).FirstOrDefaultAsync();
+            return await _baseRepository.GetAll().Where(i => i.Id == id).Include(i => i.Photos).Include(i=>i.Role).FirstOrDefaultAsync();
         }
 
         public async Task<User> FindWhere(Expression<Func<User, bool>> predicate, CancellationToken token)

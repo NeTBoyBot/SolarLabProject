@@ -168,7 +168,12 @@ namespace Doska.AppServices.Services.User
                 {
                     Id=i.Id,
                     UserId = i.UserId
-                }).ToList()
+                }).ToList(),
+                Role = new InfoRoleResponse
+                {
+                    RoleId = user.Role.Id,
+                    RoleName = user.Role.RoleName
+                }
             };
 
             return result;
@@ -314,6 +319,29 @@ namespace Doska.AppServices.Services.User
             }
 
             return user.IsVerified;
+        }
+
+        public async Task<bool> IsUserAdmin(CancellationToken cancellation)
+        {
+            var claim = await claimAccessor.GetClaims(cancellation);
+            var claimId = claim.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
+
+            if (string.IsNullOrWhiteSpace(claimId))
+            {
+                throw new Exception("Не найдент пользователь с идентификаторром");
+            }
+
+            var id = Guid.Parse(claimId);
+            var user = await _userRepository.FindById(id, cancellation);
+
+            _logger.LogInformation($"Проверка роли аккаунта под id{id}");
+
+            if (user == null)
+            {
+                throw new Exception($"Не найдент пользователь с идентификаторром {id}");
+            }
+
+            return user.Role.RoleName == "Admin";
         }
 
         public async Task<bool> ComparePasswords(string pass,CancellationToken cancellation)

@@ -111,5 +111,12 @@ namespace Doska.AppServices.Services.User
         /// <param name="cancellation"></param>
         /// <returns></returns>
         public Task<bool> ComparePasswords(string pass, CancellationToken cancellation);
+
+        /// <summary>
+        /// Проверка является ли авторизованный пользователь администратором
+        /// </summary>
+        /// <param name="cancellation"></param>
+        /// <returns></returns>
+        public Task<bool> IsUserAdmin(CancellationToken cancellation);
     }
 }

@@ -18,10 +18,10 @@ namespace Doska.AppServices.Services.Ad
 {
     public class CategoryService : ICategoryService
     {
-        public readonly ICategoryRepository _categoryRepository;
-        public readonly IMapper _mapper;
-        public readonly ILogger<CategoryService> _logger;
-        public readonly IMemoryCache _cache;
+        private readonly ICategoryRepository _categoryRepository;
+        private readonly IMapper _mapper;
+        private readonly ILogger<CategoryService> _logger;
+        private readonly IMemoryCache _cache;
 
         private const string CategoriesCachingKey = "Categories";
 

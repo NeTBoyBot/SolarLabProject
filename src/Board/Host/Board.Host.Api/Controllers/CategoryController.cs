@@ -1,6 +1,7 @@
 ﻿using Board.Contracts.Category;
 using Doska.AppServices.Services.Ad;
 using Doska.AppServices.Services.Categories;
+using Doska.AppServices.Services.User;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
 
@@ -9,10 +10,13 @@ namespace Doska.API.Controllers
     [ApiController]
     public class CategoryController : ControllerBase
     {
-        ICategoryService _categoryService;
-        public CategoryController(ICategoryService categoryService)
+        private readonly ICategoryService _categoryService;
+        private readonly IUserService _userService;
+
+        public CategoryController(ICategoryService categoryService,IUserService userService)
         {
             _categoryService = categoryService;
+            _userService = userService;
         }
 
         /// <summary>
@@ -40,6 +44,9 @@ namespace Doska.API.Controllers
         [ProducesResponseType(typeof(IReadOnlyCollection<InfoCategoryResponse>), (int)HttpStatusCode.OK)]
         public async Task<IActionResult> GetCategoryById(Guid id,CancellationToken cancellation)
         {
+            if (!await _userService.IsUserAdmin(cancellation))
+                throw new Exception("У вас недостаточно прав для данного действия!");
+
             var result = await _categoryService.GetByIdAsync(id,cancellation);
 
             return Ok(result);
@@ -55,6 +62,9 @@ namespace Doska.API.Controllers
         [ProducesResponseType(typeof(IReadOnlyCollection<InfoCategoryResponse>), (int)HttpStatusCode.OK)]
         public async Task<IActionResult> CreateCategory(string categoryname, CancellationToken cancellation)
         {
+            if (!await _userService.IsUserAdmin(cancellation))
+                throw new Exception("У вас недостаточно прав для данного действия!");
+
             var result = await _categoryService.CreateCategoryAsync(categoryname,cancellation);
 
             return Created("", result);
@@ -71,6 +81,9 @@ namespace Doska.API.Controllers
         [ProducesResponseType(typeof(IReadOnlyCollection<InfoCategoryResponse>), (int)HttpStatusCode.OK)]
         public async Task<IActionResult> UpdateCategory(Guid id, string categoryname, CancellationToken cancellation)
         {
+            if (!await _userService.IsUserAdmin(cancellation))
+                throw new Exception("У вас недостаточно прав для данного действия!");
+
             var result = await _categoryService.EditCategoryAsync(id, categoryname,cancellation);
 
             return Ok(result);
@@ -87,6 +100,9 @@ namespace Doska.API.Controllers
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
         public async Task<IActionResult> DeleteAd(Guid id, CancellationToken cancellation)
         {
+            if (!await _userService.IsUserAdmin(cancellation))
+                throw new Exception("У вас недостаточно прав для данного действия!");
+
             await _categoryService.DeleteAsync(id,cancellation);
             return Ok();
         }
