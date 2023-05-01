@@ -42,7 +42,5 @@ namespace Board.Domain
         /// Дата отправки
         /// </summary>
         public DateTime SendDate { get; set; }
-
-
     }
 }
