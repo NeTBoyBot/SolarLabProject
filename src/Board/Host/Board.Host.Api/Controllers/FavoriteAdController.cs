@@ -9,7 +9,8 @@ namespace Doska.API.Controllers
     [ApiController]
     public class FavoriteAdController : ControllerBase
     {
-        IFavoriteAdService _favoriteadService;
+        private readonly IFavoriteAdService _favoriteadService;
+
         public FavoriteAdController(IFavoriteAdService adService)
         {
             _favoriteadService = adService;

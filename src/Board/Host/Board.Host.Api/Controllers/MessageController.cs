@@ -9,8 +9,8 @@ namespace Doska.API.Controllers
     [ApiController]
     public class MessageController : ControllerBase
     {
-        IMessageService _messageService;
-        IUserService _userService;
+        private readonly IMessageService _messageService;
+        private readonly IUserService _userService;
         public MessageController(IMessageService adService,IUserService userService)
         {
             _messageService = adService;

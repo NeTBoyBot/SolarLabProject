@@ -13,9 +13,9 @@ namespace Doska.API.Controllers
     //[ApiController]
     public class AdController : ControllerBase
     {
-        public readonly IAdService _adService;
-        public readonly IUserService _userService;
-        public readonly IPhotoService _photoService;
+        private readonly IAdService _adService;
+        private readonly IUserService _userService;
+        private readonly IPhotoService _photoService;
         public AdController(IAdService adService,IUserService userService, IPhotoService photoService)
         {
             _adService = adService;

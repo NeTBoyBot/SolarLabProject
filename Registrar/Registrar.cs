@@ -53,13 +53,6 @@ namespace Doska.Registrar
 
             services.AddScoped((Func<IServiceProvider, DbContext>)(sp => sp.GetRequiredService<BoardDbContext>()));
 
-            //services.AddAutoMapper(typeof(UserMapProfile), typeof(AdMapProfile),
-            //    typeof(CategoryMapProfile), typeof(SubCategoryMapProfile),
-            //    typeof(ChatMapProfile), typeof(MessageMapProfile),
-            //    typeof(FavoriteAdMapProfile), typeof(CommentMapProfile));
-
-            // Регистрация объявления
-
             services.AddLogging();
 
             services.AddMemoryCache();

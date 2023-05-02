@@ -11,7 +11,7 @@ namespace Board.Host.Api.Controllers
     [ApiController]
     public class PhotoController : ControllerBase
     {
-        public readonly IPhotoService _photoService;
+        private readonly IPhotoService _photoService;
 
         public PhotoController(IPhotoService photoService)
         {

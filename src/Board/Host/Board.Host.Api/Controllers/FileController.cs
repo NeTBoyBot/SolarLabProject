@@ -8,8 +8,8 @@ namespace Board.Host.Api.Controllers
 {
     public class FileController : ControllerBase
     {
-        public readonly IFileService _fileService;
-        public readonly ILogger<FileController> _logger;
+        private readonly IFileService _fileService;
+        private readonly ILogger<FileController> _logger;
 
         public FileController(IFileService fileService, ILogger<FileController> logger)
         {

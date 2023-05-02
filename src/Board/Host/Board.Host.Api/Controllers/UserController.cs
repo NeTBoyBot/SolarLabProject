@@ -15,9 +15,9 @@ namespace Doska.API.Controllers
     //[ApiController]
     public class UserController : ControllerBase
     {
-        public readonly IUserService _userService;
-        public readonly IMailService _mailService;
-        public readonly IPhotoService _photoService;
+        private readonly IUserService _userService;
+        private readonly IMailService _mailService;
+        private readonly IPhotoService _photoService;
 
         public UserController(IUserService userService, IMailService mailService,IPhotoService photoService)
         {

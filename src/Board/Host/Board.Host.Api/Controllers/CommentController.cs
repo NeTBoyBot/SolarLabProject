@@ -1,5 +1,6 @@
 ﻿using Board.Contracts.Comment;
 using Doska.AppServices.Services.Comment;
+using Doska.AppServices.Services.User;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
 
@@ -8,10 +9,13 @@ namespace Doska.API.Controllers
     [ApiController]
     public class CommentController : ControllerBase
     {
-        ICommentService _commentService;
-        public CommentController(ICommentService commentService)
+        private readonly ICommentService _commentService;
+        private readonly IUserService _userService;
+
+        public CommentController(ICommentService commentService,IUserService userService)
         {
             _commentService = commentService;
+            _userService = userService;
         }
 
         /// <summary>
@@ -54,6 +58,9 @@ namespace Doska.API.Controllers
         [ProducesResponseType(typeof(IReadOnlyCollection<InfoCommentResponse>), (int)HttpStatusCode.Created)]
         public async Task<IActionResult> CreateComment(CreateCommentRequest request, CancellationToken cancellation)
         {
+            if (!await _userService.IsUserVerified(cancellation))
+                throw new Exception("Аккаунт пользователя не подтверждён!");
+
             var result = await _commentService.CreateCommentAsync(request,cancellation);
 
             return Created("", result);
@@ -70,6 +77,9 @@ namespace Doska.API.Controllers
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
         public async Task<IActionResult> DeleteComment(Guid id, CancellationToken cancellation)
         {
+            if (!await _userService.IsUserVerified(cancellation))
+                throw new Exception("Аккаунт пользователя не подтверждён!");
+
             await _commentService.DeleteAsync(id,cancellation);
             return Ok();
         }
