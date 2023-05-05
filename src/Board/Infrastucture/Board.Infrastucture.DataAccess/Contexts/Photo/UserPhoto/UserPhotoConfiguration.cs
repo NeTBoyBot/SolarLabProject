@@ -13,7 +13,7 @@ namespace Board.Infrastucture.DataAccess.Contexts.Photo.UserPhoto
         public void Configure(EntityTypeBuilder<Domain.Photos.UserPhoto> builder)
         {
             builder.HasKey(a => a.Id);
-            builder.HasOne(p => p.User).WithMany(p => p.Photos).HasForeignKey(u=>u.UserId);
+            //builder.HasOne(p => p.User).WithMany(p => p.Photos).HasForeignKey(u=>u.UserId);
 
         }
     }

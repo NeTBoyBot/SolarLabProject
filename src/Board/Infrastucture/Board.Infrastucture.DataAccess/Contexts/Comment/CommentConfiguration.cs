@@ -14,8 +14,8 @@ namespace Board.Infrastucture.DataAccess.Contexts.Comment
         {
             builder.HasKey(a => a.Id);
             builder.Property(a => a.Text).HasMaxLength(512).IsRequired();
-            builder.HasOne(s => s.Sender).WithMany(s => s.SendedComments).HasForeignKey(s => s.SenderId);
-            builder.HasOne(s => s.User).WithMany(s => s.RecievedComments).HasForeignKey(s => s.UserId);
+            //builder.HasOne(s => s.Sender).WithMany(s => s.SendedComments).HasForeignKey(s => s.SenderId);
+            //builder.HasOne(s => s.User).WithMany(s => s.RecievedComments).HasForeignKey(s => s.UserId);
             
 
         }

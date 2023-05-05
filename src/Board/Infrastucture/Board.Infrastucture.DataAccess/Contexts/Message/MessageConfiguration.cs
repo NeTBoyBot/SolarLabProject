@@ -13,8 +13,8 @@ namespace Board.Infrastucture.DataAccess.Contexts.Message
         public void Configure(EntityTypeBuilder<Domain.Message> builder)
         {
             builder.HasKey(a => a.Id);
-            builder.HasOne(m => m.Sender).WithMany(m => m.SendedMessages).HasForeignKey(m => m.SenderId);
-            builder.HasOne(m => m.Reciever).WithMany(m => m.RecievedMessages).HasForeignKey(m => m.RecieverId);
+            //builder.HasOne(m => m.Sender).WithMany(m => m.SendedMessages).HasForeignKey(m => m.SenderId);
+            //builder.HasOne(m => m.Reciever).WithMany(m => m.RecievedMessages).HasForeignKey(m => m.RecieverId);
         }
     }
 }
