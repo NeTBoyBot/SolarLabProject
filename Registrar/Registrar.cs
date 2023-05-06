@@ -38,6 +38,8 @@ using Board.Application.AppData.Contexts.Photo.UserPhoto;
 using Board.Application.AppData.Contexts.Photo;
 using Board.Application.AppData.Contexts.Role;
 using Board.Infrastucture.DataAccess.Contexts.Role;
+using Board.Application.AppData.Contexts.TelegramClient;
+using Board.Infrastucture.DataAccess.Contexts.TelegramClient;
 
 namespace Doska.Registrar
 {
@@ -90,6 +92,9 @@ namespace Doska.Registrar
             services.AddTransient<IMailService, MailService>();
 
             services.AddTransient<ITranslatorService, TranslatorService>();
+
+            services.AddTransient<ITelegramClientService, TelegramClientService>();
+            services.AddTransient<ITelegramClientRepository, TelegramClientRepository>();
 
             services.AddScoped<IClaimAcessor, HttpContextClaimAcessor>();
 

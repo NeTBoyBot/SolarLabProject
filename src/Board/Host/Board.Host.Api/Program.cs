@@ -145,6 +145,7 @@ static MapperConfiguration GetMapperConfiguration()
         cfg.AddProfile<UserPhotoProfile>();
         cfg.AddProfile<AdPhotoProfile>();
         cfg.AddProfile<RoleMapProfile>();
+        cfg.AddProfile<TelegramClientMapProfile>();
     });
     //configuration.AssertConfigurationIsValid();
     return configuration;

@@ -59,6 +59,11 @@ namespace Board.Domain
         /// Роль пользователя
         /// </summary>
         public Role Role { get; set; }
+
+        /// <summary>
+        /// Связанный аккаунт telegram
+        /// </summary>
+        public TelegramClient? TelegramClient { get; set; }
         #endregion
 
         #region collections
