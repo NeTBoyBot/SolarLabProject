@@ -25,7 +25,7 @@ namespace Board.Infrastucture.DataAccess.Contexts.User
             builder.HasMany(u=>u.Ads).WithOne(a=>a.Owner).HasForeignKey(f=>f.OwnerId).OnDelete(DeleteBehavior.Cascade);
             builder.HasMany(u=>u.RecievedComments).WithOne(c=>c.User).HasForeignKey(f=>f.UserId).OnDelete(DeleteBehavior.Cascade);
             builder.HasMany(u=>u.SendedComments).WithOne(c=>c.Sender).HasForeignKey(f=>f.SenderId).OnDelete(DeleteBehavior.Cascade);
-            //builder.HasOne(u => u.Role).WithMany().HasForeignKey(f => f.Id);
+            builder.HasOne(u => u.Role).WithMany(r=>r.Users).HasForeignKey(f => f.RoleId);
         }
     }
 }

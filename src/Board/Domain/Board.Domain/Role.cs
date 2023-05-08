@@ -17,5 +17,7 @@ namespace Board.Domain
         /// Имя роли
         /// </summary>
         public string RoleName { get; set; }
+
+        public ICollection<User> Users { get; set; }
     }
 }

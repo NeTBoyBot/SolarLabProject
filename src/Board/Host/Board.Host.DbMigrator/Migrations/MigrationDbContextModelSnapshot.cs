@@ -394,7 +394,7 @@ namespace Board.Host.DbMigrator.Migrations
             modelBuilder.Entity("Board.Domain.User", b =>
                 {
                     b.HasOne("Board.Domain.Role", "Role")
-                        .WithMany()
+                        .WithMany("Users")
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -405,6 +405,11 @@ namespace Board.Host.DbMigrator.Migrations
             modelBuilder.Entity("Board.Domain.Ad", b =>
                 {
                     b.Navigation("Photos");
+                });
+
+            modelBuilder.Entity("Board.Domain.Role", b =>
+                {
+                    b.Navigation("Users");
                 });
 
             modelBuilder.Entity("Board.Domain.User", b =>
