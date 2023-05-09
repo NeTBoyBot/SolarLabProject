@@ -67,40 +67,6 @@
             <param name="token"></param>
             <returns></returns>
         </member>
-        <member name="M:Doska.API.Controllers.AdController.GetAllFavorites(System.Int32,System.Int32)">
-            <summary>
-            Получение всех избранных объявлений
-            </summary>
-            <param name="take"></param>
-            <param name="skip"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Doska.API.Controllers.AdController.CreateAd(Board.Contracts.FavoriteAd.CreateFavoriteAdRequest,System.Threading.CancellationToken)">
-            <summary>
-            Добавить объявление в избранное
-            </summary>
-            <param name="request"></param>
-            <param name="cancellation"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Doska.API.Controllers.AdController.DeleteAd(System.Guid,Board.Contracts.FavoriteAd.InfoFavoriteAdResponse,System.Threading.CancellationToken)">
-            <summary>
-            Удалить объявление из избранных
-            </summary>
-            <param name="id"></param>
-            <param name="request"></param>
-            <param name="cancellation"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Doska.API.Controllers.AdController.GetAllUserFavorites(System.Int32,System.Int32,System.Threading.CancellationToken)">
-            <summary>
-            Получить все избранные объявления авторизованного пользователя
-            </summary>
-            <param name="take"></param>
-            <param name="skip"></param>
-            <param name="token"></param>
-            <returns></returns>
-        </member>
         <member name="M:Doska.API.Controllers.CategoryController.GetAll(System.Int32,System.Int32)">
             <summary>
             Получение всех категорий
@@ -172,6 +138,40 @@
             </summary>
             <param name="id"></param>
             <param name="cancellation"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Doska.API.Controllers.FavoriteAdController.GetAll(System.Int32,System.Int32)">
+            <summary>
+            Получение всех избранных объявлений
+            </summary>
+            <param name="take"></param>
+            <param name="skip"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Doska.API.Controllers.FavoriteAdController.CreateAd(Board.Contracts.FavoriteAd.CreateFavoriteAdRequest,System.Threading.CancellationToken)">
+            <summary>
+            Добавить объявление в избранное
+            </summary>
+            <param name="request"></param>
+            <param name="cancellation"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Doska.API.Controllers.FavoriteAdController.DeleteAd(System.Guid,Board.Contracts.FavoriteAd.InfoFavoriteAdResponse,System.Threading.CancellationToken)">
+            <summary>
+            Удалить объявление из избранных
+            </summary>
+            <param name="id"></param>
+            <param name="request"></param>
+            <param name="cancellation"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Doska.API.Controllers.FavoriteAdController.GetAllUserFavorites(System.Int32,System.Int32,System.Threading.CancellationToken)">
+            <summary>
+            Получить все избранные объявления авторизованного пользователя
+            </summary>
+            <param name="take"></param>
+            <param name="skip"></param>
+            <param name="token"></param>
             <returns></returns>
         </member>
         <member name="M:Doska.API.Controllers.MessageController.GetAll(System.Int32,System.Int32)">

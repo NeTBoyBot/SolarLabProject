@@ -34,7 +34,7 @@ namespace Board.Contracts.Ad
         /// <summary>
         /// Владелец объявления
         /// </summary>
-        public Guid OwnerId { get; set; }
+        public InfoUserResponse Owner { get; set; }
 
         /// <summary>
         /// Дата создания
