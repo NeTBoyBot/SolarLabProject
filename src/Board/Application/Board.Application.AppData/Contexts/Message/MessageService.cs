@@ -25,6 +25,7 @@ namespace Doska.AppServices.Services.Message
         {
             var newMessage = _mapper.Map<Board.Domain.Message>(createMessage);
             newMessage.SenderId = senderId;
+            newMessage.SendDate = DateTime.UtcNow;
             await _messageRepository.AddAsync(newMessage,cancellation);
 
             return newMessage.Id;
@@ -42,16 +43,9 @@ namespace Doska.AppServices.Services.Message
                 {
                     Id = a.Id,
                     Containment = a.Containment,
-                    Sender = new Board.Contracts.User.InfoUserResponse
-                    {
-                        UserName = a.Sender.UserName,
-                        Id = a.Sender.Id
-                    },
-                    Reciever = new Board.Contracts.User.InfoUserResponse
-                    {
-                        UserName = a.Reciever.UserName,
-                        Id = a.Reciever.Id
-                    }
+                    SenderId = a.SenderId,
+                    RecieverId = a.RecieverId,
+                    SendDate = a.SendDate
                 }).OrderBy(a => a.Id).Skip(skip).Take(take).ToListAsync();
         }
 

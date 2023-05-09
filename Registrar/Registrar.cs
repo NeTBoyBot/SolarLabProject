@@ -13,7 +13,6 @@ using Doska.AppServices.Services.Ad;
 using Doska.DataAccess.Repositories;
 using Doska.AppServices.Services.Categories;
 using Doska.AppServices.Services.User;
-using Doska.AppServices.Services.FavoriteAd;
 using Doska.AppServices.Services.Message;
 using Doska.AppServices.Services.Comment;
 using Doska.Infrastructure.Identity;
@@ -25,7 +24,6 @@ using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Abstractions;
 using Board.Application.AppData.Contexts.Categories;
 using Board.Application.AppData.Contexts.Comment;
-using Board.Application.AppData.Contexts.FavoriteAd;
 using Board.Application.AppData.Contexts.Message;
 using Board.Application.AppData.Contexts.User;
 using Board.Application.AppData.Contexts.File;
@@ -38,6 +36,7 @@ using Board.Application.AppData.Contexts.Photo.UserPhoto;
 using Board.Application.AppData.Contexts.Photo;
 using Board.Application.AppData.Contexts.Role;
 using Board.Infrastucture.DataAccess.Contexts.Role;
+using Board.Application.AppData.Contexts.Ad;
 
 namespace Doska.Registrar
 {
@@ -67,7 +66,6 @@ namespace Doska.Registrar
             services.AddTransient<IUserService, UserService>();
             services.AddTransient<IUserRepository, UserRepository>();
 
-            services.AddTransient<IFavoriteAdService, FavoriteAdService>();
             services.AddTransient<IFavoriteAdRepository, FavoriteAdRepository>();
 
             services.AddTransient<IMessageService, MessageService>();

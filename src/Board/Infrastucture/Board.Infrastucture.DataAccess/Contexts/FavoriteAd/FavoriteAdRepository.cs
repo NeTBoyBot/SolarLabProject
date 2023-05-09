@@ -1,4 +1,4 @@
-﻿using Board.Application.AppData.Contexts.FavoriteAd;
+﻿using Board.Application.AppData.Contexts.Ad;
 using Board.Domain;
 using Board.Infrastucture.Repository;
 using System;

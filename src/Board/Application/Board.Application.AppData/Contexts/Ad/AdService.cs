@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
+using Board.Application.AppData.Contexts.Ad;
 using Board.Application.AppData.Contexts.Translator;
 using Board.Contracts.Ad;
+using Board.Contracts.FavoriteAd;
 using Board.Domain;
 using Doska.AppServices.IRepository;
 using Doska.AppServices.Services.User;
@@ -22,16 +24,19 @@ namespace Doska.AppServices.Services.Ad
         public readonly IUserService _userService;
         public readonly ILogger<AdService> _logger;
         public readonly ITranslatorService _translatorService;
+        public readonly IFavoriteAdRepository _favoriteadRepository;
 
         public AdService(IAdRepository adRepository,IMapper mapper,
             IUserService userService,ILogger<AdService> logger,
-            ITranslatorService translatorService)
+            ITranslatorService translatorService,
+            IFavoriteAdRepository favoriteadRepository)
         {
             _adRepository = adRepository;
             _mapper = mapper;
             _userService = userService;
             _logger = logger;
             _translatorService = translatorService;
+            _favoriteadRepository = favoriteadRepository;
         }
 
         public async Task<Guid> CreateAdAsync(Guid ownerId,string lang,CreateAdRequest createAd, CancellationToken cancellation)
@@ -105,17 +110,7 @@ namespace Doska.AppServices.Services.Ad
                         Id = a.Category.Id,
                         Name = a.Category.Name
                     },
-                    Owner = new Board.Contracts.User.InfoUserResponse
-                    {
-                        UserName = a.Owner.UserName,
-                        Id = a.Owner.Id,
-                        CreationTime = a.Owner.CreationTime,
-                        Email = a.Owner.Email,
-                        IsVerified = a.Owner.IsVerified,
-                        Language = a.Owner.Language,
-                        Phone = a.Owner.Phone,
-                        Region = a.Owner.Region
-                    },
+                    OwnerId = a.OwnerId,
                     Photos = a.Photos.Select(p => new Board.Contracts.Photo.AdPhoto.InfoAdPhotoResponse
                     {
                         AdId = p.AdId,
@@ -141,17 +136,7 @@ namespace Doska.AppServices.Services.Ad
                         Id = a.Category.Id,
                         Name = a.Category.Name
                     },
-                    Owner = new Board.Contracts.User.InfoUserResponse
-                    {
-                        UserName = a.Owner.UserName,
-                        Id = a.Owner.Id,
-                        CreationTime = a.Owner.CreationTime,
-                        Email = a.Owner.Email,
-                        IsVerified = a.Owner.IsVerified,
-                        Language = a.Owner.Language,
-                        Phone = a.Owner.Phone,
-                        Region = a.Owner.Region
-                    },
+                    OwnerId = a.OwnerId,
                     Photos = a.Photos.Select(p => new Board.Contracts.Photo.AdPhoto.InfoAdPhotoResponse
                     {
                         AdId = p.AdId,
@@ -185,6 +170,62 @@ namespace Doska.AppServices.Services.Ad
                     Price = s.Price,
                     CreationDate = s.CreationDate
             }).Take(take).Skip(skip).ToListAsync();
+        }
+
+        public async Task<Guid> CreateFavoriteAdAsync(CreateFavoriteAdRequest createAd, CancellationToken cancellation)
+        {
+            _logger.LogInformation($"Добавление объявления под id {createAd.AdId} в избранные пользователя под id {createAd.UserId}");
+
+            var newAd = _mapper.Map<Board.Domain.FavoriteAd>(createAd);
+
+            await _favoriteadRepository.AddAsync(newAd, cancellation);
+
+            return newAd.Id;
+        }
+
+        public async Task DeleteFavoriteAdAsync(Guid id, CancellationToken cancellation)
+        {
+            _logger.LogInformation($"Удаление объявления под id {id}");
+
+            var existingad = await _favoriteadRepository.FindById(id, cancellation);
+            await _favoriteadRepository.DeleteAsync(existingad, cancellation);
+        }
+
+        public async Task<IReadOnlyCollection<InfoFavoriteAdResponse>> GetAllFavorites(int take, int skip)
+        {
+            _logger.LogInformation($"Получение всех избранных объявлений");
+
+            return await _favoriteadRepository.GetAll()
+                .Select(a => new InfoFavoriteAdResponse
+                {
+                    Id = a.Id,
+                    AdId = a.AdId,
+                    UserId = a.UserId
+                }).OrderBy(a => a.AdId).Skip(skip).Take(take).ToListAsync();
+        }
+
+        public async Task<IReadOnlyCollection<InfoFavoriteAdResponse>> GetAllUserFavorites(int take, int skip, CancellationToken token)
+        {
+            var userId = await _userService.GetCurrentUserId(token);
+
+            _logger.LogInformation($"Получение всех избранных объявлений пользователя под id {userId}");
+
+            return await _favoriteadRepository.GetAll().Where(a => a.UserId == userId)
+                .Select(s => new InfoFavoriteAdResponse
+                {
+                    AdId = s.AdId,
+                    UserId = s.UserId,
+
+
+                }).Take(take).Skip(skip).ToListAsync();
+        }
+
+        public async Task<InfoFavoriteAdResponse> GetFavoriteAdByIdAsync(Guid id, CancellationToken cancellation)
+        {
+            _logger.LogInformation($"Получение избранного объявления под id {id}");
+
+            var existingad = await _favoriteadRepository.FindById(id, cancellation);
+            return _mapper.Map<InfoFavoriteAdResponse>(existingad);
         }
     }
 }

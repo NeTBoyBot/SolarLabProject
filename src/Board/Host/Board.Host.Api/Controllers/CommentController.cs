@@ -61,7 +61,9 @@ namespace Doska.API.Controllers
             if (!await _userService.IsUserVerified(cancellation))
                 throw new Exception("Аккаунт пользователя не подтверждён!");
 
-            var result = await _commentService.CreateCommentAsync(request,cancellation);
+            var userId = await _userService.GetCurrentUserId(cancellation);
+
+            var result = await _commentService.CreateCommentAsync(userId,request,cancellation);
 
             return Created("", result);
         }

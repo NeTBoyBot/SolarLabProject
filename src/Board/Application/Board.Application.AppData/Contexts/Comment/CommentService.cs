@@ -24,15 +24,16 @@ namespace Doska.AppServices.Services.Comment
             _logger = logger;
         }
 
-        public async Task<Guid> CreateCommentAsync(CreateCommentRequest createChat,CancellationToken cancellation)
+        public async Task<Guid> CreateCommentAsync(Guid userId,CreateCommentRequest createChat,CancellationToken cancellation)
         {
             _logger.LogInformation($"Создание комментария");
 
-            var newChat = _mapper.Map<Board.Domain.Comment>(createChat);
+            var newComment = _mapper.Map<Board.Domain.Comment>(createChat);
+            newComment.UserId = userId;
             //newChat.Id = Guid.NewGuid();
-            await _commentRepository.AddAsync(newChat,cancellation);
+            await _commentRepository.AddAsync(newComment,cancellation);
 
-            return newChat.Id;
+            return newComment.Id;
         }
 
         public async Task DeleteAsync(Guid id, CancellationToken cancellation)
@@ -52,7 +53,8 @@ namespace Doska.AppServices.Services.Comment
                 {
                     Id = a.Id,
                     UserId = a.UserId,
-                    Text = a.Text
+                    Text = a.Text,
+                    SenderId = a.SenderId
                 }).OrderBy(a => a.Id).Skip(skip).Take(take).ToListAsync();
         }
 
@@ -65,7 +67,8 @@ namespace Doska.AppServices.Services.Comment
                 {
                     Id = a.Id,
                     UserId = a.UserId,
-                    Text = a.Text
+                    Text = a.Text,
+                    SenderId = a.SenderId
                 }).OrderBy(a => a.Id).ToListAsync();
         }
 

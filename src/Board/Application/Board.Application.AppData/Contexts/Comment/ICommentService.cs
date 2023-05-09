@@ -31,7 +31,7 @@ namespace Doska.AppServices.Services.Comment
         /// <param name="createAd"></param>
         /// <param name="cancellation"></param>
         /// <returns></returns>
-        Task<Guid> CreateCommentAsync(CreateCommentRequest createAd, CancellationToken cancellation);
+        Task<Guid> CreateCommentAsync(Guid userId,CreateCommentRequest createAd, CancellationToken cancellation);
 
         /// <summary>
         /// Получение всех комментариев
