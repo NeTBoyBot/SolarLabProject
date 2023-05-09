@@ -24,15 +24,16 @@ namespace Doska.AppServices.Services.Comment
             _logger = logger;
         }
 
-        public async Task<Guid> CreateCommentAsync(CreateCommentRequest createChat,CancellationToken cancellation)
+        public async Task<Guid> CreateCommentAsync(Guid senderId, CreateCommentRequest createChat,CancellationToken cancellation)
         {
             _logger.LogInformation($"Создание комментария");
 
-            var newChat = _mapper.Map<Board.Domain.Comment>(createChat);
+            var newComment = _mapper.Map<Board.Domain.Comment>(createChat);
+            newComment.SenderId = senderId;
             //newChat.Id = Guid.NewGuid();
-            await _commentRepository.AddAsync(newChat,cancellation);
+            await _commentRepository.AddAsync(newComment,cancellation);
 
-            return newChat.Id;
+            return newComment.Id;
         }
 
         public async Task DeleteAsync(Guid id, CancellationToken cancellation)
