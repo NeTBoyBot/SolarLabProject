@@ -54,7 +54,8 @@ namespace Doska.AppServices.Services.FavoriteAd
                 .Select(a => new InfoFavoriteAdResponse
                 {
                     AdId = a.AdId,
-                    UserId = a.UserId
+                    UserId = a.UserId,
+                    Id = a.Id
                 }).OrderBy(a => a.AdId).Skip(skip).Take(take).ToListAsync();
         }
 
@@ -69,8 +70,7 @@ namespace Doska.AppServices.Services.FavoriteAd
                 {
                    AdId= s.AdId,
                    UserId = s.UserId,
-
-
+                   Id = s.Id
                 }).Take(take).Skip(skip).ToListAsync();
         }
 

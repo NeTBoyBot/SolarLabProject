@@ -52,7 +52,8 @@ namespace Doska.AppServices.Services.Comment
                 {
                     Id = a.Id,
                     UserId = a.UserId,
-                    Text = a.Text
+                    Text = a.Text,
+                    SenderId = a.SenderId
                 }).OrderBy(a => a.Id).Skip(skip).Take(take).ToListAsync();
         }
 
@@ -65,7 +66,8 @@ namespace Doska.AppServices.Services.Comment
                 {
                     Id = a.Id,
                     UserId = a.UserId,
-                    Text = a.Text
+                    Text = a.Text,
+                    SenderId = a.SenderId
                 }).OrderBy(a => a.Id).ToListAsync();
         }
 

@@ -17,12 +17,12 @@ namespace Board.Contracts.Message
         /// <summary>
         /// Отправитель
         /// </summary>
-        public InfoUserResponse Sender { get; set; }
+        public Guid SenderId { get; set; }
 
         /// <summary>
         /// Получатель
         /// </summary>
-        public InfoUserResponse Reciever { get; set; }
+        public Guid RecieverId { get; set; }
 
         /// <summary>
         /// Содержимое сообщения

@@ -84,7 +84,8 @@ namespace Doska.AppServices.Services.Ad
                 Name = a.Name,
                 Desc = a.Desc,
                 CreationDate = a.CreationDate,
-                Price = a.Price
+                Price = a.Price,
+                OwnerId = a.OwnerId
             }).OrderBy(a => a.CreationDate).ToListAsync();
         }
 
@@ -105,17 +106,7 @@ namespace Doska.AppServices.Services.Ad
                         Id = a.Category.Id,
                         Name = a.Category.Name
                     },
-                    Owner = new Board.Contracts.User.InfoUserResponse
-                    {
-                        UserName = a.Owner.UserName,
-                        Id = a.Owner.Id,
-                        CreationTime = a.Owner.CreationTime,
-                        Email = a.Owner.Email,
-                        IsVerified = a.Owner.IsVerified,
-                        Language = a.Owner.Language,
-                        Phone = a.Owner.Phone,
-                        Region = a.Owner.Region
-                    },
+                    OwnerId = a.OwnerId,
                     Photos = a.Photos.Select(p => new Board.Contracts.Photo.AdPhoto.InfoAdPhotoResponse
                     {
                         AdId = p.AdId,
@@ -141,17 +132,7 @@ namespace Doska.AppServices.Services.Ad
                         Id = a.Category.Id,
                         Name = a.Category.Name
                     },
-                    Owner = new Board.Contracts.User.InfoUserResponse
-                    {
-                        UserName = a.Owner.UserName,
-                        Id = a.Owner.Id,
-                        CreationTime = a.Owner.CreationTime,
-                        Email = a.Owner.Email,
-                        IsVerified = a.Owner.IsVerified,
-                        Language = a.Owner.Language,
-                        Phone = a.Owner.Phone,
-                        Region = a.Owner.Region
-                    },
+                    OwnerId = a.OwnerId,
                     Photos = a.Photos.Select(p => new Board.Contracts.Photo.AdPhoto.InfoAdPhotoResponse
                     {
                         AdId = p.AdId,
@@ -183,7 +164,8 @@ namespace Doska.AppServices.Services.Ad
                     Name = s.Name,
                     Desc = s.Desc,
                     Price = s.Price,
-                    CreationDate = s.CreationDate
+                    CreationDate = s.CreationDate,
+                    OwnerId = s.OwnerId
             }).Take(take).Skip(skip).ToListAsync();
         }
     }

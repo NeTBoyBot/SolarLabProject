@@ -20,21 +20,11 @@ namespace Board.Contracts.Comment
         /// </summary>
         public Guid SenderId { get; set; }
 
-        /// <summary>
-        /// Пользователь оставивший отзыв
-        /// </summary>
-        public InfoUserResponse Sender { get; set; }
-
 
         /// <summary>
         /// ID Пользователя которому оставили отзыв
         /// </summary>
         public Guid UserId { get; set; }
-
-        /// <summary>
-        /// Пользователь которому оставили отзыв
-        /// </summary>
-        public InfoUserResponse User { get; set; }
 
         /// <summary>
         /// Содержимое отзыва
