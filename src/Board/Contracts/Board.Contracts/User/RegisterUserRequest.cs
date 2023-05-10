@@ -56,7 +56,7 @@ namespace Board.Contracts.User
         /// <summary>
         /// ID Роли
         /// </summary>
-        public Guid? RoleId { get; set; }
+        public string RoleName { get; set; }
 
     }
 }

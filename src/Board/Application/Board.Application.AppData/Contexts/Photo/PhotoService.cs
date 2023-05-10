@@ -6,6 +6,7 @@ using Board.Contracts.File;
 using Board.Contracts.Photo.AdPhoto;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using Org.BouncyCastle.Asn1.X509;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -73,6 +74,8 @@ namespace Board.Application.AppData.Contexts.Photo
             return _mapper.Map<InfoAdPhotoResponse>(existingad);
         }
 
+        
+
         public async Task<IReadOnlyCollection<InfoAdPhotoResponse>> GetAllAdPhotos(int take, int skip)
         {
             return await _adPhotoRepository.GetAll()
@@ -96,7 +99,31 @@ namespace Board.Application.AppData.Contexts.Photo
         public async Task<InfoUserPhotoResponse> GetUserPhotoByIdAsync(Guid id, CancellationToken cancellation)
         {
             var existingad = await _userPhotoRepository.FindById(id, cancellation);
+
+            if (existingad == null)
+                throw new Exception("Фотография не найдена");
+
             return _mapper.Map<InfoUserPhotoResponse>(existingad);
+        }
+
+        public async Task<string> GetAdPhotoContent(Guid id, CancellationToken cancellation)
+        {
+            var existingad = await _adPhotoRepository.FindById(id, cancellation);
+
+            if (existingad == null)
+                throw new Exception("Фотография не найдена");
+
+            return existingad.Base64;
+        }
+
+        public async Task<string> GetUserPhotoContent(Guid id, CancellationToken cancellation)
+        {
+            var existingad = await _userPhotoRepository.FindById(id, cancellation);
+
+            if (existingad == null)
+                throw new Exception("Фотография не найдена");
+
+            return existingad.Base64;
         }
     }
 }

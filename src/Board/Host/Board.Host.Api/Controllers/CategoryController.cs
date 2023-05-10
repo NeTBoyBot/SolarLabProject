@@ -60,12 +60,12 @@ namespace Doska.API.Controllers
         /// <returns></returns>
         [HttpPost("/createCategory")]
         [ProducesResponseType(typeof(IReadOnlyCollection<InfoCategoryResponse>), (int)HttpStatusCode.OK)]
-        public async Task<IActionResult> CreateCategory(string categoryname, CancellationToken cancellation)
+        public async Task<IActionResult> CreateCategory(CreateCategoryRequest request, CancellationToken cancellation)
         {
             if (!await _userService.IsUserAdmin(cancellation))
                 throw new Exception("У вас недостаточно прав для данного действия!");
 
-            var result = await _categoryService.CreateCategoryAsync(categoryname,cancellation);
+            var result = await _categoryService.CreateCategoryAsync(request,cancellation);
 
             return Created("", result);
         }

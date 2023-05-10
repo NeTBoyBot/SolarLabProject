@@ -23,7 +23,7 @@ namespace Doska.AppServices.Services.Categories
         /// <param name="categoryname"></param>
         /// <param name="token"></param>
         /// <returns></returns>
-        Task<Guid> CreateCategoryAsync(string categoryname, CancellationToken token);
+        Task<Guid> CreateCategoryAsync(CreateCategoryRequest request, CancellationToken token);
 
         /// <summary>
         /// Получение всех категорий

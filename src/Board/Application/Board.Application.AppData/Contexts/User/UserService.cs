@@ -26,7 +26,6 @@ namespace Doska.AppServices.Services.User
     public class UserService : IUserService
     {
         private readonly IUserRepository _userRepository;
-        private readonly IAdRepository _adRepository;
         private IConfiguration _configuration;
         private IClaimAcessor claimAccessor;
         private IHttpContextAccessor _httpContextAccessor;
@@ -47,7 +46,6 @@ namespace Doska.AppServices.Services.User
             _httpContextAccessor = httpContextAccessor;
             _userRepository = userRepository;
             _mapper = mapper;
-            _adRepository = adRepository;
             claimAccessor = acessor;
             _configuration = conf;
             _logger = logger;
@@ -264,10 +262,10 @@ namespace Doska.AppServices.Services.User
             user.VerificationCode = new Random().Next(1, 10000);
             user.CreationTime = DateTime.Now.ToUniversalTime();
 
-            if (RegisterUserRequest.RoleId.ToString().IsNullOrEmpty())
+            if (RegisterUserRequest.RoleName.IsNullOrEmpty())
                 user.Role = await _roleRepository.GetAll().Where(r => r.RoleName == "User").FirstOrDefaultAsync();
             else
-                user.Role = await _roleRepository.FindById((Guid)RegisterUserRequest.RoleId, cancellation);
+                user.Role = await _roleRepository.GetByNameAsync(RegisterUserRequest.RoleName, cancellation);
       
             var existinguser = await _userRepository.FindWhere(user => user.UserName == RegisterUserRequest.UserName, cancellation);
             //user.KodBase64 = Convert.ToBase64String(file);
@@ -277,7 +275,13 @@ namespace Doska.AppServices.Services.User
             }
             await _userRepository.AddAsync(user,cancellation);
             
-            return new RegisterUserResponse { Id = user.Id, VerificationCode = user.VerificationCode};
+            return new RegisterUserResponse
+            { 
+                Id = user.Id,
+                VerificationCode = user.VerificationCode,
+                CreationTime = user.CreationTime,
+                UserName = user.UserName
+            };
         }
 
         public async Task<string> VerifyUserAsync(Guid id, int VerificationCode, CancellationToken cancellationToken)
@@ -285,6 +289,9 @@ namespace Doska.AppServices.Services.User
             _logger.LogInformation($"Подтверждение аккаунта под id {id}");
 
             var user = await _userRepository.FindById(id,cancellationToken);
+
+            if (user == null)
+                throw new Exception("Данного пользователя не существует!");
 
             if (user.IsVerified)
                 throw new Exception("Аккаунт пользователя уже подтверждён");

@@ -44,7 +44,9 @@ namespace Board.Application.AppData.Contexts.File
                 {
                     ContentType = a.ContentType,
                     Id = a.Id,
-                    Name = a.Name
+                    Name = a.Name,
+                    CreationDate = a.CreationDate,
+                    Length = a.Length
                 }).OrderBy(a => a.Id).Skip(skip).Take(take).ToListAsync();
         }
 

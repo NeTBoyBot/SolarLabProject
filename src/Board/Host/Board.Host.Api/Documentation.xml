@@ -83,7 +83,7 @@
             <param name="cancellation"></param>
             <returns></returns>
         </member>
-        <member name="M:Doska.API.Controllers.CategoryController.CreateCategory(System.String,System.Threading.CancellationToken)">
+        <member name="M:Doska.API.Controllers.CategoryController.CreateCategory(Board.Contracts.Category.CreateCategoryRequest,System.Threading.CancellationToken)">
             <summary>
             Создание категории
             </summary>
@@ -403,6 +403,22 @@
             Получение фото объявления по Id
             </summary>
             <param name="Id"></param>
+            <param name="cancellation"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Board.Host.Api.Controllers.PhotoController.GetAdPhotoContent(System.Guid,System.Threading.CancellationToken)">
+            <summary>
+            Получение содержимого фотографии объявления
+            </summary>
+            <param name="id"></param>
+            <param name="cancellation"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Board.Host.Api.Controllers.PhotoController.GetUserPhotoContent(System.Guid,System.Threading.CancellationToken)">
+            <summary>
+            Получение содержимого фотографии пользователя
+            </summary>
+            <param name="id"></param>
             <param name="cancellation"></param>
             <returns></returns>
         </member>

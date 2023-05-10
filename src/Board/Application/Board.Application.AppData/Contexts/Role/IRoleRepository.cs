@@ -18,5 +18,7 @@ namespace Board.Application.AppData.Contexts.Role
         Task DeleteAsync(Domain.Role model, CancellationToken cancellation);
 
         Task EditRoleAsync(Domain.Role edit, CancellationToken cancellation);
+
+        Task<Domain.Role> GetByNameAsync(string name, CancellationToken cancellation);
     }
 }

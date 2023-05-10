@@ -6,6 +6,7 @@ using System.Net;
 
 namespace Board.Host.Api.Controllers
 {
+    [ApiController]
     public class FileController : ControllerBase
     {
         private readonly IFileService _fileService;

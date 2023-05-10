@@ -25,6 +25,7 @@ namespace Doska.AppServices.Services.Message
         {
             var newMessage = _mapper.Map<Board.Domain.Message>(createMessage);
             newMessage.SenderId = senderId;
+            newMessage.SendDate = DateTime.UtcNow;
             await _messageRepository.AddAsync(newMessage,cancellation);
 
             return newMessage.Id;

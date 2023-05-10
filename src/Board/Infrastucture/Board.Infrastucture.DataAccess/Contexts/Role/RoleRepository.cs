@@ -1,5 +1,6 @@
 ﻿using Board.Application.AppData.Contexts.Role;
 using Board.Infrastucture.Repository;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -40,6 +41,16 @@ namespace Board.Infrastucture.DataAccess.Contexts.Role
         public IQueryable<Domain.Role> GetAll()
         {
             return _baseRepository.GetAll();
+        }
+
+        public async Task<Domain.Role> GetByNameAsync(string name, CancellationToken cancellation)
+        {
+            var role = await _baseRepository.GetAllFiltered(r => r.RoleName == name).FirstOrDefaultAsync();
+
+            if (role == null)
+                throw new Exception($"Роль с именем {name} не найдена");
+
+            return role;
         }
     }
 }

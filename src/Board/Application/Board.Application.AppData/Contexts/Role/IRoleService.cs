@@ -41,5 +41,6 @@ namespace Board.Application.AppData.Contexts.Role
         /// <param name="cancellation"></param>
         /// <returns></returns>
         Task DeleteAsync(Guid id, CancellationToken cancellation);
+
     }
 }

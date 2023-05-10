@@ -12,6 +12,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static Newtonsoft.Json.JsonConvert;
 
 namespace Doska.AppServices.Services.Ad
 {
@@ -36,7 +37,7 @@ namespace Doska.AppServices.Services.Ad
 
         public async Task<Guid> CreateAdAsync(Guid ownerId,string lang,CreateAdRequest createAd, CancellationToken cancellation)
         {
-            _logger.LogInformation($"Создание объявления");
+            _logger.LogInformation($"Создание объявления {SerializeObject(createAd)}");
 
             var newAd = _mapper.Map<Board.Domain.Ad>(createAd);
             newAd.CreationDate = DateTime.UtcNow;
@@ -57,7 +58,7 @@ namespace Doska.AppServices.Services.Ad
 
         public async Task<InfoAdResponse> EditAdAsync(Guid Id,CreateAdRequest editAd, CancellationToken cancellation)
         {
-            _logger.LogInformation($"Изменение объявления под Id: {Id}");
+            _logger.LogInformation($"Изменение объявления под Id: {Id}, {SerializeObject(editAd)}");
 
             var existingAd = await _adRepository.FindById(Id,cancellation);
 
@@ -85,7 +86,17 @@ namespace Doska.AppServices.Services.Ad
                 Desc = a.Desc,
                 CreationDate = a.CreationDate,
                 Price = a.Price,
-                OwnerId = a.OwnerId
+                Category = new Board.Contracts.Category.InfoCategoryResponse
+                {
+                    Id = a.Category.Id,
+                    Name = a.Category.Name
+                },
+                OwnerId = a.OwnerId,
+                Photos = a.Photos.Select(p => new Board.Contracts.Photo.AdPhoto.InfoAdPhotoResponse
+                {
+                    AdId = p.AdId,
+                    Id = p.Id
+                }).ToList()
             }).OrderBy(a => a.CreationDate).ToListAsync();
         }
 
@@ -158,15 +169,25 @@ namespace Doska.AppServices.Services.Ad
             _logger.LogInformation($"Получение всех объявлений пользователя под Id: {userId}");
 
             return await _adRepository.GetAll().Where(a => a.Owner.Id == userId)
-                .Select(s=>new InfoAdResponse
+                .Select(a=>new InfoAdResponse
             {
-                    Id = s.Id,
-                    Name = s.Name,
-                    Desc = s.Desc,
-                    Price = s.Price,
-                    CreationDate = s.CreationDate,
-                    OwnerId = s.OwnerId
-            }).Take(take).Skip(skip).ToListAsync();
+                    Id = a.Id,
+                    Name = a.Name,
+                    Desc = a.Desc,
+                    CreationDate = a.CreationDate,
+                    Price = a.Price,
+                    Category = new Board.Contracts.Category.InfoCategoryResponse
+                    {
+                        Id = a.Category.Id,
+                        Name = a.Category.Name
+                    },
+                    OwnerId = a.OwnerId,
+                    Photos = a.Photos.Select(p => new Board.Contracts.Photo.AdPhoto.InfoAdPhotoResponse
+                    {
+                        AdId = p.AdId,
+                        Id = p.Id
+                    }).ToList()
+                }).Take(take).Skip(skip).ToListAsync();
         }
     }
 }

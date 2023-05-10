@@ -74,5 +74,24 @@ namespace Board.Application.AppData.Contexts.Photo
         /// <param name="cancellation"></param>
         /// <returns></returns>
         Task DeleteAdPhotoAsync(Guid id, CancellationToken cancellation);
+
+        /// <summary>
+        /// Получение содержимого фотографии объявления
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="cancellation"></param>
+        /// <returns></returns>
+        Task<string> GetAdPhotoContent(Guid id, CancellationToken cancellation);
+
+        /// <summary>
+        /// Получение содержимого фотографии пользователя
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="cancellation"></param>
+        /// <returns></returns>
+        Task<string> GetUserPhotoContent(Guid id, CancellationToken cancellation);
+
+
+
     }
 }

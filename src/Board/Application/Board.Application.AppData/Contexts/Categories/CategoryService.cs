@@ -34,15 +34,18 @@ namespace Doska.AppServices.Services.Ad
             _cache = cache;
         }
 
-        public async Task<Guid> CreateCategoryAsync(string categoryname, CancellationToken cancellation)
+        public async Task<Guid> CreateCategoryAsync(CreateCategoryRequest request, CancellationToken cancellation)
         {
 
-            _logger.LogInformation($"Создание категории под названием: {categoryname}");
+            _logger.LogInformation($"Создание категории под названием: {request.Name}");
 
             var newCategory = new Category
             {
-                Name = categoryname
+                Name = request.Name
             };
+
+            if(request.ParentCategoryId != null)
+                newCategory.ParentCategoryId = request.ParentCategoryId;
            
             await _categoryRepository.AddAsync(newCategory,cancellation);
 
@@ -86,7 +89,8 @@ namespace Doska.AppServices.Services.Ad
                 .Select(a => new InfoCategoryResponse
                 {
                     Id = a.Id,
-                    Name = a.Name
+                    Name = a.Name,
+                    ParentCategoryId = a.ParentCategoryId
                 }).OrderBy(a => a.Id).Skip(skip).Take(take).ToListAsync(),
                     new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromMinutes(5)));
             }
@@ -95,7 +99,8 @@ namespace Doska.AppServices.Services.Ad
                 .Select(a => new InfoCategoryResponse
                 {
                     Id = a.Id,
-                    Name = a.Name
+                    Name = a.Name,
+                    ParentCategoryId = a.ParentCategoryId
                 }).OrderBy(a => a.Id).Skip(skip).Take(take).ToListAsync();
         }
 

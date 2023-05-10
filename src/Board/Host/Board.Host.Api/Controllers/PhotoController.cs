@@ -167,5 +167,37 @@ namespace Board.Host.Api.Controllers
             return Ok(result);
         }
 
+        /// <summary>
+        /// Получение содержимого фотографии объявления
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="cancellation"></param>
+        /// <returns></returns>
+        [ProducesResponseType(typeof(IReadOnlyCollection<InfoAdPhotoResponse>), (int)HttpStatusCode.OK)]
+        [ProducesResponseType((int)HttpStatusCode.BadGateway)]
+        [HttpGet("GetAdPhotoContent")]
+        public async Task<IActionResult> GetAdPhotoContent(Guid id, CancellationToken cancellation)
+        {
+            var result = await _photoService.GetAdPhotoContent(id,cancellation);
+
+            return Ok(result);
+        }
+
+        /// <summary>
+        /// Получение содержимого фотографии пользователя
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="cancellation"></param>
+        /// <returns></returns>
+        [ProducesResponseType(typeof(string), (int)HttpStatusCode.OK)]
+        [ProducesResponseType((int)HttpStatusCode.BadGateway)]
+        [HttpGet("GetUserPhotoContent")]
+        public async Task<IActionResult> GetUserPhotoContent(Guid id, CancellationToken cancellation)
+        {
+            var result = await _photoService.GetUserPhotoContent(id, cancellation);
+
+            return Ok(result);
+        }
+
     }
 }

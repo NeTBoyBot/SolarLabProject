@@ -75,7 +75,7 @@ builder.Services.AddEndpointsApiExplorer();
 
 builder.Services.AddSwaggerGen(options =>
 {
-    options.SwaggerDoc("v1", new OpenApiInfo { Title = "Advert Api", Version = "V1" });
+    options.SwaggerDoc("v1", new OpenApiInfo { Title = "Apterra Adverts Api", Version = "V1" });
     //options.IncludeXmlComments(Path.Combine(Path.Combine(AppContext.BaseDirectory,
     //    $"{typeof(CreateAdvertDto).Assembly.GetName().Name}.xml")));
     options.IncludeXmlComments(Path.Combine(Path.Combine(AppContext.BaseDirectory, "Documentation.xml")));

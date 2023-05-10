@@ -27,7 +27,7 @@ namespace Board.Contracts.Category
         /// <summary>
         /// Родительская категория
         /// </summary>
-        public InfoCategoryResponse? ParentCategory { get; set; }
+        public Guid? ParentCategoryId { get; set; }
 
     }
 }

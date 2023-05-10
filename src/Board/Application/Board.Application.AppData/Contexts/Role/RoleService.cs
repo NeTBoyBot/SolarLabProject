@@ -83,5 +83,7 @@ namespace Board.Application.AppData.Contexts.Role
         {
             return _mapper.Map<InfoRoleResponse>(await _repository.FindById(id, cancellation));
         }
+
+        
     }
 }
